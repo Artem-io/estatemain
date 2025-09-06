@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+@theme {
+  --breakpoint-large: 71rem;
+  --breakpoint-big: 60rem;
+  --breakpoint-small: 48rem;
+  --breakpoint-bigphone: 40rem;
+  --breakpoint-phone: 33rem;
+  --breakpoint-xsphone: 30rem;
+  --color-main: #3448AD;
+  --color-bg: #031633;
+  --color-darkblue: #172554;
+  --gradient-title: linear-gradient(
+    to right,
+    #1e293b,  /* slate blue-gray */
+    #334155,  /* steel blue */
+    #475569   /* cold gray-blue */
+  );
+}
+
+.container {
+  width: 100%;
+  max-width: max-content;
+  @media (width >= 33rem /* 430px */) {
+    max-width: 25rem /* 430x */;
+  }
+  @media (width >= 40rem /* 640px */) {
+    max-width: 40rem /* 640px */;
+  }
+  @media (width >= 48rem /* 768px */) {
+    max-width: 48rem /* 768px */;
+  }
+  @media (width >= 60rem /* 960px */) {
+    max-width: 60rem /* 960px */;
+  }
+  @media (width >= 71rem /* 1140px */) {
+    max-width: 71rem /* 1140px */;
+  }
+}
+
+.maincontainer {
+  width: 100%;
+  max-width: max-content;
+  @media (width >= 40rem /* 640px */) {
+    max-width: 40rem /* 640px */;
+  }
+  @media (width >= 48rem /* 768px */) {
+    max-width: 48rem /* 768px */;
+  }
+  @media (width >= 60rem /* 960px */) {
+    max-width: 60rem /* 960px */;
+  }
+  @media (width >= 71rem /* 1140px */) {
+    max-width: 71rem /* 1140px */;
+  }
+}
+
+@layer utilities {
+  .gradient-btn {
+    position: relative;
+    overflow: hidden;
+    /* исходный градиент — холодное серебро (более серый) */
+    background-image: linear-gradient(
+      to right,
+      #f4f4f5,  /* светлое матовое серебро */
+      #d4d4d8,  /* мягкий холодный серый */
+      #a1a1aa   /* тёмно-серебристый серый */
+    );
+    transition: background-image 0.6s ease;
+    z-index: 0;
+  }
+
+  .gradient-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /* градиент при наведении — более глубокий, но всё ещё холодный */
+    background-image: linear-gradient(
+      to right,
+      #e4e4e7,  /* светлый серый */
+      #a1a1aa,  /* холодный стальной серый */
+      #71717a   /* графитовый серый */
+    );
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    z-index: -1;
+  }
+
+  .gradient-btn:hover::before {
+    opacity: 1;
+  }
+
+  .gradient-btn span {
+    position: relative;
+    z-index: 1;
+  }
+
+  .text-gradient {
+    background-image: var(--gradient-title);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .active-btn {
+    @apply bg-[#031633] text-white shadow-md transition duration-300;
+  }
+
+  .disabled-btn {
+    @apply bg-[#CBD5E1] text-gray-700 opacity-60;
+  }
+}
