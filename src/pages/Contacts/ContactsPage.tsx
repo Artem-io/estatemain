@@ -142,21 +142,21 @@ function ContactsInfo() {
                         <img src="icons/ContactsPage/email.png" alt="email" className="w-[32px] h-auto" />
                         <h3 className="text-lg font-semibold">Email:</h3>
                     </div>
-                    <a>osfinanzen@gmail.com</a>
+                    <a href="mailto:osfinanzen@gmail.com">osfinanzen@gmail.com</a>
                 </div>
                 <div className="flex gap-x-6 items-center">
                     <div className="flex gap-1 items-center w-[123px]">
                         <img src="icons/ContactsPage/telegram.png" alt="telegram" className="w-[32px] h-auto" />
                         <h3 className="text-lg font-semibold">Telegram:</h3>
                     </div>
-                    <a>@step_fin</a>
+                    <a href="https://t.me/step_fin" target="_blank">@step_fin</a>
                 </div>
                 <div className="flex gap-x-6 items-center">
                     <div className="flex gap-1 items-center w-[123px]">
                         <img src="icons/ContactsPage/instagram.png" alt="instagram" className="w-[32px] h-auto" />
                         <h3 className="text-lg font-semibold">Instagram:</h3>
                     </div>
-                    <a>stepaniuk_finanzen</a>
+                    <a href="https://www.instagram.com/stepaniuk_finanzen" target="_blank" rel="noopener noreferrer">stepaniuk_finanzen</a>
                 </div>
             </div>
         </div>

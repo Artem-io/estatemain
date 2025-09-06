@@ -7,8 +7,8 @@ export default function StartCard() {
             pb-[50px] bigphone:pb-[100px] small:pb-[50px]">
                 <img src="images/PlacementPage/StartCard/elena.png" alt="elena"
                 className="absolute bottom-0 right-0
-                w-[370px] xsphone:w-[380px] bigphone:w-[370px] 
-                small:w-[350px] big:w-[350px] large:w-[370px] h-auto"/>
+                w-[320px] xsphone:w-[350px] bigphone:w-[330px] 
+                small:w-[300px] big:w-[320px] large:w-[350px] h-auto"/>
                 <div className="text-white font-bold 
                 max-w-[730px] leading-tight mb-[20px] bigphone:mb-[40px] large:mb-[50px]">
                     <h2 className="text-2xl bigphone:text-xl 

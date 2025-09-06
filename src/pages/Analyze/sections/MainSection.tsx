@@ -9,7 +9,7 @@ export default function MainSection() {
         style={{ backgroundImage: `url('images/AnalyzePage/MainSection/footer.png')` }}
       />
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-12">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-8 flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-12">
         
         {/* Текст */}
         <motion.div
@@ -46,6 +46,15 @@ export default function MainSection() {
         </motion.div>
 
       </div>
+
+      <a href="tel:+380664060778" className="block w-[300px] big:w-[400px] mx-auto">
+        <button className="w-full py-3 rounded-xl big:rounded-2xl cursor-pointer
+        gradient-btn
+        flex items-center justify-center font-bold
+        small:text-lg big:text-lg">
+          Записаться на консультацию
+        </button>
+      </a>
     </section>
   );
 }
