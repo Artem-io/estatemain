@@ -14,7 +14,7 @@ export default function PhilosophySection() {
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <h1 className="font-bold text-2xl sm:text-3xl lg:text-4xl mb-6 lg:mb-10 leading-tight">
-            Моя философия: Инвестиционный Артём
+            Моя философия: Инвестиционное дерево
           </h1>
           <div className="font-semibold text-gray-700">
             <p className="text-lg sm:text-xl mb-4">
