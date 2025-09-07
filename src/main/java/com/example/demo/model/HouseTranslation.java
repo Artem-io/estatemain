@@ -1,12 +1,15 @@
 package com.example.demo.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "houses_translations")
 public class HouseTranslation
 {
@@ -27,4 +30,8 @@ public class HouseTranslation
 
     @Enumerated(EnumType.STRING)
     private Language languageCode;
+
+    @Column(name = "full_description", columnDefinition = "TEXT")
+    @Size(max = 10000, message = "Full description cannot exceed 10000 characters")
+    private String fullDescription;
 }

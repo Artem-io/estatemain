@@ -30,8 +30,8 @@ public class HouseController
         return ResponseEntity.ok(houseService.getHouseById(id, lan));
     }
 
-//    @PostMapping
-//    public ResponseEntity<HouseResponse> createHouse(@RequestBody HouseRequest request) {
-//        return ResponseEntity.ok(houseService.addHouse(request));
-//    }
+    @PostMapping
+    public void createHouse(@RequestBody HouseRequest request) {
+        houseService.addHouse(request);
+    }
 }

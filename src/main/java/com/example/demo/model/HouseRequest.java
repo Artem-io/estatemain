@@ -1,20 +1,34 @@
 package com.example.demo.model;
 import java.math.BigDecimal;
 
-public class HouseRequest
-{
-    private String nameRU;
-    private String nameUA;
-    private String nameEN;
-    private String nameDE;
-    private String type;
-    private String location;
-    private BigDecimal profitMin;
-    private BigDecimal profitMax;
-    private BigDecimal timeMin;
-    private BigDecimal timeMax;
-    private Risk risk;
-    private Currency baseCurrency;
-    private BigDecimal price;
+public record HouseRequest
+        (
+                String nameRU,
+                String nameUA,
+                String nameEN,
+                String nameDE,
 
-}
+                String descriptionRU,
+                String descriptionUA,
+                String descriptionEN,
+                String descriptionDE,
+
+                String locationRU,
+                String locationUA,
+                String locationEN,
+                String locationDE,
+
+                String type,
+                Currency baseCurrency,
+                BigDecimal price,
+                BigDecimal profitMin,
+                BigDecimal profitMax,
+                BigDecimal timeMin,
+                BigDecimal timeMax,
+                Risk risk,
+
+                String fullDescriptionRU,
+                String fullDescriptionUA,
+                String fullDescriptionEN,
+                String fullDescriptionDE
+        ) {}
