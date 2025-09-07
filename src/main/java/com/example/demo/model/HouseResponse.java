@@ -22,6 +22,7 @@ public class HouseResponse
     private BigDecimal timeMin;
     private BigDecimal timeMax;
     private Risk risk;
+    private String fullDescription;
 
     public static HouseResponse map(House house, HouseTranslation translation) {
         return new HouseResponse(
@@ -36,7 +37,8 @@ public class HouseResponse
                 house.getProfitMax(),
                 house.getTimeMin(),
                 house.getTimeMax(),
-                house.getRisk()
+                house.getRisk(),
+                translation.getFullDescription()
         );
     }
 }
