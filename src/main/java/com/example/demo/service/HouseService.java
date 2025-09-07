@@ -17,7 +17,6 @@ public class HouseService
 {
     private final HouseRepository houseRepo;
     private final ImageService imageService;
-    private final HouseTranslationRepository houseTranslationRepo;
 
     public List<HouseResponse> getAllHouses(Language lan, Pageable pageable, HouseFilter filter) {
         List<House> houses = filter.isEmpty()

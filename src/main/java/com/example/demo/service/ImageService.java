@@ -33,12 +33,6 @@ public class ImageService {
         for (MultipartFile file : files) {
             if (file.isEmpty()) continue;
 
-//            // Validate file (optional: check type, size)
-//            String contentType = file.getContentType();
-//            if (contentType == null || !contentType.startsWith("image/")) {
-//                throw new IOException("Invalid file type");
-//            }
-
             // Generate unique filename
             String fileName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
             String filePath = houseDir + "/" + fileName;
@@ -47,13 +41,13 @@ public class ImageService {
             file.transferTo(new File(filePath));
 
             // Save image path to database
-            String dbImagePath = "/uploads/houses/" + house.getId() + "/" + fileName;
+            String dbImagePath = "/houses/" + house.getId() + "/" + fileName;
             Image houseImage = new Image(null, dbImagePath, house);
             imageRepo.save(houseImage);
         }
     }
 
-//    public List<HouseImage> getHouseImages(Long houseId) {
-//        return houseImageRepo.findByHouseId(houseId);
-//    }
+    public List<Image> getHouseImages(Long houseId) {
+        return imageRepo.findByHouseId(houseId);
+    }
 }

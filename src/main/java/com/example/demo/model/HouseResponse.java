@@ -1,15 +1,22 @@
 package com.example.demo.model;
+import com.example.demo.service.ImageService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@Component
 public class HouseResponse
 {
+    private static ImageService imageService;
+
     private Long id;
     private String title;
     private String description;
@@ -23,6 +30,12 @@ public class HouseResponse
     private BigDecimal timeMax;
     private Risk risk;
     private String fullDescription;
+    private List<Image> imageUrls;
+
+    @Autowired
+    public HouseResponse(ImageService imageService) {
+        HouseResponse.imageService = imageService;
+    }
 
     public static HouseResponse map(House house, HouseTranslation translation) {
         return new HouseResponse(
@@ -38,7 +51,8 @@ public class HouseResponse
                 house.getTimeMin(),
                 house.getTimeMax(),
                 house.getRisk(),
-                translation.getFullDescription()
+                translation.getFullDescription(),
+                imageService.getHouseImages(house.getId())
         );
     }
 }
