@@ -2,106 +2,91 @@ import { useEffect, useState } from "react";
 import Card from "../blocks/Card.tsx";
 import ConsultCard from "../blocks/ConsultCard.tsx"
 import {API_URL} from "../../../constants/constants.tsx";
+import type {Investment} from "../interfaces/interfaces.tsx";
 
-const projects = [
-  {
-    title: "Flipping-проект: апарт-отель у моря, полная реконструкция",
-    description: "Инвестиции в реконструкцию недвижимости с прогнозируемой доходностью.",
-    image: "images/ShowcaseSection/house-example.jpg",
-    location: "Германия, Берлин",
-    type: "Реконструкция недвижимости",
-    entry: "€ 75 000",
-    profit: "13–16% годовых",
-    term: "12–18 мес",
-    risk: "Средние",
-  },
-  {
-    title: "Flipping-проект: городская квартира, модернизация под аренду",
-    description: "Умная инвестиция в популярный район с высоким спросом.",
-    image: "images/ShowcaseSection/house-example.jpg",
-    location: "Франция, Париж",
-    type: "Модернизация квартиры",
-    entry: "€ 60 000",
-    profit: "10–14% годовых",
-    term: "10–14 мес",
-    risk: "Низкие",
-  },
-  {
-    title: "Flipping-проект: городская квартира, модернизация под аренду",
-    description: "Умная инвестиция в популярный район с высоким спросом.",
-    image: "images/ShowcaseSection/house-example.jpg",
-    location: "Франция, Париж",
-    type: "Модернизация квартиры",
-    entry: "€ 60 000",
-    profit: "10–14% годовых",
-    term: "10–14 мес",
-    risk: "Низкие",
-  },
-  {
-    title: "Flipping-проект: городская квартира, модернизация под аренду",
-    description: "Умная инвестиция в популярный район с высоким спросом.",
-    image: "images/ShowcaseSection/house-example.jpg",
-    location: "Франция, Париж",
-    type: "Модернизация квартиры",
-    entry: "€ 60 000",
-    profit: "10–14% годовых",
-    term: "10–14 мес",
-    risk: "Низкие",
-  },
-  {
-    title: "Flipping-проект: городская квартира, модернизация под аренду",
-    description: "Умная инвестиция в популярный район с высоким спросом.",
-    image: "images/ShowcaseSection/house-example.jpg",
-    location: "Франция, Париж",
-    type: "Модернизация квартиры",
-    entry: "€ 60 000",
-    profit: "10–14% годовых",
-    term: "10–14 мес",
-    risk: "Низкие",
-  },
-  {
-    title: "Flipping-проект: городская квартира, модернизация под аренду",
-    description: "Умная инвестиция в популярный район с высоким спросом.",
-    image: "images/ShowcaseSection/house-example.jpg",
-    location: "Франция, Париж",
-    type: "Модернизация квартиры",
-    entry: "€ 60 000",
-    profit: "10–14% годовых",
-    term: "10–14 мес",
-    risk: "Низкие",
-  },
-  {
-    title: "Flipping-проект: городская квартира, модернизация под аренду",
-    description: "Умная инвестиция в популярный район с высоким спросом.",
-    image: "images/ShowcaseSection/house-example.jpg",
-    location: "Франция, Париж",
-    type: "Модернизация квартиры",
-    entry: "€ 60 000",
-    profit: "10–14% годовых",
-    term: "10–14 мес",
-    risk: "Низкие",
-  },
-];
-
-interface Investment {
-  id: number;
-  title: string;
-  description: string;
-  location: string;
-  type: string;
-  price: number;
-  currency: string;
-  profitMin: number;
-  profitMax: number;
-  timeMin: number;
-  timeMax: number;
-  risk: string;
-}
+// const projects = [
+//   {
+//     title: "Flipping-проект: апарт-отель у моря, полная реконструкция",
+//     description: "Инвестиции в реконструкцию недвижимости с прогнозируемой доходностью.",
+//     image: "images/ShowcaseSection/house-example.jpg",
+//     location: "Германия, Берлин",
+//     type: "Реконструкция недвижимости",
+//     entry: "€ 75 000",
+//     profit: "13–16% годовых",
+//     term: "12–18 мес",
+//     risk: "Средние",
+//   },
+//   {
+//     title: "Flipping-проект: городская квартира, модернизация под аренду",
+//     description: "Умная инвестиция в популярный район с высоким спросом.",
+//     image: "images/ShowcaseSection/house-example.jpg",
+//     location: "Франция, Париж",
+//     type: "Модернизация квартиры",
+//     entry: "€ 60 000",
+//     profit: "10–14% годовых",
+//     term: "10–14 мес",
+//     risk: "Низкие",
+//   },
+//   {
+//     title: "Flipping-проект: городская квартира, модернизация под аренду",
+//     description: "Умная инвестиция в популярный район с высоким спросом.",
+//     image: "images/ShowcaseSection/house-example.jpg",
+//     location: "Франция, Париж",
+//     type: "Модернизация квартиры",
+//     entry: "€ 60 000",
+//     profit: "10–14% годовых",
+//     term: "10–14 мес",
+//     risk: "Низкие",
+//   },
+//   {
+//     title: "Flipping-проект: городская квартира, модернизация под аренду",
+//     description: "Умная инвестиция в популярный район с высоким спросом.",
+//     image: "images/ShowcaseSection/house-example.jpg",
+//     location: "Франция, Париж",
+//     type: "Модернизация квартиры",
+//     entry: "€ 60 000",
+//     profit: "10–14% годовых",
+//     term: "10–14 мес",
+//     risk: "Низкие",
+//   },
+//   {
+//     title: "Flipping-проект: городская квартира, модернизация под аренду",
+//     description: "Умная инвестиция в популярный район с высоким спросом.",
+//     image: "images/ShowcaseSection/house-example.jpg",
+//     location: "Франция, Париж",
+//     type: "Модернизация квартиры",
+//     entry: "€ 60 000",
+//     profit: "10–14% годовых",
+//     term: "10–14 мес",
+//     risk: "Низкие",
+//   },
+//   {
+//     title: "Flipping-проект: городская квартира, модернизация под аренду",
+//     description: "Умная инвестиция в популярный район с высоким спросом.",
+//     image: "images/ShowcaseSection/house-example.jpg",
+//     location: "Франция, Париж",
+//     type: "Модернизация квартиры",
+//     entry: "€ 60 000",
+//     profit: "10–14% годовых",
+//     term: "10–14 мес",
+//     risk: "Низкие",
+//   },
+//   {
+//     title: "Flipping-проект: городская квартира, модернизация под аренду",
+//     description: "Умная инвестиция в популярный район с высоким спросом.",
+//     image: "images/ShowcaseSection/house-example.jpg",
+//     location: "Франция, Париж",
+//     type: "Модернизация квартиры",
+//     entry: "€ 60 000",
+//     profit: "10–14% годовых",
+//     term: "10–14 мес",
+//     risk: "Низкие",
+//   },
+// ];
 
 type Investments = Investment[];
 
 const maxCardsOnPage = 6;
-const totalPages = Math.ceil(projects.length / maxCardsOnPage);
 
 export default function ShowcaseSection() {
     const [investments, setInvestments] = useState<Investments>([]);
@@ -115,7 +100,6 @@ export default function ShowcaseSection() {
         }
         const data: Investments = await res.json(); // 👈 типизация
         setInvestments(data);
-        console.log(investments);
       } catch (err) {
         console.error(err);
       }
@@ -124,37 +108,40 @@ export default function ShowcaseSection() {
     fetchInvestments();
   }, []);
 
-    const [currentPage, setCurrectPage] = useState<number>(0);
-    const startCardIdx = (currentPage * maxCardsOnPage) - 1;
+  console.log(investments);
 
-    return (
-        <div className="mb-5">
-            {currentPage === 0 ? <FirstPage /> : <MorePage startCardIdx={startCardIdx}/>}
-            <Pagination currentPage={currentPage} totalPages={totalPages} 
-            onChange={setCurrectPage} />
-        </div>
-    );
+  const [currentPage, setCurrectPage] = useState<number>(0);
+  const startCardIdx = (currentPage * maxCardsOnPage) - 1;
+  const totalPages = Math.ceil(investments.length / maxCardsOnPage);
+
+  return (
+      <div className="mb-5">
+          {currentPage === 0 ? <FirstPage investments={investments} /> : <MorePage startCardIdx={startCardIdx} investments={investments}/>}
+          <Pagination currentPage={currentPage} totalPages={totalPages} 
+          onChange={setCurrectPage} />
+      </div>
+  );
 }
 
-function FirstPage() {
+function FirstPage({investments}: {investments: Investment[]}) {
     return (
         <div className="grid grid-cols-3 gap-x-4 gap-y-8">
-            {projects.slice(0, 2).map((project, index) => (
-                <Card key={index} title={project.title} description={project.description} image={project.image} location={project.location} type={project.type} entry={project.entry} profit={project.profit} term={project.term} risk={project.risk}/>
+            {investments.slice(0, 2).map((project, index) => (
+                <Card key={index} id={project.id} title={project.title} description={project.description} location={project.location} type={project.type} price={project.price} currency={project.currency} profitMin={project.profitMin} profitMax={project.profitMax} timeMin={project.timeMin} timeMax={project.timeMax} risk={project.risk}/>
             ))}
             <ConsultCard />
-            {projects.slice(2, 5).map((project, index) => (
-                <Card key={index + 2} title={project.title} description={project.description} image={project.image} location={project.location} type={project.type} entry={project.entry} profit={project.profit} term={project.term} risk={project.risk}/>
+            {investments.slice(2, 5).map((project, index) => (
+                <Card key={index} id={project.id} title={project.title} description={project.description} location={project.location} type={project.type} price={project.price} currency={project.currency} profitMin={project.profitMin} profitMax={project.profitMax} timeMin={project.timeMin} timeMax={project.timeMax} risk={project.risk}/>
             ))}
         </div>
     );
 }
 
-function MorePage({startCardIdx}: {startCardIdx: number}) {
+function MorePage({startCardIdx, investments}: {startCardIdx: number, investments: Investment[]}) {
     return (
         <div className="grid grid-cols-3 gap-x-4 gap-y-8">
-            {projects.slice(startCardIdx, startCardIdx + 5).map((project, index) => (
-                <Card key={index} title={project.title} description={project.description} image={project.image} location={project.location} type={project.type} entry={project.entry} profit={project.profit} term={project.term} risk={project.risk}/>
+            {investments.slice(startCardIdx, startCardIdx + 5).map((project, index) => (
+                <Card key={index} id={project.id} title={project.title} description={project.description} location={project.location} type={project.type} price={project.price} currency={project.currency} profitMin={project.profitMin} profitMax={project.profitMax} timeMin={project.timeMin} timeMax={project.timeMax} risk={project.risk}/>
             ))}
         </div>
     );

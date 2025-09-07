@@ -1,25 +1,26 @@
 import { Link } from "react-router-dom";
+import type {Investment} from "../interfaces/interfaces.tsx";
 
-interface CardProps {
-    title: string;
-    description: string;
-    image: string;
-    location: string;
-    type: string;
-    entry: string;
-    profit: string;
-    term: string;
-    risk: string;
-}
+// interface CardProps {
+//     title: string;
+//     description: string;
+//     image: string;
+//     location: string;
+//     type: string;
+//     entry: string;
+//     profit: string;
+//     term: string;
+//     risk: string;
+// }
 
 export default function Card(
-    {title, description, image, location, type, entry, profit, term, risk}: CardProps) {
+    {id, title, description, location, type, price, currency, profitMin, profitMax, timeMin, timeMax, risk}: Investment) {
     return (
         <div className="min-h-[665px] max-w-[500px] mx-auto bg-white shadow-xl rounded-2xl overflow-hidden pb-3 flex flex-col">
             {/* Фото */}
             <div
             className="h-[180px] sm:h-[220px] lg:h-[240px] w-full bg-cover bg-center"
-            style={{ backgroundImage: `url('${image}')` }}
+            style={{ backgroundImage: `url('images/ShowcaseSection/house-example.jpg')` }}
             >
             </div>
 
@@ -48,19 +49,25 @@ export default function Card(
                     <img src="icons/ShowcaseSection/salary.png" alt="salary" className="w-4 h-4" />
                     <span className="text-gray-700 font-medium">Инвестиционный вход:</span>
                     </div>
-                    <div className="text-gray-900 font-semibold flex items-end phone:block">{entry}</div>
+                    <div className="text-gray-900 font-semibold flex items-end phone:block">
+                        {price}
+                    </div>
 
                     <div className="flex items-center gap-2">
                     <img src="icons/ShowcaseSection/growth.png" alt="growth" className="w-4 h-4" />
                     <span className="text-gray-700 font-medium">Доходность:</span>
                     </div>
-                    <div className="text-blue-600 font-semibold">{profit}</div>
+                    <div className="text-blue-600 font-semibold">
+                        {`${profitMin}-${profitMax}% годовых`}
+                    </div>
 
                     <div className="flex items-center gap-2">
                     <img src="icons/ShowcaseSection/term-loan.png" alt="term" className="w-4 h-4" />
                     <span className="text-gray-700 font-medium">Срок:</span>
                     </div>
-                    <div className="text-gray-900 font-semibold">{term}</div>
+                    <div className="text-gray-900 font-semibold">
+                        {`${timeMin}-${timeMax} мес`}
+                    </div>
 
                     <div className="flex items-center gap-2">
                         <img src="icons/ShowcaseSection/warning.png" alt="risk" className="w-4 h-4" />
