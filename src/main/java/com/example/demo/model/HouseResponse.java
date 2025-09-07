@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class HouseDTO
+public class HouseResponse
 {
     private Long id;
     private String title;
@@ -23,8 +23,8 @@ public class HouseDTO
     private BigDecimal timeMax;
     private Risk risk;
 
-    public static HouseDTO map(House house, HouseTranslation translation) {
-        return new HouseDTO(
+    public static HouseResponse map(House house, HouseTranslation translation) {
+        return new HouseResponse(
                 house.getId(),
                 translation.getTitle(),
                 translation.getDescription(),

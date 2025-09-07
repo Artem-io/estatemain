@@ -1,10 +1,10 @@
 package com.example.demo.controller;
-import com.example.demo.model.HouseDTO;
+import com.example.demo.model.HouseRequest;
+import com.example.demo.model.HouseResponse;
 import com.example.demo.model.HouseFilter;
 import com.example.demo.model.Language;
 import com.example.demo.service.HouseService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +26,12 @@ public class HouseController
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<HouseDTO> getHouseById(@PathVariable Long id, @RequestParam(value = "lan") Language lan) {
+    public ResponseEntity<HouseResponse> getHouseById(@PathVariable Long id, @RequestParam(value = "lan") Language lan) {
         return ResponseEntity.ok(houseService.getHouseById(id, lan));
     }
+
+//    @PostMapping
+//    public ResponseEntity<HouseResponse> createHouse(@RequestBody HouseRequest request) {
+//        return ResponseEntity.ok(houseService.addHouse(request));
+//    }
 }

@@ -21,9 +21,12 @@ public class HouseSpecifications {
                 predicates.add(cb.equal(translation.get("type"), filter.type()));
             }
 
-            // Filter by region (your HouseTranslation has "location")
+            // filter by region (substring match, case insensitive)
             if (filter.region() != null && !filter.region().isBlank()) {
-                predicates.add(cb.equal(translation.get("location"), filter.region()));
+                predicates.add(cb.like(
+                        cb.lower(translation.get("location")),
+                        "%" + filter.region().toLowerCase() + "%"
+                ));
             }
 
             // Filter by currency
