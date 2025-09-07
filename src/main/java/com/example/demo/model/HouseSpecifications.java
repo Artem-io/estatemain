@@ -1,6 +1,7 @@
 package com.example.demo.model;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 import java.math.BigDecimal;
@@ -13,7 +14,7 @@ public class HouseSpecifications {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            // join translations (OneToMany)
+            // join translations
             Join<House, HouseTranslation> translation = root.join("translations", JoinType.INNER);
 
             // Filter by type
@@ -21,7 +22,7 @@ public class HouseSpecifications {
                 predicates.add(cb.equal(translation.get("type"), filter.type()));
             }
 
-            // filter by region (substring match, case insensitive)
+            // Filter by region (substring match, case insensitive)
             if (filter.region() != null && !filter.region().isBlank()) {
                 predicates.add(cb.like(
                         cb.lower(translation.get("location")),
@@ -29,23 +30,23 @@ public class HouseSpecifications {
                 ));
             }
 
-            // Filter by currency
+            // Filter by price (depends on selected currency)
             if (filter.currency() != null) {
-                predicates.add(cb.equal(root.get("currency"), filter.currency()));
-            }
+                Path<BigDecimal> pricePath = switch (filter.currency()) {
+                    case EUR -> root.get("priceEUR");
+                    case USD -> root.get("priceUSD");
+                    case GBP -> root.get("priceGBP");
+                };
 
-            // Filter by price
-            if (filter.price_min() != null) {
-                predicates.add(cb.greaterThanOrEqualTo(root.get("price"), new BigDecimal(filter.price_min())));
+                if (filter.price_min() != null && !filter.price_min().isBlank()) {
+                    predicates.add(cb.greaterThanOrEqualTo(pricePath, new BigDecimal(filter.price_min())));
+                }
+                if (filter.price_max() != null && !filter.price_max().isBlank()) {
+                    predicates.add(cb.lessThanOrEqualTo(pricePath, new BigDecimal(filter.price_max())));
+                }
             }
-
-            if (filter.price_max() != null) {
-                predicates.add(cb.lessThanOrEqualTo(root.get("price"), new BigDecimal(filter.price_max())));
-            }
-
 
             return cb.and(predicates.toArray(new Predicate[0]));
         };
     }
 }
-

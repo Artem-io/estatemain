@@ -15,7 +15,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class ImageService {
-    
+
     private final HouseRepository houseRepo;
     private final ImageRepository imageRepo;
 
@@ -23,25 +23,40 @@ public class ImageService {
     private String uploadDir;
 
     public void uploadImages(House house, List<MultipartFile> files) throws IOException {
+        // Resolve uploadDir to absolute path
+        String baseDir = uploadDir.matches("^[A-Za-z]:.*|^/.*")
+                ? uploadDir
+                : System.getProperty("user.dir") + "/" + uploadDir;
+
+        // Normalize path separators for the OS
+        baseDir = baseDir.replace("/", File.separator);
+
         // Create house-specific directory
-        String houseDir = uploadDir + "/houses/" + house.getId();
+        String houseDir = baseDir + "houses" + File.separator + house.getId();
         File directory = new File(houseDir);
         if (!directory.exists()) {
-            directory.mkdirs();
+            if (!directory.mkdirs()) {
+                throw new IOException("Failed to create directory: " + houseDir);
+            }
         }
 
         for (MultipartFile file : files) {
             if (file.isEmpty()) continue;
 
             // Generate unique filename
-            String fileName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
-            String filePath = houseDir + "/" + fileName;
+            String originalFilename = file.getOriginalFilename();
+            String fileExtension = originalFilename != null && originalFilename.contains(".")
+                    ? originalFilename.substring(originalFilename.lastIndexOf("."))
+                    : ".jpg";
+            String fileName = UUID.randomUUID().toString() + fileExtension;
+            String filePath = houseDir + File.separator + fileName;
 
             // Save file to filesystem
-            file.transferTo(new File(filePath));
+            File destination = new File(filePath);
+            file.transferTo(destination);
 
-            // Save image path to database
-            String dbImagePath = "/houses/" + house.getId() + "/" + fileName;
+            // Save image path to database (use forward slashes for URLs)
+            String dbImagePath = "houses/" + house.getId() + "/" + fileName;
             Image houseImage = new Image(null, dbImagePath, house);
             imageRepo.save(houseImage);
         }
