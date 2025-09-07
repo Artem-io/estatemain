@@ -1,0 +1,4 @@
+.projectSlider .swiper-slide-thumb-active {
+    border-color: #3b82f6; /* Tailwind blue-500 */
+    transition: border-color 0.3s;
+}

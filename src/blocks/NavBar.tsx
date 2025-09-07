@@ -30,7 +30,7 @@ export default function NavBar() {
         <li><Link to="/home">Главное</Link></li>
         <li><Link to="/services">Мои услуги</Link></li>
         <li><Link to="/analyze">Анализ и создание инвест-портфеля</Link></li>
-        <li><Link to="">Invest-витрина</Link></li>
+        <li><Link to="/investmarket">Invest-витрина</Link></li>
         <li><Link to="/placement">Разместить проект</Link></li>
         <li><Link to="/contacts">Контакты</Link></li>
       </ul>
@@ -58,7 +58,7 @@ function BurgerMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
     {label: "Главное", link: "/home"},
     {label: "Мои услуги", link: "/services"},
     {label: "Анализ и создание инвест-портфеля", link: "/analyze"},
-    {label: "Invest-витрина", link: ""},
+    {label: "Invest-витрина", link: "/investmarket"},
     {label: "Разместить проект", link: "/placement"},
     {label: "Контакты", link: "/contacts"},
   ];
