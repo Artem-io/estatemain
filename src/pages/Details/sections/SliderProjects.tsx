@@ -22,7 +22,7 @@ export default function SliderProjects() {
     const slides = [...materials.photos, ...materials.videos];
 
     return (
-        <div className="mb-4">
+        <div className="mb-[30px]">
             {/* Основной слайдер */}
             <Swiper
                 modules={[Navigation, Pagination, Thumbs]}

@@ -1,18 +1,6 @@
 import { Link } from "react-router-dom";
 import type {Investment} from "../interfaces/interfaces.tsx";
 
-// interface CardProps {
-//     title: string;
-//     description: string;
-//     image: string;
-//     location: string;
-//     type: string;
-//     entry: string;
-//     profit: string;
-//     term: string;
-//     risk: string;
-// }
-
 export default function Card(
     {id, title, description, location, type, price, currency, profitMin, profitMax, timeMin, timeMax, risk}: Investment) {
     return (

@@ -4,101 +4,24 @@ import ConsultCard from "../blocks/ConsultCard.tsx"
 import {API_URL} from "../../../constants/constants.tsx";
 import type {Investment} from "../interfaces/interfaces.tsx";
 
-// const projects = [
-//   {
-//     title: "Flipping-проект: апарт-отель у моря, полная реконструкция",
-//     description: "Инвестиции в реконструкцию недвижимости с прогнозируемой доходностью.",
-//     image: "images/ShowcaseSection/house-example.jpg",
-//     location: "Германия, Берлин",
-//     type: "Реконструкция недвижимости",
-//     entry: "€ 75 000",
-//     profit: "13–16% годовых",
-//     term: "12–18 мес",
-//     risk: "Средние",
-//   },
-//   {
-//     title: "Flipping-проект: городская квартира, модернизация под аренду",
-//     description: "Умная инвестиция в популярный район с высоким спросом.",
-//     image: "images/ShowcaseSection/house-example.jpg",
-//     location: "Франция, Париж",
-//     type: "Модернизация квартиры",
-//     entry: "€ 60 000",
-//     profit: "10–14% годовых",
-//     term: "10–14 мес",
-//     risk: "Низкие",
-//   },
-//   {
-//     title: "Flipping-проект: городская квартира, модернизация под аренду",
-//     description: "Умная инвестиция в популярный район с высоким спросом.",
-//     image: "images/ShowcaseSection/house-example.jpg",
-//     location: "Франция, Париж",
-//     type: "Модернизация квартиры",
-//     entry: "€ 60 000",
-//     profit: "10–14% годовых",
-//     term: "10–14 мес",
-//     risk: "Низкие",
-//   },
-//   {
-//     title: "Flipping-проект: городская квартира, модернизация под аренду",
-//     description: "Умная инвестиция в популярный район с высоким спросом.",
-//     image: "images/ShowcaseSection/house-example.jpg",
-//     location: "Франция, Париж",
-//     type: "Модернизация квартиры",
-//     entry: "€ 60 000",
-//     profit: "10–14% годовых",
-//     term: "10–14 мес",
-//     risk: "Низкие",
-//   },
-//   {
-//     title: "Flipping-проект: городская квартира, модернизация под аренду",
-//     description: "Умная инвестиция в популярный район с высоким спросом.",
-//     image: "images/ShowcaseSection/house-example.jpg",
-//     location: "Франция, Париж",
-//     type: "Модернизация квартиры",
-//     entry: "€ 60 000",
-//     profit: "10–14% годовых",
-//     term: "10–14 мес",
-//     risk: "Низкие",
-//   },
-//   {
-//     title: "Flipping-проект: городская квартира, модернизация под аренду",
-//     description: "Умная инвестиция в популярный район с высоким спросом.",
-//     image: "images/ShowcaseSection/house-example.jpg",
-//     location: "Франция, Париж",
-//     type: "Модернизация квартиры",
-//     entry: "€ 60 000",
-//     profit: "10–14% годовых",
-//     term: "10–14 мес",
-//     risk: "Низкие",
-//   },
-//   {
-//     title: "Flipping-проект: городская квартира, модернизация под аренду",
-//     description: "Умная инвестиция в популярный район с высоким спросом.",
-//     image: "images/ShowcaseSection/house-example.jpg",
-//     location: "Франция, Париж",
-//     type: "Модернизация квартиры",
-//     entry: "€ 60 000",
-//     profit: "10–14% годовых",
-//     term: "10–14 мес",
-//     risk: "Низкие",
-//   },
-// ];
-
 type Investments = Investment[];
-
 const maxCardsOnPage = 6;
 
-export default function ShowcaseSection() {
+interface ShowcaseProps {
+  request: string;
+}
+
+export default function ShowcaseSection({request}: ShowcaseProps) {
     const [investments, setInvestments] = useState<Investments>([]);
 
     useEffect(() => {
     const fetchInvestments = async () => {
       try {
-        const res = await fetch(`${API_URL}?lan=RU`); // твой API
+        const res = await fetch(`${API_URL}?lan=RU${request}`);
         if (!res.ok) {
           throw new Error("Ошибка загрузки данных");
         }
-        const data: Investments = await res.json(); // 👈 типизация
+        const data: Investments = await res.json();
         setInvestments(data);
       } catch (err) {
         console.error(err);
@@ -106,9 +29,7 @@ export default function ShowcaseSection() {
     };
 
     fetchInvestments();
-  }, []);
-
-  console.log(investments);
+  }, [request]);
 
   const [currentPage, setCurrectPage] = useState<number>(0);
   const startCardIdx = (currentPage * maxCardsOnPage) - 1;
@@ -125,7 +46,7 @@ export default function ShowcaseSection() {
 
 function FirstPage({investments}: {investments: Investment[]}) {
     return (
-        <div className="grid grid-cols-3 gap-x-4 gap-y-8">
+        <div className="grid grid-cols-1 small:grid-cols-2 big:grid-cols-3 gap-x-4 gap-y-8">
             {investments.slice(0, 2).map((project, index) => (
                 <Card key={index} id={project.id} title={project.title} description={project.description} location={project.location} type={project.type} price={project.price} currency={project.currency} profitMin={project.profitMin} profitMax={project.profitMax} timeMin={project.timeMin} timeMax={project.timeMax} risk={project.risk}/>
             ))}
