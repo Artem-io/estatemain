@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "../blocks/Card.tsx";
 import ConsultCard from "../blocks/ConsultCard.tsx"
+import {API_URL} from "../../../constants/constants.tsx";
 
 const projects = [
   {
@@ -82,10 +83,47 @@ const projects = [
   },
 ];
 
+interface Investment {
+  id: number;
+  title: string;
+  description: string;
+  location: string;
+  type: string;
+  price: number;
+  currency: string;
+  profitMin: number;
+  profitMax: number;
+  timeMin: number;
+  timeMax: number;
+  risk: string;
+}
+
+type Investments = Investment[];
+
 const maxCardsOnPage = 6;
 const totalPages = Math.ceil(projects.length / maxCardsOnPage);
 
 export default function ShowcaseSection() {
+    const [investments, setInvestments] = useState<Investments>([]);
+
+    useEffect(() => {
+    const fetchInvestments = async () => {
+      try {
+        const res = await fetch(`${API_URL}?lan=RU`); // твой API
+        if (!res.ok) {
+          throw new Error("Ошибка загрузки данных");
+        }
+        const data: Investments = await res.json(); // 👈 типизация
+        setInvestments(data);
+        console.log(investments);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchInvestments();
+  }, []);
+
     const [currentPage, setCurrectPage] = useState<number>(0);
     const startCardIdx = (currentPage * maxCardsOnPage) - 1;
 
