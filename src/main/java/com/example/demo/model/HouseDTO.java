@@ -15,7 +15,8 @@ public class HouseDTO
     private String description;
     private String location;
     private String type;
-    private String price;
+    private BigDecimal price;
+    private Currency currency;
     private BigDecimal profitMin;
     private BigDecimal profitMax;
     private BigDecimal timeMin;
@@ -30,6 +31,7 @@ public class HouseDTO
                 translation.getLocation(),
                 translation.getType(),
                 house.getPrice(),
+                house.getCurrency(),
                 house.getProfitMin(),
                 house.getProfitMax(),
                 house.getTimeMin(),

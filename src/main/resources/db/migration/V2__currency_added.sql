@@ -1,0 +1,5 @@
+ALTER TABLE houses
+    ADD currency VARCHAR(10);
+
+ALTER TABLE houses
+    MODIFY COLUMN price DECIMAL(15,2) NOT NULL;

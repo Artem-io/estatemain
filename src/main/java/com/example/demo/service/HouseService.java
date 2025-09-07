@@ -1,12 +1,9 @@
 package com.example.demo.service;
-import com.example.demo.model.House;
-import com.example.demo.model.HouseDTO;
-import com.example.demo.model.HouseTranslation;
+import com.example.demo.model.*;
 import com.example.demo.repository.HouseRepository;
-import com.example.demo.repository.HouseTranslationRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +13,11 @@ public class HouseService
 {
     private final HouseRepository houseRepo;
 
-    public List<HouseDTO> getAllHouses(String lan) {
-        List<House> houses = houseRepo.findAll();
+    public List<HouseDTO> getAllHouses(Language lan, Pageable pageable, HouseFilter filter) {
+        List<House> houses = filter.isEmpty()
+                ? houseRepo.findAll(pageable).getContent()
+                : houseRepo.findAll(HouseSpecifications.withFilters(filter), pageable).getContent();
+
 
         List<HouseDTO> dtos = new ArrayList<>();
         for (House house : houses) {
@@ -30,7 +30,7 @@ public class HouseService
         return dtos;
     }
 
-    public HouseDTO getHouseById(Long id, String lan) {
+    public HouseDTO getHouseById(Long id, Language lan) {
         House house = houseRepo.findById(id).orElseThrow();
 
         HouseTranslation translation = house.getTranslations().stream().filter(tr ->

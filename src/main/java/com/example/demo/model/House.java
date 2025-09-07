@@ -1,4 +1,5 @@
 package com.example.demo.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,8 +18,11 @@ public class House
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "price is required")
-    private String price;
+    @NotNull(message = "price is required")
+    private BigDecimal price;
+
+    @Enumerated(EnumType.STRING)
+    private Currency currency;
 
     @Enumerated(EnumType.STRING)
     private Risk risk;

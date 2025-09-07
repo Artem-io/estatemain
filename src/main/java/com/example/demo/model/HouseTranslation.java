@@ -25,5 +25,6 @@ public class HouseTranslation
     @NotBlank(message = "type is required")
     private String type;
 
-    private String languageCode;
+    @Enumerated(EnumType.STRING)
+    private Language languageCode;
 }
