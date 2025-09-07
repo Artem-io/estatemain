@@ -22,8 +22,9 @@ public class HouseResponse
     private String description;
     private String location;
     private String type;
-    private BigDecimal price;
-    private Currency currency;
+    private BigDecimal priceEUR;
+    private BigDecimal priceUSD;
+    private BigDecimal priceGBP;
     private BigDecimal profitMin;
     private BigDecimal profitMax;
     private BigDecimal timeMin;
@@ -44,8 +45,9 @@ public class HouseResponse
                 translation.getDescription(),
                 translation.getLocation(),
                 translation.getType(),
-                house.getPrice(),
-                house.getCurrency(),
+                house.getPriceEUR(),
+                house.getPriceUSD(),
+                house.getPriceGBP(),
                 house.getProfitMin(),
                 house.getProfitMax(),
                 house.getTimeMin(),

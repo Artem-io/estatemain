@@ -21,11 +21,9 @@ public class House
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "price is required")
-    private BigDecimal price;
-
-    @Enumerated(EnumType.STRING)
-    private Currency currency;
+    private BigDecimal priceEUR;
+    private BigDecimal priceUSD;
+    private BigDecimal priceGBP;
 
     @Enumerated(EnumType.STRING)
     private Risk risk;
