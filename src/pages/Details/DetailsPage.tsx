@@ -16,9 +16,9 @@ export default function DetailsPage() {
     const [property, setProperty] = useState<Property | null>(null);
     useEffect(() => {
         const fetchData = async () => {
-        const response = await fetch(`${API_URL}?id=${id}`); 
-        const data: Property[] = await response.json();
-        setProperty(data[0]);
+        const response = await fetch(`${API_URL}/${id}?lan=RU`); 
+        const data: Property = await response.json();
+        setProperty(data);
         };
 
         fetchData();

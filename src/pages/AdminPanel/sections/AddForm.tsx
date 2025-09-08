@@ -34,7 +34,7 @@ type Project = {
 };
 
 const types = ["Недвижимость", "Строительные объекты", "Бизнес", "Стартапы", "Другие предложения", "Эксклюзивы"];
-const riskLevels = ["низкая", "средняя", "высокая"];
+const riskLevels = ["LOW", "MEDIUM", "HIGH"];
 const currencies = ["EUR", "USD", "GBP"];
 const languages: (keyof ProjectName)[] = ["ru", "en", "uk", "de"];
 
@@ -86,6 +86,8 @@ export default function AddForm() {
     } else {
       setProject(prev => ({ ...prev, [field as keyof Project]: e.target.value }));
     }
+
+    console.log(project);
   };
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -111,10 +113,92 @@ export default function AddForm() {
     setProject(prev => ({ ...prev, youtubeLinks: [...prev.youtubeLinks, ""] }));
   };
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    console.log("Проект:", project);
-    // Отправка на сервер
+  const handleSubmit = async (e: FormEvent) => {
+  e.preventDefault();
+
+  try {
+    // 1. Преобразуем данные проекта под API
+    const body = {
+      nameRU: project.name.ru,
+      nameUA: project.name.uk,
+      nameEN: project.name.en,
+      nameDE: project.name.de,
+      descriptionRU: project.shortDescription.ru,
+      descriptionUA: project.shortDescription.uk,
+      descriptionEN: project.shortDescription.en,
+      descriptionDE: project.shortDescription.de,
+      fullDescriptionRU: project.description.ru,
+      fullDescriptionUA: project.description.uk,
+      fullDescriptionEN: project.description.en,
+      fullDescriptionDE: project.description.de,
+      locationRU: project.location, // Если нужно по языкам, можно тоже разделить
+      locationUA: project.location,
+      locationEN: project.location,
+      locationDE: project.location,
+      type: project.type,
+      baseCurrency: project.investment.currency,
+      price: Number(project.investment.amount),
+      profitMin: Number(project.profitability.from),
+      profitMax: Number(project.profitability.to),
+      timeMin: Number(project.duration.from),
+      timeMax: Number(project.duration.to),
+      risk: project.riskLevel,
+      actual: project.isActual,
+      videoUrls: project.youtubeLinks.filter(Boolean),
+    };
+
+      // 2. Отправляем первый POST-запрос
+      const createResponse = await fetch("http://localhost:8080/houses", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+
+      if (!createResponse.ok) {
+        throw new Error("Ошибка при создании проекта");
+      }
+
+      const createdProject = await createResponse.json();
+      const projectId = createdProject; // Предположим, сервер возвращает id
+      console.log(createdProject);
+
+      // 3. Отправляем картинки, если они есть
+      if (project.images.length > 0) {
+        const formData = new FormData();
+        project.images.forEach((file) => {
+          formData.append("images", file);
+        });
+
+        const imagesResponse = await fetch(`http://localhost:8080/images/${projectId}`, {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!imagesResponse.ok) {
+          throw new Error("Ошибка при загрузке изображений");
+        }
+      }
+
+      alert("Проект был успешно добавлен");
+      setProject({
+        name: { ru: "", en: "", uk: "", de: "" },
+        shortDescription: { ru: "", en: "", uk: "", de: "" },
+        description: { ru: "", en: "", uk: "", de: "" },
+        type: "",
+        location: "",
+        investment: { currency: "EUR", amount: "" },
+        profitability: { from: "", to: "" },
+        duration: { from: "", to: "" },
+        riskLevel: "",
+        images: [],
+        youtubeLinks: [""],
+        isActual: false,
+      });
+    } catch (error) {
+      alert(`Ошибка: ${error}`);
+    }
   };
 
   return (

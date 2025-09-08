@@ -17,7 +17,7 @@ export default function ShowcaseSection({request}: ShowcaseProps) {
     useEffect(() => {
     const fetchInvestments = async () => {
       try {
-        const res = await fetch(`${API_URL}?lan=RU${request}`);
+        const res = await fetch(`${API_URL}?lan=RU`);
         if (!res.ok) {
           throw new Error("Ошибка загрузки данных");
         }
@@ -30,6 +30,9 @@ export default function ShowcaseSection({request}: ShowcaseProps) {
 
     fetchInvestments();
   }, [request]);
+
+  console.log(request);
+  console.log(investments);
 
   const [currentPage, setCurrectPage] = useState<number>(0);
   const startCardIdx = (currentPage * maxCardsOnPage) - 1;
