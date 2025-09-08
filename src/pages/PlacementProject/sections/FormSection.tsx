@@ -37,6 +37,22 @@ function Form() {
     
       const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        
+        // Create a single string from form values
+        const formString = `Проект: ${formData.about}\nСтадия: ${formData.stage}\nПрогресс: ${formData.attachment}\nТип актива: ${formData.type}\nСумма: ${formData.amount}\nВовлечённость: ${formData.involvement}\nКонтакты: ${formData.contacts}`;
+        
+        // Log the form string
+        console.log(formString);
+
+        fetch("http://localhost:8080/email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain",
+        },
+        body: formString,
+      });
+        
+        // Reset form data
         setFormData({
             about: "",
             stage: "",
@@ -70,7 +86,7 @@ function Form() {
                 <div>
                     <label className="block font-medium mb-2">Стадия проекта</label>
                     <input
-                        type="message"
+                        type="text"
                         name="stage"
                         value={formData.stage}
                         onChange={handleChange}
@@ -81,7 +97,7 @@ function Form() {
                 <div>
                     <label className="block font-medium mb-2">Что уже сделано</label>
                     <input
-                        type="tel"
+                        type="text"
                         name="attachment"
                         value={formData.attachment}
                         onChange={handleChange}
@@ -92,7 +108,7 @@ function Form() {
                 <div>
                     <label className="block font-medium mb-2">Тип актива</label>
                     <input
-                        type="tel"
+                        type="text"
                         name="type"
                         value={formData.type}
                         onChange={handleChange}
@@ -103,7 +119,7 @@ function Form() {
                 <div>
                     <label className="block font-medium mb-2">Какую сумму вы ищете</label>
                     <input
-                        type="tel"
+                        type="text"
                         name="amount"
                         value={formData.amount}
                         onChange={handleChange}
@@ -125,7 +141,7 @@ function Form() {
                 <div>
                     <label className="block font-medium mb-2">Ваши контакты</label>
                     <input
-                        type="message"
+                        type="text"
                         name="contacts"
                         value={formData.contacts}
                         onChange={handleChange}

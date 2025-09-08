@@ -1,8 +1,30 @@
-export default function ContactForm({setIsOpen}: {setIsOpen: (state: boolean) => void}) {
+import React from 'react';
 
-  const handleSubmit = (e: React.FormEvent) => {
+export default function ContactForm({setIsOpen, title}: {setIsOpen: (state: boolean) => void, title: string}) {
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Здесь можно обработать отправку формы
+    
+    // Extract form data
+    const formData = new FormData(e.currentTarget);
+    const formValues = {
+      name: formData.get('name') as string,
+      email: formData.get('email') as string,
+      message: formData.get('message') as string,
+    };
+    
+    const formString = `Недвижимость: ${title}\nИмя: ${formValues.name}\nEmail: ${formValues.email}\nСообщение: ${formValues.message}`;
+  
+    console.log(formValues);
+
+    fetch("http://localhost:8080/email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain",
+        },
+        body: formString,
+      });
+
     setIsOpen(false);
   };
 
@@ -24,6 +46,7 @@ export default function ContactForm({setIsOpen}: {setIsOpen: (state: boolean) =>
           <input
             type="text"
             id="name"
+            name="name"
             placeholder="Введите ваше имя"
             className="w-full p-2 rounded-md border border-gray-300 text-black"
             required
@@ -35,6 +58,7 @@ export default function ContactForm({setIsOpen}: {setIsOpen: (state: boolean) =>
           <input
             type="email"
             id="email"
+            name="email"
             placeholder="Введите ваш e-mail"
             className="w-full p-2 rounded-md border border-gray-300 text-black"
             required
@@ -45,6 +69,7 @@ export default function ContactForm({setIsOpen}: {setIsOpen: (state: boolean) =>
         <div className="mb-6">
           <textarea
             id="message"
+            name="message"
             placeholder="Ваш комментарий"
             className="w-full p-2 rounded-md border border-gray-300 text-black h-32 resize-none"
           />

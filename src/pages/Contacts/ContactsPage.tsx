@@ -41,6 +41,19 @@ function FeedbackForm() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        
+        // Create a single string from form values
+        const formString = `Имя: ${formData.name}\nEmail: ${formData.email}\nTelegram: ${formData.telegram}\nТема: ${formData.topic}\nСообщение: ${formData.message}`;
+        
+        fetch("http://localhost:8080/email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain",
+        },
+        body: formString,
+      });
+        
+        // Reset form data
         setFormData({
             name: "",
             email: "",

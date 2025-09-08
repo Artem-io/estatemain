@@ -38,7 +38,7 @@ export default function DetailsPage() {
             <SliderProjects imageUrls={property.imageUrls} videoUrls={property.videoUrls} />
             <Parametrs setIsOpen={setIsOpen} location={property.location} type={property.type} priceEUR={property.priceEUR} priceUSD={property.priceUSD} priceGBP={property.priceGBP} profitMin={property.profitMin} profitMax={property.profitMax} timeMin={property.timeMin} timeMax={property.timeMax} risk={property.risk} />
             <Description setIsOpen={setIsOpen} fullDescription={property.fullDescription} />
-            {isOpen && <ContactForm setIsOpen={setIsOpen}/>}
+            {isOpen && <ContactForm setIsOpen={setIsOpen} title={property.title}/>}
         </div>
     );
 }
