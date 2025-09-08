@@ -17,7 +17,7 @@ export default function ShowcaseSection({request}: ShowcaseProps) {
     useEffect(() => {
     const fetchInvestments = async () => {
       try {
-        const res = await fetch(`${API_URL}?lan=RU`);
+        const res = await fetch(`${API_URL}?lan=RU${request}`);
         if (!res.ok) {
           throw new Error("Ошибка загрузки данных");
         }

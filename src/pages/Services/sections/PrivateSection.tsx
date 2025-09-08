@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ReactMarkdown from 'react-markdown';
 import { useTranslation } from "react-i18next";
+import { t } from "i18next";
 
 export default function PrivateSection() {
     const { t } = useTranslation();
@@ -49,61 +50,21 @@ export default function PrivateSection() {
                     description={t("servicesprivcardconsultdesc")}
                     image="images/ServicesPage/PrivateSection/consult.png"
                     className="big:min-h-[511px] large:min-h-[611px]"
-                    extraText={`Я помогаю разобраться, как **легально работать с криптовалютой**: купить, продать, перевести, вывести средства на банковский счёт — без блокировок, санкций и нарушений закона.\n
-За плечами — **реальный опыт сопровождения клиентов в разных юрисдикциях**, в том числе с большими суммами.
-Я знаю, где и как могут возникнуть проблемы, и заранее проектирую для вас **безопасный маршрут**:\n
-• с учётом рисков
-• с выбором бирж и кошельков
-• с пониманием налоговых последствий\n
-Объясню, где и как лучше купить криптовалюту
-Подскажу, как правильно хранить (холодные / горячие кошельки, мультисиг)
- Покажу, как **законно вывести средства**, если вы инвестировали через крипту
-Все решения — только те, за которые я могу отвечать\n
-Мои клиенты выбирают меня за то, что я не «играю в крипту» —
-а **строю понятную и легальную стратегию**, где деньги не исчезают и не блокируются.`}
+                    extraText={t("servicesprivcardconsultextra")}
                 />
                 <ServiceCard
-                    title="Оптимизация денежных потоков и движение средств"
-                    description="Убираем лишние звенья, находим законные и выгодные маршруты."
+                    title={t("servicesprivcardoptimizetitle")}
+                    description={t("servicesprivcardoptimizedesc")}
                     image="images/ServicesPage/PrivateSection/optimisation.png"
                     className="big:min-h-[511px] large:min-h-[611px]"
-                    extraText={`Вы удивитесь, сколько легальных возможностей у вас есть —
-если выстроить движение денег правильно.\n
-Я помогаю **оптимизировать ваши денежные потоки** с учётом:\n
-• юрисдикции (где вы находитесь и где зарегистрированы счета)
-• налоговой нагрузки
-• валютного контроля
-• личного или бизнес-статуса
-• целей (сохранение, покупка, инвестиции, передача средств)\n
-Разбираем вашу текущую финансовую систему:
-доходы, расходы, переводы, накопления, инвестиции.
-Показываю, **где можно платить меньше, не терять на комиссиях,
-и где есть законные лазейки**, которые работают — просто вы о них не знали.
-Это может быть:\n
-• использование правильных платёжных систем
-• маршруты перевода средств между странами
-• конвертация через выгодные источники
-• структура счетов и расчётов, не вызывающая блокировок
-• минимизация налога при выводе прибыли или продажи актива\n
-Всё — **в рамках закона**, но не «по шаблону», а **под вашу ситуацию**.
-Я не просто советую — я **объясняю каждую схему её последствия**.
-Это экономит вам **большие деньги и время**`}
+                    extraText={t("servicesprivcardoptimizeextra")}
                 />
                 <ServiceCard
-                    title="Персональное сопровождение"
-                    description="Закрытая работа — когда нужен советник, а не инструкция"
+                    title={t("servicesprivcardaccompanytitle")}
+                    description={t("servicesprivcardaccompanydesc")}
                     image="images/ServicesPage/PrivateSection/accompany.png"
                     className="lg:col-span-2"
-                    extraText={`Эта услуга для тех, кто хочет чтобы всё было **сделано правильно, быстро и в его интересах.**\n
-Я работаю лично.
-Конфиденциально.
-Без лишних посредников.\n
-Вы получаете **пошаговое сопровождение по каждому действию**: от выбора инструмента и расчёта до перевода, оформления и контроля результата.
-Все решения принимаются только **в рамках закона** — но с учётом нюансов, о которых знают единицы.\n
-Моя задача — **обезопасить ваши деньги**,
-сэкономить время и провести вас туда, где капитал работает, а не «лежит».\n
-Мне доверяют те, кто боится потерять.
-Именно поэтому я не навязываю — я отвечаю.`}
+                    extraText={t("servicesprivcardaccompanyextra")}
                 />
             </div>
         </div>
@@ -140,7 +101,7 @@ function FirstCard({
                     className="gradient-btn w-full h-[45px] text-lg font-bold rounded-xl mt-auto cursor-pointer"
                     onClick={() => setShowExtra(!showExtra)}
                 >
-                    {showExtra ? "Скрыть" : "Подробнее"}
+                    {showExtra ? t("servicesprivcardbtnclose") : t("servicesprivcardbtnmore")}
                 </button>
             </div>
         </div>
@@ -189,7 +150,7 @@ function ServiceCard({
                     onClick={() => setShowExtra(!showExtra)}
                     className="gradient-btn w-full h-[45px] text-lg font-bold rounded-xl cursor-pointer mt-auto"
                 >
-                    {showExtra ? 'Скрыть' : 'Подробнее'}
+                    {showExtra ? t("servicesprivcardbtnclose") : t("servicesprivcardbtnmore")}
                 </button>
             </div>
         </div>
