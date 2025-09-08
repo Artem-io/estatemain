@@ -204,7 +204,6 @@ public class HouseService
             house.getVideoUrls().addAll(videoUrls);
         }
 
-        imageService.deleteHouseImages(id);
         return houseRepo.save(house);
     }
 
