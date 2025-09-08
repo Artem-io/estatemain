@@ -10,6 +10,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,11 +20,11 @@ public class HouseController
     private final HouseService houseService;
 
     @GetMapping
-    public ResponseEntity<?> getAllHouses(@RequestParam(value = "lan", defaultValue = "EN") Language lan,
-                                                       @PageableDefault Pageable pageable,
-                                                       HouseFilter filter) {
+    public ResponseEntity<List<HouseResponse>> getAllHouses(@RequestParam(value = "lan", defaultValue = "EN") Language lan,
+
+                                                            HouseFilter filter) {
         //houses?lan=RU&page=1&type=Business&region=Germany&currency=EUR&price_min=100000&price_max=200000
-        return ResponseEntity.ok(houseService.getAllHouses(lan, pageable, filter));
+        return ResponseEntity.ok(houseService.getAllHouses(lan, filter));
     }
 
     @GetMapping("{id}")

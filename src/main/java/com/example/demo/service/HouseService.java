@@ -31,10 +31,10 @@ public class HouseService
         this.restClient = restClient;
     }
 
-    public List<HouseResponse> getAllHouses(Language lan, Pageable pageable, HouseFilter filter) {
+    public List<HouseResponse> getAllHouses(Language lan, HouseFilter filter) {
         List<House> houses = filter.isEmpty()
-                ? houseRepo.findAll(pageable).getContent()
-                : houseRepo.findAll(HouseSpecifications.withFilters(filter), pageable).getContent();
+                ? houseRepo.findAll()
+                : houseRepo.findAll(HouseSpecifications.withFilters(filter));
 
 
         List<HouseResponse> dtos = new ArrayList<>();
