@@ -37,8 +37,13 @@ public class HouseController
         return ResponseEntity.ok(houseService.addHouse(request));
     }
 
-//    @DeleteMapping("{id}")
-//    public void deleteHouse(@PathVariable Long id) {
-//        houseService.deleteHouse(id);
-//    }
+    @DeleteMapping("{id}")
+    public void deleteHouse(@PathVariable Long id) throws IOException {
+        houseService.deleteHouse(id);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<House> updateHouse(@RequestBody HouseRequest request, @PathVariable Long id) throws IOException {
+        return ResponseEntity.ok(houseService.updateHouse(request, id));
+    }
 }

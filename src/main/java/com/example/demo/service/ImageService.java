@@ -65,4 +65,54 @@ public class ImageService {
     public List<Image> getHouseImages(Long houseId) {
         return imageRepo.findByHouseId(houseId);
     }
+
+    public void deleteImage(Image image) throws IOException {
+        // Build absolute path to file
+        String baseDir = uploadDir.matches("^[A-Za-z]:.*|^/.*")
+                ? uploadDir
+                : System.getProperty("user.dir") + "/" + uploadDir;
+
+        // Normalize path separators
+        baseDir = baseDir.replace("/", File.separator);
+
+        String filePath = baseDir + image.getImagePath().replace("/", File.separator);
+
+        // Delete file if exists
+        File file = new File(filePath);
+        if (file.exists() && !file.delete()) {
+            throw new IOException("Failed to delete file: " + filePath);
+        }
+
+        // Delete DB record
+        imageRepo.delete(image);
+    }
+
+public void deleteHouseImages(Long houseId) throws IOException {
+    List<Image> images = imageRepo.findByHouseId(houseId);
+
+    // Delete all images
+    for (Image img : images) {
+        deleteImage(img);
+    }
+
+    // Build absolute path to the house folder
+    String baseDir = uploadDir.matches("^[A-Za-z]:.*|^/.*")
+            ? uploadDir
+            : System.getProperty("user.dir") + "/" + uploadDir;
+    baseDir = baseDir.replace("/", File.separator);
+
+    String houseDirPath = baseDir + "houses" + File.separator + houseId;
+    File houseDir = new File(houseDirPath);
+
+    // Delete the folder if it exists and is empty
+    if (houseDir.exists() && houseDir.isDirectory()) {
+        String[] remainingFiles = houseDir.list();
+        if (remainingFiles == null || remainingFiles.length == 0) {
+            if (!houseDir.delete()) {
+                throw new IOException("Failed to delete folder: " + houseDirPath);
+            }
+        }
+    }
+}
+
 }

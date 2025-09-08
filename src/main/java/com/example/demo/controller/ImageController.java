@@ -19,10 +19,6 @@ public class ImageController
     private final ImageService imageService;
     private final HouseRepository houseRepo;
 
-//    public Image getImageByHouseId(int houseId) {
-//
-//    }
-
     @PostMapping("{houseId}")
     public void addImage(@PathVariable Long houseId, @RequestParam("images") List<MultipartFile> images) throws IOException {
         House house = houseRepo.findById(houseId)
