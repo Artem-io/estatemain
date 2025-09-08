@@ -32,6 +32,7 @@ public class HouseResponse
     private Risk risk;
     private String fullDescription;
     private List<Image> imageUrls;
+    private List<VideoUrl> videoUrls;
 
     @Autowired
     public HouseResponse(ImageService imageService) {
@@ -54,7 +55,8 @@ public class HouseResponse
                 house.getTimeMax(),
                 house.getRisk(),
                 translation.getFullDescription(),
-                imageService.getHouseImages(house.getId())
+                imageService.getHouseImages(house.getId()),
+                house.getVideoUrls()
         );
     }
 }

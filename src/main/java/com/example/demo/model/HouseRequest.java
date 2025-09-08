@@ -1,5 +1,6 @@
 package com.example.demo.model;
 import java.math.BigDecimal;
+import java.util.List;
 
 public record HouseRequest
         (
@@ -30,5 +31,7 @@ public record HouseRequest
                 String fullDescriptionRU,
                 String fullDescriptionUA,
                 String fullDescriptionEN,
-                String fullDescriptionDE
+                String fullDescriptionDE,
+
+                List<String> videoUrls
         ) {}

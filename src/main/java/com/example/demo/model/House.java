@@ -43,4 +43,8 @@ public class House
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "house_id")
     private List<HouseTranslation> translations = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "house_id")
+    private List<VideoUrl> videoUrls = new ArrayList<>();
 }

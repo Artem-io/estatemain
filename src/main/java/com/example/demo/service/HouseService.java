@@ -58,7 +58,7 @@ public class HouseService
         return HouseResponse.map(house, translation);
     }
 
-    public void addHouse(HouseRequest request, List<MultipartFile> images) throws IOException {
+    public House addHouse(HouseRequest request) {
         HouseTranslation translationRU = new HouseTranslation(null, request.nameRU(), request.descriptionRU(), request.locationRU(), request.type(), Language.RU, request.fullDescriptionRU());
         HouseTranslation translationUA = new HouseTranslation(null, request.nameUA(), request.descriptionUA(), request.locationUA(), request.type(), Language.UA, request.fullDescriptionUA());
         HouseTranslation translationEN = new HouseTranslation(null, request.nameEN(), request.descriptionEN(), request.locationEN(), request.type(), Language.EN, request.fullDescriptionEN());
@@ -100,11 +100,18 @@ public class HouseService
                 break;
         }
 
+        List<VideoUrl> videoUrls = new ArrayList<>();
+        for(String url : request.videoUrls())
+            videoUrls.add(new VideoUrl(null, url));
+
         House house = new House(null, priceEUR, priceUSD, priceGBP, request.risk(),
                 request.profitMin(), request.profitMax(), request.timeMin(), request.timeMax(),
-                List.of(translationRU, translationUA, translationEN, translationDE));
+                List.of(translationRU, translationUA, translationEN, translationDE), videoUrls);
 
-        House savedHouse = houseRepo.save(house);
-        if (images != null && !images.isEmpty()) imageService.uploadImages(savedHouse, images);
+        return houseRepo.save(house);
     }
+
+//    public void deleteHouse(Long id) {
+//
+//    }
 }

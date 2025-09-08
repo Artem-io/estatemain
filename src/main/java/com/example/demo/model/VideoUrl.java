@@ -1,5 +1,4 @@
 package com.example.demo.model;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,14 +8,10 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "images")
-public class Image
+@Table(name = "video_urls")
+public class VideoUrl
 {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String imagePath;
-
-    @ManyToOne
-    @JsonIgnore
-    private House house;
+    private String videoPath;
 }

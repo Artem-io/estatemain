@@ -1,8 +1,5 @@
 package com.example.demo.controller;
-import com.example.demo.model.HouseRequest;
-import com.example.demo.model.HouseResponse;
-import com.example.demo.model.HouseFilter;
-import com.example.demo.model.Language;
+import com.example.demo.model.*;
 import com.example.demo.service.HouseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -35,10 +32,13 @@ public class HouseController
         return ResponseEntity.ok(houseService.getHouseById(id, lan));
     }
 
-    @PostMapping(consumes = "multipart/form-data")
-    public void createHouse(
-            @ModelAttribute HouseRequest request,
-            @RequestPart(value = "images", required = false) List<MultipartFile> images) throws IOException {
-        houseService.addHouse(request, images);
+    @PostMapping
+    public ResponseEntity<House> createHouse(@RequestBody HouseRequest request) throws IOException {
+        return ResponseEntity.ok(houseService.addHouse(request));
     }
+
+//    @DeleteMapping("{id}")
+//    public void deleteHouse(@PathVariable Long id) {
+//        houseService.deleteHouse(id);
+//    }
 }
