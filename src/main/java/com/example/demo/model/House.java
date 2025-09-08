@@ -1,10 +1,7 @@
 package com.example.demo.model;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
@@ -47,4 +44,6 @@ public class House
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "house_id")
     private List<VideoUrl> videoUrls = new ArrayList<>();
+
+    private Boolean actual;
 }

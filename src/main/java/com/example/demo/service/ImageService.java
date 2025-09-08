@@ -1,7 +1,6 @@
 package com.example.demo.service;
 import com.example.demo.model.House;
 import com.example.demo.model.Image;
-import com.example.demo.repository.HouseRepository;
 import com.example.demo.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,15 +13,15 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class ImageService {
-
-    private final HouseRepository houseRepo;
+public class ImageService
+{
     private final ImageRepository imageRepo;
 
     @Value("${upload.dir}")
     private String uploadDir;
 
     public void uploadImages(House house, List<MultipartFile> files) throws IOException {
+        deleteHouseImages(house.getId());
         // Resolve uploadDir to absolute path
         String baseDir = uploadDir.matches("^[A-Za-z]:.*|^/.*")
                 ? uploadDir

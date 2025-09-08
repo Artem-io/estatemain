@@ -79,36 +79,33 @@ public class HouseService
                 .toUriString();
 
         CurrencyApiResponse response = restClient.get().uri(uri).retrieve().body(CurrencyApiResponse.class);
-        //response != null
+        if(response == null) throw new RuntimeException("Could not get currency response");
         BigDecimal priceEUR = null, priceUSD = null, priceGBP = null;
 
         switch (request.baseCurrency()) {
-            case Currency.EUR:
+            case Currency.EUR -> {
                 priceEUR = request.price();
                 priceUSD = response.getRates().getUsd();
                 priceGBP = response.getRates().getGbp();
-                break;
-
-            case Currency.USD:
+            }
+            case Currency.USD -> {
                 priceUSD = request.price();
                 priceEUR = response.getRates().getEur();
                 priceGBP = response.getRates().getGbp();
-                break;
-
-            case Currency.GBP:
+            }
+            case Currency.GBP -> {
                 priceGBP = request.price();
                 priceEUR = response.getRates().getEur();
                 priceUSD = response.getRates().getUsd();
-                break;
+            }
         }
 
         List<VideoUrl> videoUrls = new ArrayList<>();
-        for(String url : request.videoUrls())
-            videoUrls.add(new VideoUrl(null, url));
+        request.videoUrls().forEach(url -> {videoUrls.add(new VideoUrl(null, url));});
 
         House house = new House(null, priceEUR, priceUSD, priceGBP, request.risk(),
                 request.profitMin(), request.profitMax(), request.timeMin(), request.timeMax(),
-                List.of(translationRU, translationUA, translationEN, translationDE), videoUrls);
+                List.of(translationRU, translationUA, translationEN, translationDE), videoUrls, request.actual());
 
         return houseRepo.save(house);
     }
@@ -123,7 +120,6 @@ public class HouseService
     public House updateHouse(HouseRequest request, Long id) throws IOException {
         House house = houseRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("House not found"));
 
-        // Update translations
         List<HouseTranslation> translations = house.getTranslations();
         for (HouseTranslation tr : translations) {
             switch (tr.getLanguageCode()) {
@@ -158,7 +154,6 @@ public class HouseService
             }
         }
 
-        // Update prices based on baseCurrency and external API
         String symbols = switch (request.baseCurrency()) {
             case EUR -> "USD,GBP";
             case USD -> "EUR,GBP";
@@ -172,7 +167,7 @@ public class HouseService
                 .toUriString();
 
         CurrencyApiResponse response = restClient.get().uri(uri).retrieve().body(CurrencyApiResponse.class);
-
+        if(response == null) throw new RuntimeException("Could not get currency response");
         BigDecimal priceEUR = null, priceUSD = null, priceGBP = null;
 
         switch (request.baseCurrency()) {
@@ -202,12 +197,10 @@ public class HouseService
         house.setTimeMax(request.timeMax());
         house.setRisk(request.risk());
 
-        // Update video URLs
         house.getVideoUrls().clear();
         List<VideoUrl> videoUrls = new ArrayList<>();
         if (request.videoUrls() != null) {
-            for (String url : request.videoUrls())
-                videoUrls.add(new VideoUrl(null, url));
+            request.videoUrls().forEach(url -> {videoUrls.add(new VideoUrl(null, url));});
             house.getVideoUrls().addAll(videoUrls);
         }
 

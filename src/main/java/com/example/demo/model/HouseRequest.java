@@ -27,6 +27,7 @@ public record HouseRequest
                 BigDecimal timeMin,
                 BigDecimal timeMax,
                 Risk risk,
+                Boolean actual,
 
                 String fullDescriptionRU,
                 String fullDescriptionUA,

@@ -1,16 +1,12 @@
 package com.example.demo.controller;
 import com.example.demo.model.*;
 import com.example.demo.service.HouseService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,7 +29,7 @@ public class HouseController
     }
 
     @PostMapping
-    public ResponseEntity<House> createHouse(@RequestBody HouseRequest request) throws IOException {
+    public ResponseEntity<House> createHouse(@RequestBody HouseRequest request) {
         return ResponseEntity.ok(houseService.addHouse(request));
     }
 

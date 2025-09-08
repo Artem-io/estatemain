@@ -30,9 +30,10 @@ public class HouseResponse
     private BigDecimal timeMin;
     private BigDecimal timeMax;
     private Risk risk;
+    private Boolean actual;
     private String fullDescription;
-    private List<Image> imageUrls;
-    private List<VideoUrl> videoUrls;
+    private List<String> imageUrls;
+    private List<String> videoUrls;
 
     @Autowired
     public HouseResponse(ImageService imageService) {
@@ -54,9 +55,10 @@ public class HouseResponse
                 house.getTimeMin(),
                 house.getTimeMax(),
                 house.getRisk(),
+                house.getActual(),
                 translation.getFullDescription(),
-                imageService.getHouseImages(house.getId()),
-                house.getVideoUrls()
+                imageService.getHouseImages(house.getId()).stream().map(Image::getImagePath).toList(),
+                house.getVideoUrls().stream().map(VideoUrl::getVideoPath).toList()
         );
     }
 }
