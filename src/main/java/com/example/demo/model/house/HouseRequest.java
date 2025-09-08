@@ -1,4 +1,7 @@
-package com.example.demo.model;
+package com.example.demo.model.house;
+import com.example.demo.model.Currency;
+import com.example.demo.model.Risk;
+
 import java.math.BigDecimal;
 import java.util.List;
 

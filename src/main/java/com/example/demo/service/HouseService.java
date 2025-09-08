@@ -1,15 +1,13 @@
 package com.example.demo.service;
 import com.example.demo.model.*;
+import com.example.demo.model.house.*;
 import com.example.demo.repository.HouseRepository;
-import com.example.demo.repository.HouseTranslationRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestClient;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;

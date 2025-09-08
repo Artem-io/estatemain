@@ -1,4 +1,5 @@
 package com.example.demo.model;
+import com.example.demo.model.house.House;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,8 +1,6 @@
 package com.example.demo.controller;
-import com.example.demo.model.House;
-import com.example.demo.model.Image;
+import com.example.demo.model.house.House;
 import com.example.demo.repository.HouseRepository;
-import com.example.demo.service.HouseService;
 import com.example.demo.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

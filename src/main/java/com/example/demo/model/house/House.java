@@ -1,4 +1,6 @@
-package com.example.demo.model;
+package com.example.demo.model.house;
+import com.example.demo.model.Risk;
+import com.example.demo.model.VideoUrl;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

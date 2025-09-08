@@ -1,9 +1,10 @@
-package com.example.demo.model;
+package com.example.demo.model.house;
+import com.example.demo.model.Image;
+import com.example.demo.model.Risk;
+import com.example.demo.model.VideoUrl;
 import com.example.demo.service.ImageService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

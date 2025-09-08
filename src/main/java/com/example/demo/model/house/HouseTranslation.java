@@ -1,4 +1,5 @@
-package com.example.demo.model;
+package com.example.demo.model.house;
+import com.example.demo.model.Language;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

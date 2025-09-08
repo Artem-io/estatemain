@@ -1,5 +1,5 @@
 package com.example.demo.service;
-import com.example.demo.model.House;
+import com.example.demo.model.house.House;
 import com.example.demo.model.Image;
 import com.example.demo.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;

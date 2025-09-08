@@ -1,4 +1,4 @@
-package com.example.demo.model;
+package com.example.demo.model.house;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Path;
@@ -44,6 +44,11 @@ public class HouseSpecifications {
                 if (filter.price_max() != null && !filter.price_max().isBlank()) {
                     predicates.add(cb.lessThanOrEqualTo(pricePath, new BigDecimal(filter.price_max())));
                 }
+            }
+
+            // Filter by isActual
+            if (filter.actual() != null) {
+                predicates.add(cb.equal(root.get("actual"), filter.actual()));
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));

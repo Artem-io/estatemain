@@ -1,5 +1,8 @@
 package com.example.demo.controller;
 import com.example.demo.model.*;
+import com.example.demo.model.house.HouseFilter;
+import com.example.demo.model.house.HouseRequest;
+import com.example.demo.model.house.HouseResponse;
 import com.example.demo.service.HouseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
