@@ -31,38 +31,22 @@ export default function PrivateSection() {
 
                 {/* Остальные карточки */}
                 <ServiceCard
-                    title="Структурирование инвестиционного портфеля"
-                    description="Формируем сбалансированную структуру: подушка, база, рост. Учитываем статус, риски, горизонт."
-                    extraText="Создание или переупаковка вашего инвестиционного портфеля под цели, статус, страну проживания и налоговые реалии.
-                    Разберём, где утекают деньги, где зарыты риски, и как собрать сбалансированный капитал."
+                    title={t("servicesprivcardstructuretitle")}
+                    description={t("servicesprivcardstructuredesc")}
+                    extraText={t("servicesprivcardstructureextra")}
                     className="big:min-h-[511px] large:min-h-[611px]"
                     image="images/ServicesPage/PrivateSection/structure.png"
                 />
                 <ServiceCard
-                    title="Подбор инвестиционных инструментов"
-                    description="Золото, недвижимость, страхование, крипта — объясню, что, где, и для чего"
-                    extraText={`Провожу персональный анализ и помогаю выбрать инвестиционные инструменты под вашу ситуацию: цели, страну, налоги и горизонт вложений. Без шаблонов — только то, что действительно работает.\n
-**Золото и металлы**
-Разбираем варианты хранения, покупки и вывода.
-Хедж от кризисов и защита капитала.\n
-**Недвижимость**
-Подбираем активы по локации, доходности и рискам.
-Расчёты: кэшфлоу, ROI, срок окупаемости.\n
-**Страхование и пенсия**
-Решения с накоплением и налоговой выгодой.
-Долгосрочная финансовая защита семьи.\n
-**Криптовалюта**
-Показываю, как легально купить, продать и вывести.
-Сценарии, которые не блокируют счета и не нарушают закон.\n
-**Приватные проекты**
-Доступ к закрытым предложениям.
-Анализ, расчёты и защита интересов на входе.`}
+                    title={t("servicesprivcardinvesttitle")}
+                    description={t("servicesprivcardinvestdesc")}
+                    extraText={t("servicesprivcardinvestextra")}
                     className="big:min-h-[511px] large:min-h-[611px]"
                     image="images/ServicesPage/PrivateSection/tools.png"
                 />
                 <ServiceCard
-                    title="Консультация по криптовалюте и выводу средств"
-                    description="Как легально купить, продать, вывести деньги без блокировок и рисков."
+                    title={t("servicesprivcardconsulttitle")}
+                    description={t("servicesprivcardconsultdesc")}
                     image="images/ServicesPage/PrivateSection/consult.png"
                     className="big:min-h-[511px] large:min-h-[611px]"
                     extraText={`Я помогаю разобраться, как **легально работать с криптовалютой**: купить, продать, перевести, вывести средства на банковский счёт — без блокировок, санкций и нарушений закона.\n

@@ -1,8 +1,3 @@
-export interface ImageUrl {
-  id: number;
-  imagePath: string;
-}
-
 export interface Property {
   id: number;
   title: string;
@@ -18,7 +13,8 @@ export interface Property {
   timeMax: number;
   risk: string;
   fullDescription: string;
-  imageUrls: ImageUrl[];
+  imageUrls: [];
+  videoUrls: string[];
 }
 
 export interface ParametrsProps {
@@ -38,4 +34,9 @@ export interface ParametrsProps {
 export interface DescriptionProps {
   setIsOpen: (state: boolean) => void;
   fullDescription: string;
+}
+
+export interface SliderProps {
+  imageUrls: [];
+  videoUrls: string[];
 }

@@ -28,14 +28,14 @@ export default function DetailsPage() {
         return <p>Загрузка...</p>;
     }
 
-    console.log(property);
+    console.log(property.videoUrls);
 
     return (
         <div className="container mx-auto">
             <h1 className="font-bold text-3xl sm:text-4xl text-center mb-10">
                 {property.title}
             </h1>
-            <SliderProjects />
+            <SliderProjects imageUrls={property.imageUrls} videoUrls={property.videoUrls} />
             <Parametrs setIsOpen={setIsOpen} location={property.location} type={property.type} priceEUR={property.priceEUR} priceUSD={property.priceUSD} priceGBP={property.priceGBP} profitMin={property.profitMin} profitMax={property.profitMax} timeMin={property.timeMin} timeMax={property.timeMax} risk={property.risk} />
             <Description setIsOpen={setIsOpen} fullDescription={property.fullDescription} />
             {isOpen && <ContactForm setIsOpen={setIsOpen}/>}

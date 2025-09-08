@@ -4,6 +4,7 @@ import "swiper/swiper-bundle.css";
 import { Navigation, Pagination, Thumbs } from "swiper/modules";
 import SwiperClass from "swiper";
 import "./SliderProjects.css";
+import type { SliderProps } from "../interfaces/interfaces";
 
 const materials = {
     photos: [
@@ -17,7 +18,7 @@ const materials = {
     ],
 };
 
-export default function SliderProjects() {
+export default function SliderProjects({imageUrls, videoUrls}: SliderProps) {
     const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass | null>(null);
     const slides = [...materials.photos, ...materials.videos];
 
@@ -33,18 +34,18 @@ export default function SliderProjects() {
                 loop={true}
                 thumbs={{ swiper: thumbsSwiper }}
             >
-                {materials.photos.map((photo, index) => (
+                {imageUrls.map((photo, index) => (
                     <SwiperSlide key={`photo-${index}`}>
                         <div className="w-full h-[300px] phone:h-[400px] small:h-[500px] flex justify-center items-center overflow-hidden bg-black">
                             <img
-                                src={photo}
+                                src={`http://localhost:8080/images/${photo}`}
                                 alt={`Project Photo ${index + 1}`}
                                 className="w-full h-full object-cover"
                             />
                         </div>
                     </SwiperSlide>
                 ))}
-                {materials.videos.map((video, index) => {
+                {videoUrls.map((video, index) => {
                     const videoId = video.split("v=")[1];
                     const embedUrl = `https://www.youtube.com/embed/${videoId}`;
                     return (
@@ -73,16 +74,16 @@ export default function SliderProjects() {
                 watchSlidesProgress={true}
                 className="h-[80px] phone:h-[100px] projectSlider"
             >
-                {materials.photos.map((photo, index) => (
+                {imageUrls.map((photo, index) => (
                     <SwiperSlide key={`thumb-photo-${index}`} className="cursor-pointer border-2 border-transparent">
                         <img
-                            src={photo}
+                            src={`http://localhost:8080/images/${photo}`}
                             alt={`Thumb ${index + 1}`}
                             className="w-full h-full object-cover"
                         />
                     </SwiperSlide>
                 ))}
-                {materials.videos.map((video, index) => {
+                {videoUrls.map((video, index) => {
                     const videoId = video.split("v=")[1];
                     const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
                     return (

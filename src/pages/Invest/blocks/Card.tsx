@@ -9,7 +9,7 @@ export default function Card(
             <div
             className="h-[180px] sm:h-[220px] lg:h-[240px] w-full bg-cover bg-center"
             style={{ backgroundImage: 
-                `url('http://localhost:8080/images/${imageUrls[0].imagePath}')` }}
+                `url('http://localhost:8080/images/${imageUrls[0]}')` }}
             >
             </div>
 
