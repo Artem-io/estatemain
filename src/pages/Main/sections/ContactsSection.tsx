@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
+//Comment 
+
 export default function ContactsSection() {
   const { t } = useTranslation();
 
