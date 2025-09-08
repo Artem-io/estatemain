@@ -60,7 +60,7 @@ public class HouseService
     }
 
     @Transactional
-    public House addHouse(HouseRequest request) {
+    public Long addHouse(HouseRequest request) {
         HouseTranslation translationRU = new HouseTranslation(null, request.nameRU(), request.descriptionRU(), request.locationRU(), request.type(), Language.RU, request.fullDescriptionRU());
         HouseTranslation translationUA = new HouseTranslation(null, request.nameUA(), request.descriptionUA(), request.locationUA(), request.type(), Language.UA, request.fullDescriptionUA());
         HouseTranslation translationEN = new HouseTranslation(null, request.nameEN(), request.descriptionEN(), request.locationEN(), request.type(), Language.EN, request.fullDescriptionEN());
@@ -107,7 +107,7 @@ public class HouseService
                 request.profitMin(), request.profitMax(), request.timeMin(), request.timeMax(),
                 List.of(translationRU, translationUA, translationEN, translationDE), videoUrls, request.actual());
 
-        return houseRepo.save(house);
+        return houseRepo.save(house).getId();
     }
 
     @Transactional
@@ -117,7 +117,7 @@ public class HouseService
     }
 
     @Transactional
-    public House updateHouse(HouseRequest request, Long id) throws IOException {
+    public Long updateHouse(HouseRequest request, Long id) {
         House house = houseRepo.findById(id).orElseThrow(() -> new IllegalArgumentException("House not found"));
 
         List<HouseTranslation> translations = house.getTranslations();
@@ -204,7 +204,8 @@ public class HouseService
             house.getVideoUrls().addAll(videoUrls);
         }
 
-        return houseRepo.save(house);
+        houseRepo.save(house);
+        return id;
     }
 
 }

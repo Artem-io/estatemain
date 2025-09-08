@@ -29,7 +29,7 @@ public class HouseController
     }
 
     @PostMapping
-    public ResponseEntity<House> createHouse(@RequestBody HouseRequest request) {
+    public ResponseEntity<Long> createHouse(@RequestBody HouseRequest request) {
         return ResponseEntity.ok(houseService.addHouse(request));
     }
 
@@ -39,7 +39,7 @@ public class HouseController
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<House> updateHouse(@RequestBody HouseRequest request, @PathVariable Long id) throws IOException {
+    public ResponseEntity<Long> updateHouse(@RequestBody HouseRequest request, @PathVariable Long id) throws IOException {
         return ResponseEntity.ok(houseService.updateHouse(request, id));
     }
 }
