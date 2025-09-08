@@ -11,8 +11,6 @@ interface ShowcaseProps {
   request: string;
 }
 
-//Bebra
-
 export default function ShowcaseSection({request}: ShowcaseProps) {
     const [investments, setInvestments] = useState<Investments>([]);
 
