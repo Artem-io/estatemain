@@ -14,7 +14,7 @@ const materials = {
     videos: [
         "https://www.youtube.com/watch?v=KMQ7_Hk5rVY",
         "https://www.youtube.com/watch?v=KMQ7_Hk5rVY"
-    ]
+    ],
 };
 
 export default function SliderProjects() {
@@ -35,7 +35,7 @@ export default function SliderProjects() {
             >
                 {materials.photos.map((photo, index) => (
                     <SwiperSlide key={`photo-${index}`}>
-                        <div className="w-full h-[500px] flex justify-center items-center overflow-hidden bg-black">
+                        <div className="w-full h-[300px] phone:h-[400px] small:h-[500px] flex justify-center items-center overflow-hidden bg-black">
                             <img
                                 src={photo}
                                 alt={`Project Photo ${index + 1}`}
@@ -49,7 +49,7 @@ export default function SliderProjects() {
                     const embedUrl = `https://www.youtube.com/embed/${videoId}`;
                     return (
                         <SwiperSlide key={`video-${index}`}>
-                            <div className="w-full h-[500px] flex justify-center items-center overflow-hidden bg-black">
+                            <div className="w-full h-[300px] phone:h-[400px] small:h-[500px] flex justify-center items-center overflow-hidden bg-black">
                                 <iframe
                                     src={embedUrl}
                                     title={`YouTube Video ${index + 1}`}
@@ -71,7 +71,7 @@ export default function SliderProjects() {
                 spaceBetween={10}
                 slidesPerView={slides.length > 5 ? 5 : slides.length}
                 watchSlidesProgress={true}
-                className="h-[100px] projectSlider"
+                className="h-[80px] phone:h-[100px] projectSlider"
             >
                 {materials.photos.map((photo, index) => (
                     <SwiperSlide key={`thumb-photo-${index}`} className="cursor-pointer border-2 border-transparent">

@@ -2,13 +2,14 @@ import { Link } from "react-router-dom";
 import type {Investment} from "../interfaces/interfaces.tsx";
 
 export default function Card(
-    {id, title, description, location, type, price, currency, profitMin, profitMax, timeMin, timeMax, risk}: Investment) {
+    {id, title, description, location, type, priceEUR, priceUSD, priceGBP, profitMin, profitMax, timeMin, timeMax, risk, imageUrls}: Investment) {
     return (
         <div className="min-h-[665px] max-w-[500px] mx-auto bg-white shadow-xl rounded-2xl overflow-hidden pb-3 flex flex-col">
             {/* Фото */}
             <div
             className="h-[180px] sm:h-[220px] lg:h-[240px] w-full bg-cover bg-center"
-            style={{ backgroundImage: `url('images/ShowcaseSection/house-example.jpg')` }}
+            style={{ backgroundImage: 
+                `url('http://localhost:8080/images/${imageUrls[0].imagePath}')` }}
             >
             </div>
 
@@ -38,7 +39,7 @@ export default function Card(
                     <span className="text-gray-700 font-medium">Инвестиционный вход:</span>
                     </div>
                     <div className="text-gray-900 font-semibold flex items-end phone:block">
-                        {price}
+                        {`€ ${priceEUR} / $ ${priceUSD} / £ ${priceGBP}`}
                     </div>
 
                     <div className="flex items-center gap-2">
@@ -66,11 +67,14 @@ export default function Card(
 
                 {/* Кнопка + прижатие вниз */}
                 <div className="mt-auto">
-                    <Link to="/details"><button
-                    className="w-full py-2 active-btn font-semibold rounded-lg shadow text-sm cursor-pointer"
-                    >
-                    Узнать подробности
-                    </button></Link>
+                    <Link to={`/details?id=${id}`}>
+                        <button
+                        className="w-full py-2 active-btn font-semibold 
+                        rounded-lg shadow text-sm cursor-pointer"
+                        >
+                        Узнать подробности
+                        </button>
+                    </Link>
                     <div className="swiper-pagination !static flex justify-center mt-3"></div>
                 </div>
             </div>

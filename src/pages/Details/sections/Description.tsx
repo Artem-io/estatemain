@@ -1,6 +1,7 @@
 import ReactMarkdown from 'react-markdown';
+import type {DescriptionProps} from '../interfaces/interfaces';
 
-export default function Description({setIsOpen}: {setIsOpen: (state: boolean) => void}) {
+export default function Description({setIsOpen, fullDescription}: DescriptionProps) {
     const desc = `**Атмосферный винный тапас-бар в Гамбурге**
 В престижном районе Гамбурга Niendorf Markt успешно работает винный тапас-бар с дизайнерским интерьером, авторскими закусками и сильной винной концепцией. Это не просто заведение, а культурное пространство: здесь проходят дегустации, музыкальные вечера, afterwork-события и частные мероприятия.
 Проект создан как полноценный гастробизнес «под ключ» — с развитой инфраструктурой, CRM-системой и устойчивыми процессами. Уже сегодня бар имеет постоянную клиентскую базу и приносит стабильный доход с месячным оборотом около 33 500 €.\n
@@ -29,13 +30,14 @@ export default function Description({setIsOpen}: {setIsOpen: (state: boolean) =>
 `;
 
     return (
-        <div>
-            <div className="whitespace-pre-line mb-4">
-                <ReactMarkdown>{desc}</ReactMarkdown>
+        <div className='px-2 bigphone:px-0'>
+            <div className="whitespace-pre-line mb-8">
+                <ReactMarkdown>{fullDescription}</ReactMarkdown>
             </div>
             <button
             onClick={() => setIsOpen(true)}
-            className="w-[300px] big:w-[350px] mb-4 py-3 rounded-xl big:rounded-2xl cursor-pointer
+            className="w-[300px] big:w-[350px] mx-auto
+            mb-4 py-3 rounded-xl big:rounded-2xl cursor-pointer
             active-btn hover:brightness-80
             flex items-center justify-center font-bold
             small:text-lg big:text-lg">

@@ -48,11 +48,15 @@ function FirstPage({investments}: {investments: Investment[]}) {
     return (
         <div className="grid grid-cols-1 small:grid-cols-2 big:grid-cols-3 gap-x-4 gap-y-8">
             {investments.slice(0, 2).map((project, index) => (
-                <Card key={index} id={project.id} title={project.title} description={project.description} location={project.location} type={project.type} price={project.price} currency={project.currency} profitMin={project.profitMin} profitMax={project.profitMax} timeMin={project.timeMin} timeMax={project.timeMax} risk={project.risk}/>
+                <Card key={index} id={project.id} title={project.title} description={project.description} location={project.location} type={project.type} 
+                priceEUR={project.priceEUR} priceUSD={project.priceUSD} priceGBP={project.priceGBP} profitMin={project.profitMin} profitMax={project.profitMax} timeMin={project.timeMin} timeMax={project.timeMax} risk={project.risk}
+                imageUrls={project.imageUrls}/>
             ))}
             <ConsultCard />
             {investments.slice(2, 5).map((project, index) => (
-                <Card key={index} id={project.id} title={project.title} description={project.description} location={project.location} type={project.type} price={project.price} currency={project.currency} profitMin={project.profitMin} profitMax={project.profitMax} timeMin={project.timeMin} timeMax={project.timeMax} risk={project.risk}/>
+                <Card key={index} id={project.id} title={project.title} description={project.description} location={project.location} type={project.type} 
+                priceEUR={project.priceEUR} priceUSD={project.priceUSD} priceGBP={project.priceGBP} profitMin={project.profitMin} profitMax={project.profitMax} timeMin={project.timeMin} timeMax={project.timeMax} risk={project.risk}
+                imageUrls={project.imageUrls}/>
             ))}
         </div>
     );
@@ -62,7 +66,9 @@ function MorePage({startCardIdx, investments}: {startCardIdx: number, investment
     return (
         <div className="grid grid-cols-3 gap-x-4 gap-y-8">
             {investments.slice(startCardIdx, startCardIdx + 5).map((project, index) => (
-                <Card key={index} id={project.id} title={project.title} description={project.description} location={project.location} type={project.type} price={project.price} currency={project.currency} profitMin={project.profitMin} profitMax={project.profitMax} timeMin={project.timeMin} timeMax={project.timeMax} risk={project.risk}/>
+                <Card key={index} id={project.id} title={project.title} description={project.description} location={project.location} type={project.type} 
+                priceEUR={project.priceEUR} priceUSD={project.priceUSD} priceGBP={project.priceGBP} profitMin={project.profitMin} profitMax={project.profitMax} timeMin={project.timeMin} timeMax={project.timeMax} risk={project.risk}
+                imageUrls={project.imageUrls}/>
             ))}
         </div>
     );

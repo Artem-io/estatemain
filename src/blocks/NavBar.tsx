@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function NavBar() {
+  const { t, i18n } = useTranslation();
+
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -9,7 +12,7 @@ export default function NavBar() {
       <div className="flex justify-center bigphone:justify-between gap-x-16 phone:gap-0 items-center mb-2">
         <div>
           <div className="hidden bigphone:flex text-xl font-bold text-darkblue">
-            <p>Ваш надежный проводник в мир финансов</p>
+            <p>{t("navtitle")}</p>
           </div>
           <h1 className="text-gradient text-3xl phone:text-4xl font-bold text-center bigphone:text-start">OS Finanzen</h1>
         </div>
@@ -20,19 +23,28 @@ export default function NavBar() {
           </div>
           <div className="hidden big:flex gap-2 items-center">
             <img src="icons/NavBar/language.png" alt="language" />
-            <p>RU</p>
+            <select 
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => 
+              i18n.changeLanguage(e.target.value)
+            }
+            className="cursor-pointer" name="" id="">
+              <option value="ru">RU</option>
+              <option value="en">EN</option>
+              <option value="ua">UA</option>
+              <option value="de">DE</option>
+            </select>
           </div>
           <BurgerButton isOpen={isOpen} onToggle={() => setIsOpen(!isOpen)} />
         </div>
       </div>
 
       <ul className="hidden big:flex justify-between text-lg font-semibold text-darkblue">
-        <li><Link to="/home">Главное</Link></li>
-        <li><Link to="/services">Мои услуги</Link></li>
-        <li><Link to="/analyze">Анализ и создание инвест-портфеля</Link></li>
-        <li><Link to="/investmarket">Invest-витрина</Link></li>
-        <li><Link to="/placement">Разместить проект</Link></li>
-        <li><Link to="/contacts">Контакты</Link></li>
+        <li><Link to="/home">{t("linkmain")}</Link></li>
+        <li><Link to="/services">{t("linkservices")}</Link></li>
+        <li><Link to="/analyze">{t("linkanalyze")}</Link></li>
+        <li><Link to="/investmarket">{t("linkmarket")}</Link></li>
+        <li><Link to="/placement">{t("linkplace")}</Link></li>
+        <li><Link to="/contacts">{t("linkcontact")}</Link></li>
       </ul>
 
       <BurgerMenu isOpen={isOpen} onClose={() => setIsOpen(false)} />

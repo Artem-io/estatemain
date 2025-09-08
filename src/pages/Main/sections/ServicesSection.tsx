@@ -1,30 +1,34 @@
+import { useTranslation } from "react-i18next";
+
 export default function ServicesSection() {
+  const { t } = useTranslation();
+
   return (
     <div className="container mx-auto mb-[50px]">
-      <h1 className="font-bold text-3xl sm:text-4xl text-center mb-10">Мои услуги</h1>
+      <h1 className="font-bold text-3xl sm:text-4xl text-center mb-10">{t("mainservicestitle")}</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-items-center">
         <ServiceCard
           image="images/ServicesSection/private.png"
-          title="Для частных клиентов"
+          title={t("mainservicesprivatetitle")}
           items={[
-            "Разбор вашей финансовой ситуации и целей",
-            "Построение инвестиционной стратегии под вашу страну, статус, риски",
-            "Подбор инструментов: золото, недвижимость, страхование, крипта",
-            "Оптимизация движения средств",
-            "Консультация: как выгодно и легально купить/продать криптовалюту",
-            "Вывод средств на счёт с учётом рисков и налогов",
-            "Конфиденциальное сопровождение и проверенные решения"
+            t("mainservicesprivate1"),
+            t("mainservicesprivate2"),
+            t("mainservicesprivate3"),
+            t("mainservicesprivate4"),
+            t("mainservicesprivate5"),
+            t("mainservicesprivate6"),
+            t("mainservicesprivate7")
           ]}
         />
         <ServiceCard
           image="images/ServicesSection/business.png"
-          title="Для бизнеса"
+          title={t("mainservicesbusinesstitle")}
           items={[
-            "Разработка инвестиционного предложения (презентация + расчёты)",
-            "Финансовое моделирование и структура сделки",
-            "Бюджетирование, оптимизация расходов",
-            "Подготовка проекта к встрече с инвестором",
-            "Размещение в моей Invest-витрине"
+            t("mainservicesbusiness1"),
+            t("mainservicesbusiness2"),
+            t("mainservicesbusiness3"),
+            t("mainservicesbusiness4"),
+            t("mainservicesbusiness5")
           ]}
         />
       </div>
@@ -39,6 +43,8 @@ interface ServiceCardProps {
 }
 
 function ServiceCard({ image, title, items }: ServiceCardProps) {
+  const { t } = useTranslation();
+
   return (
     <div className="w-full max-w-[500px] bg-white shadow-xl rounded-3xl p-6 md:p-8
     flex flex-col transition-transform duration-300 hover:scale-[1.02] hover:shadow-2xl">
@@ -56,13 +62,13 @@ function ServiceCard({ image, title, items }: ServiceCardProps) {
       <div className="mt-6 space-y-3">
         <a href="tel:+380664060778">
           <button className="w-full h-[56px] rounded-2xl disabled-btn cursor-pointer font-bold  hover:brightness-110 transition mb-3">
-            Подробнее
+            {t("mainservicesbuttonmore")}
           </button>
         </a>
         <a href="#contactform">
           <button className="w-full h-[56px] rounded-2xl active-btn font-bold
           hover:brightness-110 transition cursor-pointer">
-            Записаться на консультацию
+            {t("mainservicesbuttonconsult")}
           </button>
         </a>
       </div>

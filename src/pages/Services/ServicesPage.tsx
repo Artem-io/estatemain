@@ -1,14 +1,17 @@
 import { useState } from "react";
 import PrivateSection from "./sections/PrivateSection";
 import BusinessSection from "./sections/BusinessSection";
+import { useTranslation } from "react-i18next";
 
 export default function ServicesPage() {
+    const { t } = useTranslation();
+
     type BenefitType = "private" | "business";
     const [benefitType, setBenefitType] = useState<BenefitType>("private");
 
     return (
         <div className="container mx-auto mb-[50px]">
-            <h1 className="font-bold text-3xl sm:text-4xl text-center mb-10">Мои услуги</h1>
+            <h1 className="font-bold text-3xl sm:text-4xl text-center mb-10">{t("servicestitle")}</h1>
             <div className="flex flex-col phone:flex-row gap-4 justify-center mb-[20px]">
                 <button
                     onClick={() => setBenefitType("private")}
@@ -16,7 +19,7 @@ export default function ServicesPage() {
                     hover:brightness-110
                     ${benefitType === "private" ? "active-btn" : "disabled-btn"}`}
                 >
-                    Я — частное лицо
+                    {t("servicesprivatetitle")}
                 </button>
                 <button
                     onClick={() => setBenefitType("business")}
@@ -24,7 +27,7 @@ export default function ServicesPage() {
                     hover:brightness-110
                     ${benefitType === "business" ? "active-btn" : "disabled-btn"}`}
                 >
-                    Я — бизнес
+                    {t("servicesbusinesstitle")}
                 </button>
             </div>
             {benefitType == 'private' ? <PrivateSection /> : <BusinessSection />}

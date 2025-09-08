@@ -1,4 +1,8 @@
+import { useTranslation } from "react-i18next";
+
 export default function Footer() {
+    const { t } = useTranslation();
+
     return (
         <footer className="w-full h-full phone:h-[170px] bg-[#031633]">
             <div className="maincontainer mx-auto text-white pt-[25px] pb-[25px] phone:pb-0
@@ -7,7 +11,7 @@ export default function Footer() {
                     <h1>OS Finanzen Stepaniuk Olena</h1>
                     <address>01067 Dresden</address>
                     <address>Deutschland</address>
-                    <div><a href="tel:+4915116042108">📞 Телефон: +49 1511 6042108</a></div>
+                    <div><a href="tel:+4915116042108">{t("footerphone")}</a></div>
                     <div><a href="mailto:osfinanzen@gmail.com">📧 E-Mail: osfinanzen@gmail.com</a></div>
                 </div>
                 <div className="hidden bigphone:flex gap-3 items-center">

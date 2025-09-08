@@ -13,18 +13,15 @@ type Range = {
   to: string;
 };
 
-type CurrencyRange = {
-  from: string;
-  to: string;
-};
-
 type Investment = {
-  eur: CurrencyRange;
-  usd: CurrencyRange;
+  currency: string;
+  amount: string;
 };
 
 type Project = {
   name: ProjectName;
+  shortDescription: ProjectName;
+  description: ProjectName;
   type: string;
   location: string;
   investment: Investment;
@@ -33,37 +30,35 @@ type Project = {
   riskLevel: string;
   images: File[];
   youtubeLinks: string[];
-  description: string;
+  isActual: boolean;
 };
 
 const types = ["Недвижимость", "Строительные объекты", "Бизнес", "Стартапы", "Другие предложения", "Эксклюзивы"];
-const locations = ["Германия", "Испания", "Турция", "Черногория", "Кипр", "Мальдивы", "ОАЭ", "Другие страны"];
 const riskLevels = ["низкая", "средняя", "высокая"];
+const currencies = ["EUR", "USD", "GBP"];
+const languages: (keyof ProjectName)[] = ["ru", "en", "uk", "de"];
 
 export default function AddForm() {
   const [project, setProject] = useState<Project>({
     name: { ru: "", en: "", uk: "", de: "" },
+    shortDescription: { ru: "", en: "", uk: "", de: "" },
+    description: { ru: "", en: "", uk: "", de: "" },
     type: "",
     location: "",
-    investment: { 
-      eur: { from: "", to: "" },
-      usd: { from: "", to: "" },
-    },
+    investment: { currency: "EUR", amount: "" },
     profitability: { from: "", to: "" },
     duration: { from: "", to: "" },
     riskLevel: "",
     images: [],
     youtubeLinks: [""],
-    description: "",
+    isActual: false,
   });
 
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
 
-  // Создание и очистка URL для миниатюр
   useEffect(() => {
     const newPreviews = project.images.map(file => URL.createObjectURL(file));
     setImagePreviews(newPreviews);
-
     return () => {
       newPreviews.forEach(url => URL.revokeObjectURL(url));
     };
@@ -77,13 +72,16 @@ export default function AddForm() {
     if (lang) {
       setProject(prev => ({
         ...prev,
-        name: { ...prev.name, [lang]: e.target.value }
+        [field as keyof Project]: {
+          ...(prev[field as keyof Project] as ProjectName),
+          [lang]: e.target.value
+        }
       }));
     } else if (field.includes(".")) {
       const [parent, child] = field.split(".");
       setProject(prev => ({
         ...prev,
-        [parent]: { ...prev[parent as keyof Project] as Range, [child]: e.target.value }
+        [parent]: { ...(prev[parent as keyof Project] as Range), [child]: e.target.value }
       }));
     } else {
       setProject(prev => ({ ...prev, [field as keyof Project]: e.target.value }));
@@ -124,8 +122,8 @@ export default function AddForm() {
       <h2 className="text-2xl font-bold mb-4">Добавить проект</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
 
-        {/* Название проекта на разных языках */}
-        {(["ru", "en", "uk", "de"] as (keyof ProjectName)[]).map(lang => (
+        {/* Название проекта */}
+        {languages.map(lang => (
           <div key={lang}>
             <label className="block font-medium mb-1">
               Название проекта ({lang.toUpperCase()})
@@ -135,6 +133,21 @@ export default function AddForm() {
               value={project.name[lang]}
               onChange={(e) => handleChange(e, "name", lang)}
               className="w-full border border-gray-300 p-2 rounded"
+            />
+          </div>
+        ))}
+
+        {/* Короткое описание */}
+        {languages.map(lang => (
+          <div key={lang}>
+            <label className="block font-medium mb-1">
+              Короткое описание ({lang.toUpperCase()})
+            </label>
+            <textarea
+              value={project.shortDescription[lang]}
+              onChange={(e) => handleChange(e, "shortDescription", lang)}
+              className="w-full border border-gray-300 p-2 rounded h-16 resize-none"
+              placeholder="Введите короткое описание..."
             />
           </div>
         ))}
@@ -155,75 +168,43 @@ export default function AddForm() {
         {/* Локация */}
         <div>
           <label className="block font-medium mb-1">Локация</label>
-          <select
+          <input
+            type="text"
             value={project.location}
             onChange={(e) => handleChange(e, "location")}
             className="w-full border border-gray-300 p-2 rounded"
-          >
-            <option value="">Выберите локацию</option>
-            {locations.map(loc => <option key={loc} value={loc}>{loc}</option>)}
-          </select>
+          />
         </div>
 
-        {/* Объём инвестиций (EUR и USD) */}
-        <div className="flex gap-2">
-          <div className="flex-1">
-            <label className="block font-medium mb-1">Объём инвестиций от (EUR)</label>
-            <input
-              type="number"
-              value={project.investment.eur.from}
+        {/* Инвестиционный вход */}
+        <div>
+          <label className="block font-medium mb-1">Инвестиционный вход</label>
+          <div className="flex gap-2">
+            <select
+              value={project.investment.currency}
               onChange={(e) =>
                 setProject(prev => ({
                   ...prev,
-                  investment: { ...prev.investment, eur: { ...prev.investment.eur, from: e.target.value } }
+                  investment: { ...prev.investment, currency: e.target.value }
                 }))
               }
-              className="w-full border border-gray-300 p-2 rounded"
-            />
-          </div>
-          <div className="flex-1">
-            <label className="block font-medium mb-1">до (EUR)</label>
+              className="border border-gray-300 p-2 rounded"
+            >
+              {currencies.map(cur => (
+                <option key={cur} value={cur}>{cur}</option>
+              ))}
+            </select>
             <input
               type="number"
-              value={project.investment.eur.to}
+              value={project.investment.amount}
               onChange={(e) =>
                 setProject(prev => ({
                   ...prev,
-                  investment: { ...prev.investment, eur: { ...prev.investment.eur, to: e.target.value } }
+                  investment: { ...prev.investment, amount: e.target.value }
                 }))
               }
-              className="w-full border border-gray-300 p-2 rounded"
-            />
-          </div>
-        </div>
-
-        <div className="flex gap-2">
-          <div className="flex-1">
-            <label className="block font-medium mb-1">Объём инвестиций от (USD)</label>
-            <input
-              type="number"
-              value={project.investment.usd.from}
-              onChange={(e) =>
-                setProject(prev => ({
-                  ...prev,
-                  investment: { ...prev.investment, usd: { ...prev.investment.usd, from: e.target.value } }
-                }))
-              }
-              className="w-full border border-gray-300 p-2 rounded"
-            />
-          </div>
-          <div className="flex-1">
-            <label className="block font-medium mb-1">до (USD)</label>
-            <input
-              type="number"
-              value={project.investment.usd.to}
-              onChange={(e) =>
-                setProject(prev => ({
-                  ...prev,
-                  investment: { ...prev.investment, usd: { ...prev.investment.usd, to: e.target.value } }
-                }))
-              }
-              className="w-full border border-gray-300 p-2 rounded"
+              className="flex-1 border border-gray-300 p-2 rounded"
+              placeholder="Введите сумму"
             />
           </div>
         </div>
@@ -286,17 +267,21 @@ export default function AddForm() {
         </div>
 
         {/* Полное описание */}
-        <div>
-          <label className="block font-medium mb-1">Полное описание проекта</label>
-          <textarea
-            value={project.description}
-            onChange={(e) => handleChange(e, "description")}
-            className="w-full border border-gray-300 p-2 rounded h-32 resize-none"
-            placeholder="Введите полное описание проекта..."
-          />
-        </div>
+        {languages.map(lang => (
+          <div key={lang}>
+            <label className="block font-medium mb-1">
+              Полное описание ({lang.toUpperCase()})
+            </label>
+            <textarea
+              value={project.description[lang]}
+              onChange={(e) => handleChange(e, "description", lang)}
+              className="w-full border border-gray-300 p-2 rounded h-32 resize-none"
+              placeholder="Введите полное описание проекта..."
+            />
+          </div>
+        ))}
 
-        {/* Загрузка картинок с миниатюрами */}
+        {/* Загрузка картинок */}
         <div>
           <label className="block font-medium mb-2">Загрузить картинки</label>
           <input
@@ -345,6 +330,18 @@ export default function AddForm() {
           >
             Добавить ссылку
           </button>
+        </div>
+
+        {/* Актуально */}
+        <div className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={project.isActual}
+            onChange={(e) =>
+              setProject(prev => ({ ...prev, isActual: e.target.checked }))
+            }
+          />
+          <label className="font-medium">Актуально</label>
         </div>
 
         {/* Кнопка отправки */}

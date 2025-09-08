@@ -1,20 +1,23 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function RecievedSection() {
+    const { t } = useTranslation();
+
     const benefits = {
         private: [
-            { emoji: "undestanding", text: "Понимание, как сохранить и приумножить капитал без риска обжечься" },
-            { emoji: "strategy", text: "Чёткая стратегия — без «хайпов» и случайных вложений" },
-            { emoji: "tools", text: "Инструменты, которые подходят лично вам: по стране, статусу, налогам" },
-            { emoji: "decisions", text: "Решения, которые учитывают законы и не вызовут блокировок" },
-            { emoji: "control", text: "Контроль и осознанность: вы понимаете, куда и зачем идут ваши деньги" },
+            { emoji: "undestanding", text: t("mainrecievedprivateundestanding") },
+            { emoji: "strategy", text: t("mainrecievedprivatestrategy") },
+            { emoji: "tools", text: t("mainrecievedprivatetools") },
+            { emoji: "decisions", text: t("mainrecievedprivatedecisions") },
+            { emoji: "control", text: t("mainrecievedprivatecontrol") },
         ],
         business: [
-            { emoji: "offer", text: "Инвестиционное предложение, которому доверяют инвесторы" },
-            { emoji: "structure", text: "Финансовая структура без хаоса: метрики, стратегия, точки контроля" },
-            { emoji: "preparation", text: "Подготовка к переговорам: вы знаете, что сказать и как подать себя" },
-            { emoji: "calculation", text: "Профессиональный расчёт рисков, формата сделки и структуры оффера" },
-            { emoji: "network", text: "Выход к инвесторам через мою закрытую сеть — если проект готов" },
+            { emoji: "offer", text: t("mainrecievedbusinessoffer") },
+            { emoji: "structure", text: t("mainrecievedbusinessstructure") },
+            { emoji: "preparation", text: t("mainrecievedbusinesspreparation") },
+            { emoji: "calculation", text: t("mainrecievedbusinesscalculation") },
+            { emoji: "network", text: t("mainrecievedbusinessnetwork") },
         ]
     };
 
@@ -26,7 +29,7 @@ export default function RecievedSection() {
     return (
         <div className="maincontainer mx-auto mb-[80px] phone:mb-[50px] px-4">
             <h1 className="font-bold text-3xl sm:text-4xl text-center mb-[30px]">
-                Что даёт работа со мной?
+                {t("mainrecievedtitle")}
             </h1>
 
             {/* переключатели */}
@@ -37,7 +40,7 @@ export default function RecievedSection() {
                     hover:brightness-110
                     ${benefitType === "private" ? "active-btn" : "disabled-btn"}`}
                 >
-                    Я — частное лицо
+                    {t("mainrecievedprivatetitle")}
                 </button>
                 <button
                     onClick={() => setBenefitType("business")}
@@ -45,7 +48,7 @@ export default function RecievedSection() {
                     hover:brightness-110
                     ${benefitType === "business" ? "active-btn" : "disabled-btn"}`}
                 >
-                    Я — бизнес
+                    {t("mainrecievedbusinesstitle")}
                 </button>
             </div>
 

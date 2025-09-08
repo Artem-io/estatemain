@@ -1,4 +1,8 @@
+import { useTranslation } from "react-i18next";
+
 export default function MainInfo() {
+  const { t } = useTranslation();
+
   return (
     <div className="maincontainer mx-auto mb-[30px] bigphone:mb-[50px]">
       <div className="h-[670px] bigphone:h-[500px] relative bg-gradient-to-r 
@@ -11,17 +15,16 @@ export default function MainInfo() {
         max-w-[730px] leading-tight mb-[40px] large:mb-[25px]">
           <h2 className="text-4xl bigphone:text-xl 
           small:text-[22px] big:text-2xl large:text-[30px] mb-2 phone:mb-0">
-            Елена Степанюк
+            {t("maincardtitle")}
           </h2>
           <p className="text-[13px] xsphone:text-lg bigphone:text-xl small:text-[22px] big:text-2xl large:text-[30px]">
-            Финансовый советник · Инвестиционный стратег
+            {t("maincarddesc")}
           </p>
         </div>
         <h3 className="max-w-[90%] small:max-w-[60%] text-[#c0c7d1] 
         text-xl bigphone:text-lg big:text-xl
         mb-[30px] bigphone:mb-[90px] small:mb-[50px]">
-          Оптимизация денежных потоков, инвестиционные решения и сопровождение капитала.
-          12+ лет помогаю управлять деньгами осознанно.
+          {t("maincardfulldesc")}
         </h3>
         <div className="flex flex-col mt-auto bigphone:mt-0 gap-y-3">
           <a href="#contactform" className="block w-[300px] big:w-[370px]">
@@ -29,7 +32,7 @@ export default function MainInfo() {
             gradient-btn
             flex items-center justify-center font-bold
             small:text-lg big:text-xl">
-              Записаться на разбор
+              {t("maincardbtnform")}
             </button>
           </a>
           <a href="tel:+380664060778" className="block w-[300px] big:w-[370px]">
@@ -37,7 +40,7 @@ export default function MainInfo() {
             gradient-btn
             flex items-center justify-center font-bold
             small:text-lg big:text-xl">
-              Смотреть Invest-витрину
+              {t("maincardbtnmarket")}
             </button>
           </a>
         </div>

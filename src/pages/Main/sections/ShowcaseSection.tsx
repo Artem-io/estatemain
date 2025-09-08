@@ -2,6 +2,7 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
 import { Navigation, Pagination } from "swiper/modules";
+import { useTranslation } from "react-i18next";
 
 const projects = [
   {
@@ -26,14 +27,15 @@ const projects = [
     term: "10–14 мес",
     risk: "Низкие",
   },
-  // ...остальные кейсы
 ];
 
 export default function ShowcaseSection() {
+  const { t } = useTranslation();
+
   return (
     <div className="container mx-auto mb-[70px] px-4">
       <h1 className="font-bold text-2xl phone:text-3xl sm:text-4xl text-center mb-[30px]">
-        Актуальные инвестиционные кейсы
+        {t("mainshowcasetitle")}
       </h1>
 
       <Swiper
@@ -106,7 +108,7 @@ export default function ShowcaseSection() {
                   <button
                     className="w-full py-2 active-btn font-semibold rounded-lg shadow text-sm cursor-pointer"
                   >
-                    Узнать подробности
+                    {t("mainshowcasebuttondetails")}
                   </button>
                   <div className="swiper-pagination !static flex justify-center mt-3"></div>
                 </div>
@@ -120,7 +122,7 @@ export default function ShowcaseSection() {
         gradient-btn
         flex items-center justify-center font-bold
         small:text-lg big:text-lg">
-          Смотреть больше проектов
+          {t("mainshowcasebuttonmore")}
         </button>
       </a>
     </div>

@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function ContactsSection() {
+  const { t } = useTranslation();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -36,10 +39,10 @@ export default function ContactsSection() {
   return (
     <div className="container mx-auto mb-[50px] small:mb-[100px]" id="contactform">
       <h2 className="font-bold text-3xl sm:text-4xl text-center mb-5">
-        Готовы обсудить вашу ситуацию?
+        {t("maincontactstitle")}
       </h2>
       <h3 className="font-semibold text-lg phone:text-xl text-center mb-8">
-        Опишите кратко, с чем вы пришли — и я свяжусь с вами в течение 24 часов.
+        {t("maincontactsdesc")}
       </h3>
 
       <form
@@ -47,7 +50,7 @@ export default function ContactsSection() {
         className="max-w-2xl mx-auto bg-white shadow-lg rounded-2xl p-6 space-y-5 mb-4"
       >
         <div>
-          <label className="block font-medium mb-2">Имя</label>
+          <label className="block font-medium mb-2">{t("maincontactsbtnname")}</label>
           <input
             type="text"
             name="name"
@@ -71,7 +74,7 @@ export default function ContactsSection() {
         </div>
 
         <div>
-          <label className="block font-medium mb-2">Номер телефона</label>
+          <label className="block font-medium mb-2">{t("maincontactsbtnnumber")}</label>
           <input
             type="tel"
             name="phone"
@@ -83,35 +86,37 @@ export default function ContactsSection() {
         </div>
 
         <div>
-          <label className="block font-medium mb-2">Telegram (по желанию)</label>
+          <label className="block font-medium mb-2">{t("maincontactsbtntg")}</label>
           <input
             type="text"
             name="telegram"
             value={formData.telegram}
             onChange={handleChange}
-            className="w-full border border-gray-300 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-300 rounded-xl p-3 
+            focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
         <div>
-          <label className="block font-medium mb-2">Что вы хотите?</label>
+          <label className="block font-medium mb-2">{t("maincontactsbtntopic")}</label>
           <select
             name="topic"
             value={formData.topic}
             onChange={handleChange}
-            className="w-full border border-gray-300 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-300 rounded-xl p-3 
+            focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           >
-            <option value="">Выберите...</option>
-            <option>Разобрать мою ситуацию</option>
-            <option>Предложить инвестиционный проект</option>
-            <option>Получить консультацию</option>
-            <option>Задать вопрос</option>
+            <option value="">{t("maincontactstopic1")}</option>
+            <option>{t("maincontactstopic2")}</option>
+            <option>{t("maincontactstopic3")}</option>
+            <option>{t("maincontactstopic4")}</option>
+            <option>{t("maincontactstopic5")}</option>
           </select>
         </div>
 
         <div>
-          <label className="block font-medium mb-2">Сообщение</label>
+          <label className="block font-medium mb-2">{t("maincontactsbtnmessage")}</label>
           <textarea
             name="message"
             rows={4}
@@ -126,12 +131,12 @@ export default function ContactsSection() {
           type="submit"
           className="w-full text-2xl font-bold active-btn rounded-2xl h-[50px] cursor-pointer"
         >
-          Отправить запрос
+          {t("maincontactsbtnsubmit")}
         </button>
       </form>
 
       <h4 className="text-center font-semibold text-2xl mb-4 phone:mb-0">
-        Для быстрой связи:
+        {t("maincontactsunderdesc")}
       </h4>
       <div className="flex flex-col phone:flex-row justify-center gap-x-8 items-center phone:items-baseline text-xl">
         <p className="mb-2 phone:mb-0">E-mail: osfinanzen@gmail.com</p>
@@ -151,17 +156,17 @@ export default function ContactsSection() {
         <div className="fixed inset-0 flex items-center justify-center bg-black/60 z-50">
           <div className="bg-white rounded-2xl p-6 max-w-sm w-full text-center shadow-xl">
             <h2 className="text-2xl font-bold mb-4">
-              Спасибо за вашу заявку!
+              {t("maincontactsmodaltitle")}
             </h2>
             <p className="mb-6">
-              Скоро мы с вами свяжемся.
+              {t("maincontactsmodaldesc")}
             </p>
             <button
               onClick={() => setIsModalOpen(false)}
               className="w-full active-btn text-white font-semibold py-2 
               rounded-xl transition cursor-pointer"
             >
-              Закрыть
+              {t("maincontactsmodalclose")}
             </button>
           </div>
         </div>

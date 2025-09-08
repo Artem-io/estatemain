@@ -65,8 +65,6 @@ export default function FilterSection({request, setRequest}: FilterProps) {
     // Здесь можно вызвать API с request
   };
 
-  console.log(request);
-
   return (
     <div className="w-full p-4 shadow-md bg-white rounded-2xl mb-[50px]">
       <form

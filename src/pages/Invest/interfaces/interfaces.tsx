@@ -4,11 +4,14 @@ export interface Investment {
   description: string;
   location: string;
   type: string;
-  price: number;
-  currency: string;
+  priceEUR: number;
+  priceUSD: number;
+  priceGBP: number;
+  fullDescription?: string;
   profitMin: number;
   profitMax: number;
   timeMin: number;
   timeMax: number;
   risk: string;
+  imageUrls: [];
 }

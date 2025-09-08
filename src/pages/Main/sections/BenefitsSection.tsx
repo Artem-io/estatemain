@@ -1,26 +1,29 @@
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 export default function BenefitsSection() {
+  const { t } = useTranslation();
+
   return (
     <div className="maincontainer mx-auto mb-[50px] px-4">
       <div className="grid grid-cols-1 bigphone:grid-cols-2 justify-items-center gap-x-10 gap-y-7">
         <BenefitsCard
-          label={`Я не просто считаю — я чувствую потоки денег.`}
+          label={t("mainbenefit1")}
           image="budget"
           idx={0}
         />
         <BenefitsCard
-          label={`Покажу вам, где вы теряете, и где ваш рост`}
+          label={t("mainbenefit2")}
           image="growth"
           idx={1}
         />
         <BenefitsCard
-          label={`Конфиденциально. Надёжно. Системно.`}
+          label={t("mainbenefit3")}
           image="folder"
           idx={2}
         />
         <BenefitsCard
-          label={`Отвечаю деньгами за результат.`}
+          label={t("mainbenefit4")}
           image="guarantee"
           idx={3}
         />
