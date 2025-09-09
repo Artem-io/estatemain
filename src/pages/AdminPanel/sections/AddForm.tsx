@@ -22,8 +22,8 @@ type Project = {
   name: ProjectName;
   shortDescription: ProjectName;
   description: ProjectName;
-  type: string;
-  location: string;
+  type: string; // на фронте только русский
+  location: ProjectName;
   investment: Investment;
   profitability: Range;
   duration: Range;
@@ -33,7 +33,26 @@ type Project = {
   isActual: boolean;
 };
 
-const types = ["Недвижимость", "Строительные объекты", "Бизнес", "Стартапы", "Другие предложения", "Эксклюзивы"];
+// Список типов на русском
+const typesRU = [
+  "Недвижимость",
+  "Строительные объекты",
+  "Бизнес",
+  "Стартапы",
+  "Другие предложения",
+  "Эксклюзивы"
+];
+
+// Соответствие переводов
+const typeTranslations: Record<string, ProjectName> = {
+  "Недвижимость": { ru: "Недвижимость", en: "Real Estate", uk: "Нерухомість", de: "Immobilien" },
+  "Строительные объекты": { ru: "Строительные объекты", en: "Construction Projects", uk: "Будівельні об'єкти", de: "Bauprojekte" },
+  "Бизнес": { ru: "Бизнес", en: "Business", uk: "Бізнес", de: "Business" },
+  "Стартапы": { ru: "Стартапы", en: "Startups", uk: "Стартапи", de: "Startups" },
+  "Другие предложения": { ru: "Другие предложения", en: "Other Offers", uk: "Інші пропозиції", de: "Andere Angebote" },
+  "Эксклюзивы": { ru: "Эксклюзивы", en: "Exclusives", uk: "Ексклюзиви", de: "Exklusives" },
+};
+
 const riskLevels = ["LOW", "MEDIUM", "HIGH"];
 const currencies = ["EUR", "USD", "GBP"];
 const languages: (keyof ProjectName)[] = ["ru", "en", "uk", "de"];
@@ -43,8 +62,8 @@ export default function AddForm() {
     name: { ru: "", en: "", uk: "", de: "" },
     shortDescription: { ru: "", en: "", uk: "", de: "" },
     description: { ru: "", en: "", uk: "", de: "" },
-    type: "",
-    location: "",
+    type: "", // на фронте только русский
+    location: { ru: "", en: "", uk: "", de: "" },
     investment: { currency: "EUR", amount: "" },
     profitability: { from: "", to: "" },
     duration: { from: "", to: "" },
@@ -86,8 +105,6 @@ export default function AddForm() {
     } else {
       setProject(prev => ({ ...prev, [field as keyof Project]: e.target.value }));
     }
-
-    console.log(project);
   };
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -114,71 +131,62 @@ export default function AddForm() {
   };
 
   const handleSubmit = async (e: FormEvent) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
-    // 1. Преобразуем данные проекта под API
-    const body = {
-      nameRU: project.name.ru,
-      nameUA: project.name.uk,
-      nameEN: project.name.en,
-      nameDE: project.name.de,
-      descriptionRU: project.shortDescription.ru,
-      descriptionUA: project.shortDescription.uk,
-      descriptionEN: project.shortDescription.en,
-      descriptionDE: project.shortDescription.de,
-      fullDescriptionRU: project.description.ru,
-      fullDescriptionUA: project.description.uk,
-      fullDescriptionEN: project.description.en,
-      fullDescriptionDE: project.description.de,
-      locationRU: project.location, // Если нужно по языкам, можно тоже разделить
-      locationUA: project.location,
-      locationEN: project.location,
-      locationDE: project.location,
-      type: project.type,
-      baseCurrency: project.investment.currency,
-      price: Number(project.investment.amount),
-      profitMin: Number(project.profitability.from),
-      profitMax: Number(project.profitability.to),
-      timeMin: Number(project.duration.from),
-      timeMax: Number(project.duration.to),
-      risk: project.riskLevel,
-      actual: project.isActual,
-      videoUrls: project.youtubeLinks.filter(Boolean),
-    };
+    try {
+      const typeTranslation = typeTranslations[project.type]; // ✅ получаем переводы типов
 
-      // 2. Отправляем первый POST-запрос
+      const body = {
+        nameRU: project.name.ru,
+        nameUA: project.name.uk,
+        nameEN: project.name.en,
+        nameDE: project.name.de,
+        descriptionRU: project.shortDescription.ru,
+        descriptionUA: project.shortDescription.uk,
+        descriptionEN: project.shortDescription.en,
+        descriptionDE: project.shortDescription.de,
+        fullDescriptionRU: project.description.ru,
+        fullDescriptionUA: project.description.uk,
+        fullDescriptionEN: project.description.en,
+        fullDescriptionDE: project.description.de,
+        locationRU: project.location.ru,
+        locationUA: project.location.uk,
+        locationEN: project.location.en,
+        locationDE: project.location.de,
+        typeRU: typeTranslation.ru,
+        typeUA: typeTranslation.uk,
+        typeEN: typeTranslation.en,
+        typeDE: typeTranslation.de,
+        baseCurrency: project.investment.currency,
+        price: Number(project.investment.amount),
+        profitMin: Number(project.profitability.from),
+        profitMax: Number(project.profitability.to),
+        timeMin: Number(project.duration.from),
+        timeMax: Number(project.duration.to),
+        risk: project.riskLevel,
+        actual: project.isActual,
+        videoUrls: project.youtubeLinks.filter(Boolean),
+      };
+
       const createResponse = await fetch("http://localhost:8080/houses", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
 
-      if (!createResponse.ok) {
-        throw new Error("Ошибка при создании проекта");
-      }
+      if (!createResponse.ok) throw new Error("Ошибка при создании проекта");
 
       const createdProject = await createResponse.json();
-      const projectId = createdProject; // Предположим, сервер возвращает id
-      console.log(createdProject);
+      const projectId = createdProject;
 
-      // 3. Отправляем картинки, если они есть
       if (project.images.length > 0) {
         const formData = new FormData();
-        project.images.forEach((file) => {
-          formData.append("images", file);
-        });
-
+        project.images.forEach(file => formData.append("images", file));
         const imagesResponse = await fetch(`http://localhost:8080/images/${projectId}`, {
           method: "POST",
           body: formData,
         });
-
-        if (!imagesResponse.ok) {
-          throw new Error("Ошибка при загрузке изображений");
-        }
+        if (!imagesResponse.ok) throw new Error("Ошибка при загрузке изображений");
       }
 
       alert("Проект был успешно добавлен");
@@ -187,7 +195,7 @@ export default function AddForm() {
         shortDescription: { ru: "", en: "", uk: "", de: "" },
         description: { ru: "", en: "", uk: "", de: "" },
         type: "",
-        location: "",
+        location: { ru: "", en: "", uk: "", de: "" },
         investment: { currency: "EUR", amount: "" },
         profitability: { from: "", to: "" },
         duration: { from: "", to: "" },
@@ -206,17 +214,15 @@ export default function AddForm() {
       <h2 className="text-2xl font-bold mb-4">Добавить проект</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
 
-        {/* Название проекта */}
+        {/* Название */}
         {languages.map(lang => (
           <div key={lang}>
-            <label className="block font-medium mb-1">
-              Название проекта ({lang.toUpperCase()})
-            </label>
+            <label className="block font-medium mb-1">Название ({lang.toUpperCase()})</label>
             <input
               type="text"
               value={project.name[lang]}
               onChange={(e) => handleChange(e, "name", lang)}
-              className="w-full border border-gray-300 p-2 rounded"
+              className="w-full border p-2 rounded"
             />
           </div>
         ))}
@@ -224,14 +230,11 @@ export default function AddForm() {
         {/* Короткое описание */}
         {languages.map(lang => (
           <div key={lang}>
-            <label className="block font-medium mb-1">
-              Короткое описание ({lang.toUpperCase()})
-            </label>
+            <label className="block font-medium mb-1">Короткое описание ({lang.toUpperCase()})</label>
             <textarea
               value={project.shortDescription[lang]}
               onChange={(e) => handleChange(e, "shortDescription", lang)}
-              className="w-full border border-gray-300 p-2 rounded h-16 resize-none"
-              placeholder="Введите короткое описание..."
+              className="w-full border p-2 rounded h-16 resize-none"
             />
           </div>
         ))}
@@ -242,25 +245,30 @@ export default function AddForm() {
           <select
             value={project.type}
             onChange={(e) => handleChange(e, "type")}
-            className="w-full border border-gray-300 p-2 rounded"
+            className="w-full border p-2 rounded"
           >
             <option value="">Выберите тип</option>
-            {types.map(type => <option key={type} value={type}>{type}</option>)}
+            {typesRU.map(type => <option key={type} value={type}>{type}</option>)}
           </select>
         </div>
 
         {/* Локация */}
-        <div>
-          <label className="block font-medium mb-1">Локация</label>
-          <input
-            type="text"
-            value={project.location}
-            onChange={(e) => handleChange(e, "location")}
-            className="w-full border border-gray-300 p-2 rounded"
-          />
-        </div>
+        {languages.map(lang => (
+          <div key={lang}>
+            <label className="block font-medium mb-1">Локация ({lang.toUpperCase()})</label>
+            <input
+              type="text"
+              value={project.location[lang]}
+              onChange={(e) => handleChange(e, "location", lang)}
+              className="w-full border p-2 rounded"
+            />
+          </div>
+        ))}
 
-        {/* Инвестиционный вход */}
+        {/* Остальные поля остаются как в предыдущем примере... */}
+        {/* Инвестиции, срок, доходность, риск, полное описание, картинки, YouTube, актуально */}
+
+    {/* Инвестиционный вход */}
         <div>
           <label className="block font-medium mb-1">Инвестиционный вход</label>
           <div className="flex gap-2">

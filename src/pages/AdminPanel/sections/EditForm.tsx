@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import type { ChangeEvent, FormEvent } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 type ProjectName = {
   ru: string;
@@ -23,15 +23,15 @@ type Project = {
   name: ProjectName;
   shortDescription: ProjectName;
   description: ProjectName;
+  location: ProjectName;
   type: string;
-  location: string;
   investment: Investment;
   profitability: Range;
   duration: Range;
   riskLevel: string;
   images: File[];
   youtubeLinks: string[];
-  isActual: boolean;
+  actual: boolean;
 };
 
 const types = ["Недвижимость", "Строительные объекты", "Бизнес", "Стартапы", "Другие предложения", "Эксклюзивы"];
@@ -39,25 +39,85 @@ const riskLevels = ["LOW", "MEDIUM", "HIGH"];
 const currencies = ["EUR", "USD", "GBP"];
 const languages: (keyof ProjectName)[] = ["ru", "en", "uk", "de"];
 
+// Соответствие типов backend -> frontend (русские значения для селекта)
+const backendToFrontendType: Record<string, string> = {
+  "Недвижимость": "Недвижимость",
+  "Строительные объекты": "Строительные объекты",
+  "Бизнес": "Бизнес",
+  "Стартапы": "Стартапы",
+  "Другие предложения": "Другие предложения",
+  "Эксклюзивы": "Эксклюзивы",
+};
+
+
+// helper: map API response → Project
+function mapApiToProject(data: any): Project {
+  return {
+    name: {
+      ru: data.titleRU || "",
+      en: data.titleEN || "",
+      uk: data.titleUA || "",
+      de: data.titleDE || "",
+    },
+    shortDescription: {
+      ru: data.descriptionRU || "",
+      en: data.descriptionEN || "",
+      uk: data.descriptionUA || "",
+      de: data.descriptionDE || "",
+    },
+    description: {
+      ru: data.fullDescriptionRU || "",
+      en: data.fullDescriptionEN || "",
+      uk: data.fullDescriptionUA || "",
+      de: data.fullDescriptionDE || "",
+    },
+    location: {
+      ru: data.locationRU || "",
+      en: data.locationEN || "",
+      uk: data.locationUA || "",
+      de: data.locationDE || "",
+    },
+    // Проставляем фронтенд тип по бэкенду
+    type: backendToFrontendType[data.typeRU] || "",
+    investment: {
+      currency: data.baseCurrency || "EUR",
+      amount: String(data.priceEUR || ""),
+    },
+    profitability: {
+      from: data.profitMin ? String(data.profitMin) : "",
+      to: data.profitMax ? String(data.profitMax) : "",
+    },
+    duration: {
+      from: data.timeMin ? String(data.timeMin) : "",
+      to: data.timeMax ? String(data.timeMax) : "",
+    },
+    riskLevel: data.risk || "",
+    images: [], // картинки отдельно
+    youtubeLinks: data.videoUrls || [""],
+    actual: data.actual ?? false,
+  };
+}
+
+
 export default function EditForm() {
   const [project, setProject] = useState<Project>({
     name: { ru: "", en: "", uk: "", de: "" },
     shortDescription: { ru: "", en: "", uk: "", de: "" },
     description: { ru: "", en: "", uk: "", de: "" },
+    location: { ru: "", en: "", uk: "", de: "" },
     type: "",
-    location: "",
     investment: { currency: "EUR", amount: "" },
     profitability: { from: "", to: "" },
     duration: { from: "", to: "" },
     riskLevel: "",
     images: [],
     youtubeLinks: [""],
-    isActual: false,
+    actual: false,
   });
 
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
-
+  const navigate = useNavigate();
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
 
   useEffect(() => {
@@ -70,12 +130,21 @@ export default function EditForm() {
 
   const fetchHouse = async () => {
     try {
-      const response = await fetch("http://localhost:8080/houses/"+id, {method: "GET"});
-      setProducts(response.data.content);
-    } 
-    catch (err) {console.log(err)}
+      const response = await fetch("http://localhost:8080/houses/" + id, { method: "GET" });
+      if (!response.ok) throw new Error("Ошибка загрузки проекта");
+
+      const data = await response.json();
+      console.log("Fetched house:", data);
+
+      setProject(mapApiToProject(data));
+    } catch (err) {
+      console.error(err);
+    }
   };
-  useEffect(() => {fetchHouse()}, []);
+
+  useEffect(() => {
+    if (id) fetchHouse();
+  }, [id]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
@@ -87,20 +156,18 @@ export default function EditForm() {
         ...prev,
         [field as keyof Project]: {
           ...(prev[field as keyof Project] as ProjectName),
-          [lang]: e.target.value
-        }
+          [lang]: e.target.value,
+        },
       }));
     } else if (field.includes(".")) {
       const [parent, child] = field.split(".");
       setProject(prev => ({
         ...prev,
-        [parent]: { ...(prev[parent as keyof Project] as Range), [child]: e.target.value }
+        [parent]: { ...(prev[parent as keyof Project] as Range), [child]: e.target.value },
       }));
     } else {
       setProject(prev => ({ ...prev, [field as keyof Project]: e.target.value }));
     }
-
-    console.log(project);
   };
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -112,7 +179,7 @@ export default function EditForm() {
   const removeImage = (index: number) => {
     setProject(prev => ({
       ...prev,
-      images: prev.images.filter((_, i) => i !== index)
+      images: prev.images.filter((_, i) => i !== index),
     }));
   };
 
@@ -126,11 +193,22 @@ export default function EditForm() {
     setProject(prev => ({ ...prev, youtubeLinks: [...prev.youtubeLinks, ""] }));
   };
 
-  const handleSubmit = async (e: FormEvent) => {
+  // Соответствие переводов
+const typeTranslations: Record<string, ProjectName> = {
+  "Недвижимость": { ru: "Недвижимость", en: "Real Estate", uk: "Нерухомість", de: "Immobilien" },
+  "Строительные объекты": { ru: "Строительные объекты", en: "Construction Projects", uk: "Будівельні об'єкти", de: "Bauprojekte" },
+  "Бизнес": { ru: "Бизнес", en: "Business", uk: "Бізнес", de: "Business" },
+  "Стартапы": { ru: "Стартапы", en: "Startups", uk: "Стартапи", de: "Startups" },
+  "Другие предложения": { ru: "Другие предложения", en: "Other Offers", uk: "Інші пропозиції", de: "Andere Angebote" },
+  "Эксклюзивы": { ru: "Эксклюзивы", en: "Exclusives", uk: "Ексклюзиви", de: "Exklusives" },
+};
+
+const handleSubmit = async (e: FormEvent) => {
   e.preventDefault();
 
   try {
-    // 1. Преобразуем данные проекта под API
+    const typeTranslation = typeTranslations[project.type]; // ✅ переводы
+
     const body = {
       nameRU: project.name.ru,
       nameUA: project.name.uk,
@@ -144,11 +222,14 @@ export default function EditForm() {
       fullDescriptionUA: project.description.uk,
       fullDescriptionEN: project.description.en,
       fullDescriptionDE: project.description.de,
-      locationRU: project.location, // Если нужно по языкам, можно тоже разделить
-      locationUA: project.location,
-      locationEN: project.location,
-      locationDE: project.location,
-      type: project.type,
+      locationRU: project.location.ru,
+      locationUA: project.location.uk,
+      locationEN: project.location.en,
+      locationDE: project.location.de,
+      typeRU: typeTranslation.ru,
+      typeUA: typeTranslation.uk,
+      typeEN: typeTranslation.en,
+      typeDE: typeTranslation.de,
       baseCurrency: project.investment.currency,
       price: Number(project.investment.amount),
       profitMin: Number(project.profitability.from),
@@ -156,79 +237,53 @@ export default function EditForm() {
       timeMin: Number(project.duration.from),
       timeMax: Number(project.duration.to),
       risk: project.riskLevel,
-      actual: project.isActual,
+      actual: project.actual,
       videoUrls: project.youtubeLinks.filter(Boolean),
     };
 
-      // 2. Отправляем первый POST-запрос
-      const createResponse = await fetch("http://localhost:8080/houses", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      });
+    const updateResponse = await fetch("http://localhost:8080/houses/" + id, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
 
-      if (!createResponse.ok) {
-        throw new Error("Ошибка при создании проекта");
-      }
-
-      const createdProject = await createResponse.json();
-      const projectId = createdProject; // Предположим, сервер возвращает id
-      console.log(createdProject);
-
-      // 3. Отправляем картинки, если они есть
-      if (project.images.length > 0) {
-        const formData = new FormData();
-        project.images.forEach((file) => {
-          formData.append("images", file);
-        });
-
-        const imagesResponse = await fetch(`http://localhost:8080/images/${projectId}`, {
-          method: "POST",
-          body: formData,
-        });
-
-        if (!imagesResponse.ok) {
-          throw new Error("Ошибка при загрузке изображений");
-        }
-      }
-
-      alert("Проект был успешно добавлен");
-      setProject({
-        name: { ru: "", en: "", uk: "", de: "" },
-        shortDescription: { ru: "", en: "", uk: "", de: "" },
-        description: { ru: "", en: "", uk: "", de: "" },
-        type: "",
-        location: "",
-        investment: { currency: "EUR", amount: "" },
-        profitability: { from: "", to: "" },
-        duration: { from: "", to: "" },
-        riskLevel: "",
-        images: [],
-        youtubeLinks: [""],
-        isActual: false,
-      });
-    } catch (error) {
-      alert(`Ошибка: ${error}`);
+    if (!updateResponse.ok) {
+      throw new Error("Ошибка при сохранении проекта");
     }
-  };
+
+    const updatedProject = await updateResponse.json();
+    const projectId = updatedProject;
+
+    if (project.images.length > 0) {
+      const formData = new FormData();
+      project.images.forEach(file => formData.append("images", file));
+      const imagesResponse = await fetch(`http://localhost:8080/images/${projectId}`, {
+        method: "POST",
+        body: formData,
+      });
+      if (!imagesResponse.ok) throw new Error("Ошибка при загрузке изображений");
+    }
+
+    alert("Проект был успешно сохранён");
+    navigate("/ru/investmarket");
+  } 
+  catch (error) {
+    alert(`Ошибка: ${error}`);
+  }
+};
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white shadow rounded">
       <h2 className="text-2xl font-bold mb-4">Редактировать проект</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
-
         {/* Название проекта */}
         {languages.map(lang => (
           <div key={lang}>
-            <label className="block font-medium mb-1">
-              Название проекта ({lang.toUpperCase()})
-            </label>
+            <label className="block font-medium mb-1">Название проекта ({lang.toUpperCase()})</label>
             <input
               type="text"
               value={project.name[lang]}
-              onChange={(e) => handleChange(e, "name", lang)}
+              onChange={e => handleChange(e, "name", lang)}
               className="w-full border border-gray-300 p-2 rounded"
             />
           </div>
@@ -237,12 +292,10 @@ export default function EditForm() {
         {/* Короткое описание */}
         {languages.map(lang => (
           <div key={lang}>
-            <label className="block font-medium mb-1">
-              Короткое описание ({lang.toUpperCase()})
-            </label>
+            <label className="block font-medium mb-1">Короткое описание ({lang.toUpperCase()})</label>
             <textarea
               value={project.shortDescription[lang]}
-              onChange={(e) => handleChange(e, "shortDescription", lang)}
+              onChange={e => handleChange(e, "shortDescription", lang)}
               className="w-full border border-gray-300 p-2 rounded h-16 resize-none"
               placeholder="Введите короткое описание..."
             />
@@ -254,24 +307,30 @@ export default function EditForm() {
           <label className="block font-medium mb-1">Тип объекта</label>
           <select
             value={project.type}
-            onChange={(e) => handleChange(e, "type")}
+            onChange={e => handleChange(e, "type")}
             className="w-full border border-gray-300 p-2 rounded"
           >
             <option value="">Выберите тип</option>
-            {types.map(type => <option key={type} value={type}>{type}</option>)}
+            {types.map(type => (
+              <option key={type} value={type}>
+                {type}
+              </option>
+            ))}
           </select>
         </div>
 
         {/* Локация */}
-        <div>
-          <label className="block font-medium mb-1">Локация</label>
-          <input
-            type="text"
-            value={project.location}
-            onChange={(e) => handleChange(e, "location")}
-            className="w-full border border-gray-300 p-2 rounded"
-          />
-        </div>
+        {languages.map(lang => (
+          <div key={lang}>
+            <label className="block font-medium mb-1">Локация ({lang.toUpperCase()})</label>
+            <input
+              type="text"
+              value={project.location[lang]}
+              onChange={e => handleChange(e, "location", lang)}
+              className="w-full border border-gray-300 p-2 rounded"
+            />
+          </div>
+        ))}
 
         {/* Инвестиционный вход */}
         <div>
@@ -279,25 +338,27 @@ export default function EditForm() {
           <div className="flex gap-2">
             <select
               value={project.investment.currency}
-              onChange={(e) =>
+              onChange={e =>
                 setProject(prev => ({
                   ...prev,
-                  investment: { ...prev.investment, currency: e.target.value }
+                  investment: { ...prev.investment, currency: e.target.value },
                 }))
               }
               className="border border-gray-300 p-2 rounded"
             >
               {currencies.map(cur => (
-                <option key={cur} value={cur}>{cur}</option>
+                <option key={cur} value={cur}>
+                  {cur}
+                </option>
               ))}
             </select>
             <input
               type="number"
               value={project.investment.amount}
-              onChange={(e) =>
+              onChange={e =>
                 setProject(prev => ({
                   ...prev,
-                  investment: { ...prev.investment, amount: e.target.value }
+                  investment: { ...prev.investment, amount: e.target.value },
                 }))
               }
               className="flex-1 border border-gray-300 p-2 rounded"
@@ -313,7 +374,7 @@ export default function EditForm() {
             <input
               type="number"
               value={project.profitability.from}
-              onChange={(e) => handleChange(e, "profitability.from")}
+              onChange={e => handleChange(e, "profitability.from")}
               className="w-full border border-gray-300 p-2 rounded"
             />
           </div>
@@ -322,7 +383,7 @@ export default function EditForm() {
             <input
               type="number"
               value={project.profitability.to}
-              onChange={(e) => handleChange(e, "profitability.to")}
+              onChange={e => handleChange(e, "profitability.to")}
               className="w-full border border-gray-300 p-2 rounded"
             />
           </div>
@@ -335,7 +396,7 @@ export default function EditForm() {
             <input
               type="number"
               value={project.duration.from}
-              onChange={(e) => handleChange(e, "duration.from")}
+              onChange={e => handleChange(e, "duration.from")}
               className="w-full border border-gray-300 p-2 rounded"
             />
           </div>
@@ -344,7 +405,7 @@ export default function EditForm() {
             <input
               type="number"
               value={project.duration.to}
-              onChange={(e) => handleChange(e, "duration.to")}
+              onChange={e => handleChange(e, "duration.to")}
               className="w-full border border-gray-300 p-2 rounded"
             />
           </div>
@@ -355,23 +416,25 @@ export default function EditForm() {
           <label className="block font-medium mb-1">Уровень риска</label>
           <select
             value={project.riskLevel}
-            onChange={(e) => handleChange(e, "riskLevel")}
+            onChange={e => handleChange(e, "riskLevel")}
             className="w-full border border-gray-300 p-2 rounded"
           >
             <option value="">Выберите уровень риска</option>
-            {riskLevels.map(risk => <option key={risk} value={risk}>{risk}</option>)}
+            {riskLevels.map(risk => (
+              <option key={risk} value={risk}>
+                {risk}
+              </option>
+            ))}
           </select>
         </div>
 
         {/* Полное описание */}
         {languages.map(lang => (
           <div key={lang}>
-            <label className="block font-medium mb-1">
-              Полное описание ({lang.toUpperCase()})
-            </label>
+            <label className="block font-medium mb-1">Полное описание ({lang.toUpperCase()})</label>
             <textarea
               value={project.description[lang]}
-              onChange={(e) => handleChange(e, "description", lang)}
+              onChange={e => handleChange(e, "description", lang)}
               className="w-full border border-gray-300 p-2 rounded h-32 resize-none"
               placeholder="Введите полное описание проекта..."
             />
@@ -381,12 +444,7 @@ export default function EditForm() {
         {/* Загрузка картинок */}
         <div>
           <label className="block font-medium mb-2">Загрузить картинки</label>
-          <input
-            type="file"
-            multiple
-            onChange={handleImageChange}
-            className="w-full mb-4"
-          />
+          <input type="file" multiple onChange={handleImageChange} className="w-full mb-4" />
           <div className="flex flex-wrap gap-2">
             {project.images.map((_, index) => (
               <div key={index} className="relative w-24 h-24 border rounded overflow-hidden">
@@ -415,16 +473,12 @@ export default function EditForm() {
               key={index}
               type="text"
               value={link}
-              onChange={(e) => handleYouTubeLinkChange(index, e.target.value)}
+              onChange={e => handleYouTubeLinkChange(index, e.target.value)}
               className="w-full border border-gray-300 p-2 rounded mb-2"
               placeholder="https://youtube.com/..."
             />
           ))}
-          <button
-            type="button"
-            onClick={addYouTubeLinkField}
-            className="text-blue-600 hover:underline"
-          >
+          <button type="button" onClick={addYouTubeLinkField} className="text-blue-600 hover:underline">
             Добавить ссылку
           </button>
         </div>
@@ -433,10 +487,8 @@ export default function EditForm() {
         <div className="flex items-center gap-2">
           <input
             type="checkbox"
-            checked={project.isActual}
-            onChange={(e) =>
-              setProject(prev => ({ ...prev, isActual: e.target.checked }))
-            }
+            checked={project.actual}
+            onChange={e => setProject(prev => ({ ...prev, actual: e.target.checked }))}
           />
           <label className="font-medium">Актуально</label>
         </div>
@@ -445,8 +497,7 @@ export default function EditForm() {
         <div className="flex justify-center">
           <button
             type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 
-            cursor-pointer"
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 cursor-pointer"
           >
             Изменить проект
           </button>
