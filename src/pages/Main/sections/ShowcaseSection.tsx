@@ -7,11 +7,12 @@ import { useEffect, useState } from "react";
 import {API_URL} from "../../../constants/constants.tsx";
 import type {Investment} from "../interfaces/interfaces.tsx";
 import Card from "../blocks/Card.tsx";
+import { Link } from "react-router-dom";
 
 type Investments = Investment[];
 
 export default function ShowcaseSection() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const [investments, setInvestments] = useState<Investments>([]);
   
@@ -55,14 +56,14 @@ export default function ShowcaseSection() {
           </SwiperSlide>
         ))}
       </Swiper>
-      <a href="tel:+380664060778" className="block w-[300px] big:w-[400px] mx-auto">
+      <Link to={`/${i18n.language}/investmarket`} className="block w-[300px] big:w-[400px] mx-auto">
         <button className="w-full py-3 rounded-xl big:rounded-2xl cursor-pointer
         gradient-btn
         flex items-center justify-center font-bold
         small:text-lg big:text-lg">
           {t("mainshowcasebuttonmore")}
         </button>
-      </a>
+      </Link>
     </div>
   );
 }

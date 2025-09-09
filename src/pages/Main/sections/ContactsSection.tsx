@@ -135,7 +135,8 @@ export default function ContactsSection() {
             rows={4}
             value={formData.message}
             onChange={handleChange}
-            className="w-full border border-gray-300 rounded-xl p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full border border-gray-300 rounded-xl p-3 
+            focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           ></textarea>
         </div>
@@ -151,7 +152,7 @@ export default function ContactsSection() {
       <h4 className="text-center font-semibold text-2xl mb-4 phone:mb-0">
         {t("maincontactsunderdesc")}
       </h4>
-      <div className="flex flex-col phone:flex-row justify-center gap-x-8 items-center phone:items-baseline text-xl">
+      <div className="flex flex-col phone:flex-row justify-center gap-x-8 items-center phone:items-baseline text-xl" id="contactform1">
         <p className="mb-2 phone:mb-0">E-mail: osfinanzen@gmail.com</p>
         <div className="flex items-center gap-3">
           <p>Telegram: </p>

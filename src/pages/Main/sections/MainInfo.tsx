@@ -1,7 +1,8 @@
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 export default function MainInfo() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return (
     <div className="maincontainer mx-auto mb-[30px] bigphone:mb-[50px]">
@@ -35,14 +36,14 @@ export default function MainInfo() {
               {t("maincardbtnform")}
             </button>
           </a>
-          <a href="tel:+380664060778" className="block w-[300px] big:w-[370px]">
+          <Link to={`/${i18n.language}/investmarket`} className="block w-[300px] big:w-[370px]">
             <button className="w-full h-[50px] big:h-[60px] rounded-xl big:rounded-2xl cursor-pointer
             gradient-btn
             flex items-center justify-center font-bold
             small:text-lg big:text-xl">
               {t("maincardbtnmarket")}
             </button>
-          </a>
+          </Link>
         </div>
       </div>
     </div>

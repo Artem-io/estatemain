@@ -11,7 +11,7 @@ export default function ServicesPage() {
 
     return (
         <div className="container mx-auto mb-[50px]">
-            <h1 className="font-bold text-3xl sm:text-4xl text-center mb-10">{t("servicestitle")}</h1>
+            <h1 className="font-bold text-3xl sm:text-4xl text-center mb-10" id="servicestop">{t("servicestitle")}</h1>
             <div className="flex flex-col phone:flex-row gap-4 justify-center mb-[20px]">
                 <button
                     onClick={() => setBenefitType("private")}

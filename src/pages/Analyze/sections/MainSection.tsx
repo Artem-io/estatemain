@@ -1,11 +1,12 @@
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 import footer from '/images/AnalyzePage/MainSection/footer.png'
 import water from '/images/AnalyzePage/MainSection/water.png'
 
 export default function MainSection() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return (
     <section className="w-full bg-gray-50">
@@ -50,14 +51,14 @@ export default function MainSection() {
 
       </div>
 
-      <a href="tel:+380664060778" className="block w-[300px] big:w-[400px] mx-auto">
+      <Link to={`/${i18n.language}#contactform1`} className="block w-[300px] big:w-[400px] mx-auto">
         <button className="w-full py-3 rounded-xl big:rounded-2xl cursor-pointer
         gradient-btn
         flex items-center justify-center font-bold
         small:text-lg big:text-lg">
           {t("analyzemainbtn")}
         </button>
-      </a>
+      </Link>
     </section>
   );
 }

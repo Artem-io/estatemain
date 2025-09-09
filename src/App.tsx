@@ -8,7 +8,6 @@ import DetailsPage from './pages/Details/DetailsPage.tsx'
 import AdminPanel from './pages/AdminPanel/AdminPanel.tsx'
 import Layout from './Layout.tsx';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import EditForm from './pages/AdminPanel/sections/EditForm.tsx'
 
 function App() {
   return (

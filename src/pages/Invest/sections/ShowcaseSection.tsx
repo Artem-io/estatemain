@@ -12,12 +12,14 @@ interface ShowcaseProps {
   request: string;
 }
 
-export default function ShowcaseSection({request}: ShowcaseProps) {
-    const [investments, setInvestments] = useState<Investments>([]);
-    const { lng } = useParams();
+export default function ShowcaseSection({ request }: ShowcaseProps) {
+  const [investments, setInvestments] = useState<Investments>([]);
+  const [loading, setLoading] = useState<boolean>(true); // состояние загрузки
+  const { lng } = useParams();
 
-    useEffect(() => {
+  useEffect(() => {
     const fetchInvestments = async () => {
+      setLoading(true); // перед запросом ставим "загрузка"
       try {
         const res = await fetch(`${API_URL}?lan=${lng?.toUpperCase()}${request}`);
         if (!res.ok) {
@@ -27,22 +29,39 @@ export default function ShowcaseSection({request}: ShowcaseProps) {
         setInvestments(data);
       } catch (err) {
         console.error(err);
+      } finally {
+        setLoading(false); // в любом случае выключаем "загрузка"
       }
     };
 
     fetchInvestments();
-  }, [request, lng]); //lng added
+  }, [request, lng]);
 
   const [currentPage, setCurrectPage] = useState<number>(0);
   const startCardIdx = (currentPage * maxCardsOnPage) - 1;
   const totalPages = Math.ceil(investments.length / maxCardsOnPage);
 
   return (
-      <div className="mb-5">
-          {currentPage === 0 ? <FirstPage investments={investments} /> : <MorePage startCardIdx={startCardIdx} investments={investments}/>}
-          <Pagination currentPage={currentPage} totalPages={totalPages} 
-          onChange={setCurrectPage} />
-      </div>
+    <div className="mb-5">
+      {loading ? (
+        <div className="flex justify-center items-center p-5">
+          {/* тут можно вставить любой индикатор загрузки */}
+          <span className="animate-spin rounded-full h-10 w-10 border-4 border-blue-500 border-t-transparent"></span>
+        </div>
+      ) : (
+        <>
+          {currentPage === 0 
+            ? <FirstPage investments={investments} /> 
+            : <MorePage startCardIdx={startCardIdx} investments={investments} />
+          }
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onChange={setCurrectPage}
+          />
+        </>
+      )}
+    </div>
   );
 }
 

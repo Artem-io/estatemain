@@ -17,7 +17,7 @@ export default function NavBar() {
   const changeLang = (lang: string) => {
     i18n.changeLanguage(lang);
     const newPath = location.pathname.replace(`/${lng}`, `/${lang}`);
-    navigate(newPath);
+    navigate(`${newPath}${location.search}${location.hash}`);
   };
 
   return (
@@ -88,7 +88,7 @@ function BurgerMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
     {label: t("linkanalyze"), link: `/${i18n.language}/analyze`},
     {label: t("linkmarket"), link: `/${i18n.language}/investmarket`},
     {label: t("linkplace"), link: `/${i18n.language}/placement`},
-    {label: t("linkcontact"), link: `/${i18n.language}contacts`},
+    {label: t("linkcontact"), link: `/${i18n.language}/contacts`},
   ];
   type LinkItem = { label: string; link: string };
 

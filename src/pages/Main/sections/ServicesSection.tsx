@@ -1,4 +1,5 @@
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 export default function ServicesSection() {
   const { t } = useTranslation();
@@ -43,7 +44,7 @@ interface ServiceCardProps {
 }
 
 function ServiceCard({ image, title, items }: ServiceCardProps) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return (
     <div className="w-full max-w-[500px] bg-white shadow-xl rounded-3xl p-6 md:p-8
@@ -60,11 +61,11 @@ function ServiceCard({ image, title, items }: ServiceCardProps) {
         ))}
       </ul>
       <div className="mt-6 space-y-3">
-        <a href="tel:+380664060778">
+        <Link to={`/${i18n.language}/services#servicestop`}>
           <button className="w-full h-[56px] rounded-2xl disabled-btn cursor-pointer font-bold  hover:brightness-110 transition mb-3">
             {t("mainservicesbuttonmore")}
           </button>
-        </a>
+        </Link>
         <a href="#contactform">
           <button className="w-full h-[56px] rounded-2xl active-btn font-bold
           hover:brightness-110 transition cursor-pointer">

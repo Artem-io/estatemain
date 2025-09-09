@@ -3,9 +3,10 @@ import { useTranslation } from "react-i18next";
 
 import arrow from '/images/AnalyzePage/WhySection/arrow.png'
 import footer from '/images/AnalyzePage/MainSection/footer.png'
+import { Link } from "react-router-dom";
 
 export default function WhySection() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   return (
     <section className="w-full bg-gray-50">
@@ -55,14 +56,14 @@ export default function WhySection() {
 
       </div>
 
-      <a href="tel:+380664060778" className="block w-[300px] big:w-[400px] mx-auto mb-5">
+      <Link to={`/${i18n.language}#contactform1`} className="block w-[300px] big:w-[400px] mx-auto mb-5">
         <button className="w-full py-3 rounded-xl big:rounded-2xl cursor-pointer
         gradient-btn
         flex items-center justify-center font-bold
         small:text-lg big:text-lg">
           {t("analyzebtn")}
         </button>
-      </a>
+      </Link>
 
       {/* Фоновое изображение */}
       <div

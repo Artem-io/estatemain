@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom";
 import { API_URL } from "../../constants/constants.tsx";
 import { useParams } from "react-router-dom";
 
+
 export default function DetailsPage() {
     const { search } = useLocation();
     const query = new URLSearchParams(search);
@@ -18,17 +19,27 @@ export default function DetailsPage() {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [property, setProperty] = useState<Property | null>(null);
     useEffect(() => {
+        if (!id || !lng) return; // ждём, пока параметры появятся
+
         const fetchData = async () => {
-        const response = await fetch(`${API_URL}/${id}/${lng?.toUpperCase()}`); 
-        const data: Property = await response.json();
-        setProperty(data);
+            try {
+                const response = await fetch(`${API_URL}/${id}?lan=${lng.toUpperCase()}`);
+                if (!response.ok) {
+                    throw new Error(`Ошибка: ${response.status}`);
+                }
+                const data: Property = await response.json();
+                setProperty(data);
+            } catch (err) {
+                console.error(err);
+                setProperty(null); // или ввести состояние error
+            }
         };
 
         fetchData();
-    }, []);
+    }, [id, lng]);
 
     if (!property) {
-        return <p>Загрузка...</p>;
+        return <span className="animate-spin rounded-full h-10 w-10 border-4 border-blue-500 border-t-transparent"></span>;
     }
 
     console.log(property.videoUrls);
