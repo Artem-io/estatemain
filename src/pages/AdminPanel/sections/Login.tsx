@@ -3,15 +3,15 @@ import { useState } from "react";
 export default function Login({setAuth}: {setAuth: (state: boolean) => void}) {
     const [password, setPassword] = useState<string>("");
     const [error, setError] = useState<string>("");
-    const realPass = "12345";
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if(password != realPass) {
-            setError("Неверный пароль");
-        } else {
-            setAuth(true);
-        }
+        
+        const response = await fetch(`http://localhost:8080/login?password=${password}`, {method: "POST"});
+        const result = await response.json();
+
+        if(!result) setError("Неверный пароль");
+        else setAuth(true);
     };
 
     return (

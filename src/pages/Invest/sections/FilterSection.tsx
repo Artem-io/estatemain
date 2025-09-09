@@ -109,32 +109,34 @@ export default function FilterSection({request, setRequest}: FilterProps) {
         </select>
 
         <div className="flex items-center gap-2">
-          <select
-            name="currency"
-            value={filters.currency}
-            onChange={handleChange}
-            className="border rounded-xl p-2"
-          >
-            <option value="USD">USD</option>
-            <option value="EUR">EUR</option>
-          </select>
-          <input
-            type="number"
-            name="price_min"
-            value={filters.price_min}
-            onChange={handleChange}
-            placeholder={t("investfilterpricefrom")}
-            className="border rounded-xl p-2 w-full"
-          />
-          <input
-            type="number"
-            name="price_max"
-            value={filters.price_max}
-            onChange={handleChange}
-            placeholder={t("investfilterpriceto")}
-            className="border rounded-xl p-2 w-full"
-          />
-        </div>
+  <select
+    name="currency"
+    value={filters.currency}
+    onChange={handleChange}
+    className="border rounded-xl p-2"
+  >
+    <option value="USD">USD</option>
+    <option value="EUR">EUR</option>
+    <option value="GBP">GBP</option>
+  </select>
+  <input
+    type="number"
+    name="price_min"
+    value={filters.price_min}
+    onChange={handleChange}
+    placeholder={t("investfilterpricefrom")}
+    className="border rounded-xl p-2 w-full"
+  />
+  <input
+    type="number"
+    name="price_max"
+    value={filters.price_max}
+    onChange={handleChange}
+    placeholder={t("investfilterpriceto")}
+    className="border rounded-xl p-2 w-full"
+  />
+</div>
+
 
         {/* Кнопки действия */}
         <div className="col-span-full flex justify-end gap-4 mt-4">
