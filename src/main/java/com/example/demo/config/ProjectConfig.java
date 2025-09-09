@@ -9,31 +9,21 @@ import org.springframework.web.servlet.resource.PathResourceResolver;
 import java.io.IOException;
 
 @Configuration
-public class ProjectConfig implements WebMvcConfigurer {
-
+public class ProjectConfig implements WebMvcConfigurer
+{
     @Value("${upload.dir}")
     private String uploadDir;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        String resourceLocation = "file:///" + uploadDir.replace("\\", "/");
         registry.addResourceHandler("/images/**")
-                .addResourceLocations(resourceLocation)
-                .setCachePeriod(0)
-                .resourceChain(true)
-                .addResolver(new PathResourceResolver() {
-                    @Override
-                    protected Resource getResource(String resourcePath, Resource location) throws IOException, IOException {
-                        Resource resource = location.createRelative(resourcePath);
-                        return resource.exists() && resource.isReadable() ? resource : null;
-                    }
-                });
+                .addResourceLocations("file:" + uploadDir + "/");
     }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:5173", "http://localhost:5174", "https://yourdomain.com")
+                .allowedOrigins("http://localhost:5173", "http://localhost:5174")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true)

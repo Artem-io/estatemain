@@ -8,7 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -21,40 +25,28 @@ public class ImageService
     private String uploadDir;
 
     public void uploadImages(House house, List<MultipartFile> files) throws IOException {
+        for (MultipartFile file : files)
+            if(!Objects.requireNonNull(file.getContentType()).startsWith("image/")) throw new RuntimeException("Invalid image type");
+
         deleteHouseImages(house.getId());
-        // Resolve uploadDir to absolute path
-        String baseDir = uploadDir.matches("^[A-Za-z]:.*|^/.*")
-                ? uploadDir
-                : System.getProperty("user.dir") + "/" + uploadDir;
+        Path basePath = getAbsoluteBasePath();
 
-        // Normalize path separators for the OS
-        baseDir = baseDir.replace("/", File.separator);
-
-        // Create house-specific directory
-        String houseDir = baseDir + "houses" + File.separator + house.getId();
-        File directory = new File(houseDir);
-        if (!directory.exists()) {
-            if (!directory.mkdirs()) {
-                throw new IOException("Failed to create directory: " + houseDir);
-            }
-        }
+        Path houseDirPath = basePath.resolve("houses").resolve(house.getId().toString());
+        Files.createDirectories(houseDirPath);
 
         for (MultipartFile file : files) {
             if (file.isEmpty()) continue;
 
-            // Generate unique filename
             String originalFilename = file.getOriginalFilename();
             String fileExtension = originalFilename != null && originalFilename.contains(".")
                     ? originalFilename.substring(originalFilename.lastIndexOf("."))
                     : ".jpg";
             String fileName = UUID.randomUUID().toString() + fileExtension;
-            String filePath = houseDir + File.separator + fileName;
 
-            // Save file to filesystem
-            File destination = new File(filePath);
-            file.transferTo(destination);
+            Path targetPath = houseDirPath.resolve(fileName);
 
-            // Save image path to database (use forward slashes for URLs)
+            file.transferTo(targetPath.toFile());
+
             String dbImagePath = "houses/" + house.getId() + "/" + fileName;
             Image houseImage = new Image(null, dbImagePath, house);
             imageRepo.save(houseImage);
@@ -66,52 +58,36 @@ public class ImageService
     }
 
     public void deleteImage(Image image) throws IOException {
-        // Build absolute path to file
-        String baseDir = uploadDir.matches("^[A-Za-z]:.*|^/.*")
-                ? uploadDir
-                : System.getProperty("user.dir") + "/" + uploadDir;
-
-        // Normalize path separators
-        baseDir = baseDir.replace("/", File.separator);
-
-        String filePath = baseDir + image.getImagePath().replace("/", File.separator);
-
-        // Delete file if exists
-        File file = new File(filePath);
-        if (file.exists() && !file.delete()) {
-            throw new IOException("Failed to delete file: " + filePath);
-        }
-
-        // Delete DB record
+        Path basePath = getAbsoluteBasePath();
+        Path filePath = basePath.resolve(image.getImagePath().replace("/", File.separator));
+        Files.deleteIfExists(filePath);
         imageRepo.delete(image);
     }
 
-public void deleteHouseImages(Long houseId) throws IOException {
-    List<Image> images = imageRepo.findByHouseId(houseId);
+    public void deleteHouseImages(Long houseId) throws IOException {
+        List<Image> images = imageRepo.findByHouseId(houseId);
 
-    // Delete all images
-    for (Image img : images) {
-        deleteImage(img);
-    }
+        for (Image img : images)
+            deleteImage(img);
 
-    // Build absolute path to the house folder
-    String baseDir = uploadDir.matches("^[A-Za-z]:.*|^/.*")
-            ? uploadDir
-            : System.getProperty("user.dir") + "/" + uploadDir;
-    baseDir = baseDir.replace("/", File.separator);
+        Path basePath = getAbsoluteBasePath();
+        Path houseDirPath = basePath.resolve("houses").resolve(houseId.toString());
 
-    String houseDirPath = baseDir + "houses" + File.separator + houseId;
-    File houseDir = new File(houseDirPath);
-
-    // Delete the folder if it exists and is empty
-    if (houseDir.exists() && houseDir.isDirectory()) {
-        String[] remainingFiles = houseDir.list();
-        if (remainingFiles == null || remainingFiles.length == 0) {
-            if (!houseDir.delete()) {
-                throw new IOException("Failed to delete folder: " + houseDirPath);
+        if (Files.exists(houseDirPath) && Files.isDirectory(houseDirPath)) {
+            try {
+                Files.delete(houseDirPath);
+            }
+            catch (IOException e) {
+                System.out.println("Could not delete directory (may not be empty): " + houseDirPath);
             }
         }
     }
-}
 
+    private Path getAbsoluteBasePath() {
+        // Check if uploadDir is already absolute
+        if (uploadDir.matches("^[A-Za-z]:.*|^/.*")) return Paths.get(uploadDir);
+
+        String userHome = System.getProperty("user.home");
+        return Paths.get(userHome, uploadDir);
+    }
 }
