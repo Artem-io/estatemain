@@ -3,6 +3,7 @@ import Card from "../blocks/Card.tsx";
 import ConsultCard from "../blocks/ConsultCard.tsx"
 import {API_URL} from "../../../constants/constants.tsx";
 import type {Investment} from "../interfaces/interfaces.tsx";
+import { useParams } from "react-router-dom";
 
 type Investments = Investment[];
 const maxCardsOnPage = 6;
@@ -13,11 +14,12 @@ interface ShowcaseProps {
 
 export default function ShowcaseSection({request}: ShowcaseProps) {
     const [investments, setInvestments] = useState<Investments>([]);
+    const { lng } = useParams();
 
     useEffect(() => {
     const fetchInvestments = async () => {
       try {
-        const res = await fetch(`${API_URL}?lan=RU${request}`);
+        const res = await fetch(`${API_URL}?lan=${lng?.toUpperCase()}${request}`);
         if (!res.ok) {
           throw new Error("Ошибка загрузки данных");
         }
@@ -30,9 +32,6 @@ export default function ShowcaseSection({request}: ShowcaseProps) {
 
     fetchInvestments();
   }, [request]);
-
-  console.log(request);
-  console.log(investments);
 
   const [currentPage, setCurrectPage] = useState<number>(0);
   const startCardIdx = (currentPage * maxCardsOnPage) - 1;

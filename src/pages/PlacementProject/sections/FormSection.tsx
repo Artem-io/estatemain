@@ -1,13 +1,16 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function FormSection() {
+    const { t } = useTranslation();
+
     return (
         <div className="container mx-auto" id="placeform">
             <h1 className="font-bold text-3xl sm:text-4xl text-center mb-2">
-                Заполните форму
+                {t("placeformtitle")}
             </h1>
             <p className="text-lg font-semibold text-center mx-auto mb-[30px]">
-                Я свяжусь с вами в течение 48 часов
+                {t("placeformdesc")}
             </p>
             <Form />
         </div>
@@ -15,6 +18,8 @@ export default function FormSection() {
 }
 
 function Form() {
+    const { t } = useTranslation();
+
     const [formData, setFormData] = useState({
         about: "",
         stage: "",
@@ -73,7 +78,7 @@ function Form() {
                 rounded-2xl p-6 space-y-5 mb-4"
             >
                 <div>
-                    <label className="block font-medium mb-2">Что за проект?</label>
+                    <label className="block font-medium mb-2">{t("placeformabout")}</label>
                     <textarea
                         name="about"
                         rows={4}
@@ -84,7 +89,7 @@ function Form() {
                     ></textarea>
                 </div>
                 <div>
-                    <label className="block font-medium mb-2">Стадия проекта</label>
+                    <label className="block font-medium mb-2">{t("placeformstage")}</label>
                     <input
                         type="text"
                         name="stage"
@@ -95,7 +100,7 @@ function Form() {
                     />
                 </div>
                 <div>
-                    <label className="block font-medium mb-2">Что уже сделано</label>
+                    <label className="block font-medium mb-2">{t("placeformattachment")}</label>
                     <input
                         type="text"
                         name="attachment"
@@ -106,7 +111,7 @@ function Form() {
                     />
                 </div>
                 <div>
-                    <label className="block font-medium mb-2">Тип актива</label>
+                    <label className="block font-medium mb-2">{t("placeformtype")}</label>
                     <input
                         type="text"
                         name="type"
@@ -117,7 +122,7 @@ function Form() {
                     />
                 </div>
                 <div>
-                    <label className="block font-medium mb-2">Какую сумму вы ищете</label>
+                    <label className="block font-medium mb-2">{t("placeformamount")}</label>
                     <input
                         type="text"
                         name="amount"
@@ -128,7 +133,7 @@ function Form() {
                     />
                 </div>
                 <div>
-                    <label className="block font-medium mb-2">Ваша вовлечённость проектом</label>
+                    <label className="block font-medium mb-2">{t("placeforminvolvement")}</label>
                     <textarea
                         name="involvement"
                         rows={4}
@@ -139,7 +144,7 @@ function Form() {
                     ></textarea>
                 </div>
                 <div>
-                    <label className="block font-medium mb-2">Ваши контакты</label>
+                    <label className="block font-medium mb-2">{t("placeformcontacts")}</label>
                     <input
                         type="text"
                         name="contacts"
@@ -153,24 +158,24 @@ function Form() {
                 type="submit"
                 className="w-full text-xl phone:text-2xl font-bold active-btn rounded-2xl h-[50px] cursor-pointer"
                 >
-                Отправить запрос
+                {t("placeformbtn")}
                 </button>
             </form>
             {isModalOpen && (
             <div className="fixed inset-0 flex items-center justify-center bg-black/60 z-50">
                 <div className="bg-white rounded-2xl p-6 max-w-sm w-full text-center shadow-xl">
                     <h2 className="text-2xl font-bold mb-4">
-                    Спасибо за вашу заявку!
+                    {t("placeformmodaltitle")}
                     </h2>
                     <p className="mb-6">
-                    В случае если ваша заявка будет одобрена, мы с вами свяжемся.
+                    {t("placeformmodaldesc")}
                     </p>
                     <button
                     onClick={() => setIsModalOpen(false)}
                     className="w-full active-btn text-white font-semibold py-2 
                     rounded-xl transition cursor-pointer"
                     >
-                    Закрыть
+                    {t("placeformmodalbtn")}
                     </button>
                 </div>
             </div>

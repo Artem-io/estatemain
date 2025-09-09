@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import type {ChangeEvent, FormEvent} from "react";
+import { useTranslation } from "react-i18next";
 
 interface Filters {
   type: string;
@@ -15,6 +16,8 @@ interface FilterProps {
 }
 
 export default function FilterSection({request, setRequest}: FilterProps) {
+  const { t } = useTranslation();
+
   const [filters, setFilters] = useState<Filters>({
     type: "",
     region: "",
@@ -79,13 +82,13 @@ export default function FilterSection({request, setRequest}: FilterProps) {
           onChange={handleChange}
           className="border rounded-xl p-2 w-full"
         >
-          <option value="">Тип проекта</option>
-          <option>Недвижимость</option>
-          <option>Строительные объекты</option>
-          <option>Бизнес</option>
-          <option>Стартапы</option>
-          <option>Другие предложения</option>
-          <option>Эксклюзивы</option>
+          <option value="">{t("investfiltertype1")}</option>
+          <option>{t("investfiltertype2")}</option>
+          <option>{t("investfiltertype3")}</option>
+          <option>{t("investfiltertype4")}</option>
+          <option>{t("investfiltertype5")}</option>
+          <option>{t("investfiltertype6")}</option>
+          <option>{t("investfiltertype7")}</option>
         </select>
 
         <select
@@ -94,15 +97,15 @@ export default function FilterSection({request, setRequest}: FilterProps) {
           onChange={handleChange}
           className="border rounded-xl p-2 w-full"
         >
-          <option value="">Регион</option>
-          <option>Германия</option>
-          <option>Испания</option>
-          <option>Турция</option>
-          <option>Черногория</option>
-          <option>Кипр</option>
-          <option>Мальдивы</option>
-          <option>ОАЭ</option>
-          <option>Другие страны</option>
+          <option value="">{t("investfilterregion1")}</option>
+          <option>{t("investfilterregion2")}</option>
+          <option>{t("investfilterregion3")}</option>
+          <option>{t("investfilterregion4")}</option>
+          <option>{t("investfilterregion5")}</option>
+          <option>{t("investfilterregion6")}</option>
+          <option>{t("investfilterregion7")}</option>
+          <option>{t("investfilterregion8")}</option>
+          <option>{t("investfilterregion9")}</option>
         </select>
 
         <div className="flex items-center gap-2">
@@ -120,7 +123,7 @@ export default function FilterSection({request, setRequest}: FilterProps) {
             name="price_min"
             value={filters.price_min}
             onChange={handleChange}
-            placeholder="Цена от"
+            placeholder={t("investfilterpricefrom")}
             className="border rounded-xl p-2 w-full"
           />
           <input
@@ -128,7 +131,7 @@ export default function FilterSection({request, setRequest}: FilterProps) {
             name="price_max"
             value={filters.price_max}
             onChange={handleChange}
-            placeholder="Цена до"
+            placeholder={t("investfilterpriceto")}
             className="border rounded-xl p-2 w-full"
           />
         </div>
@@ -139,13 +142,7 @@ export default function FilterSection({request, setRequest}: FilterProps) {
             type="reset"
             className="px-6 py-2 border rounded-xl disabled-btn hover:brightness-110 transition cursor-pointer"
           >
-            Сбросить
-          </button>
-          <button
-            type="submit"
-            className="px-6 py-2 active-btn text-white rounded-xl hover:brightness-110 transition cursor-pointer"
-          >
-            Применить
+            {t("investfilterbtn")}
           </button>
         </div>
       </form>

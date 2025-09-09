@@ -1,7 +1,10 @@
 import ReactMarkdown from 'react-markdown';
 import type {DescriptionProps} from '../interfaces/interfaces';
+import { useTranslation } from "react-i18next";
 
 export default function Description({setIsOpen, fullDescription}: DescriptionProps) {
+    const { t } = useTranslation();
+
     return (
         <div className='px-2 bigphone:px-0'>
             <div className="whitespace-pre-line mb-8">
@@ -14,7 +17,7 @@ export default function Description({setIsOpen, fullDescription}: DescriptionPro
             active-btn hover:brightness-80
             flex items-center justify-center font-bold
             small:text-lg big:text-lg">
-                Узнать подробности
+                {t("detailscardbtn")}
             </button>
         </div>
     );

@@ -3,6 +3,13 @@ import ReactMarkdown from 'react-markdown';
 import { useTranslation } from "react-i18next";
 import { t } from "i18next";
 
+import financeanalyze from '/images/ServicesPage/PrivateSection/financeanalyze.png';
+import structure from '/images/ServicesPage/PrivateSection/structure.png';
+import tools from '/images/ServicesPage/PrivateSection/tools.png';
+import consult from '/images/ServicesPage/PrivateSection/consult.png';
+import optimisation from '/images/ServicesPage/PrivateSection/optimisation.png';
+import accompany from '/images/ServicesPage/PrivateSection/accompany.png';
+
 export default function PrivateSection() {
     const { t } = useTranslation();
 
@@ -26,7 +33,7 @@ export default function PrivateSection() {
                     title={t("servicesprivcardanalyzetitle")}
                     description={t("servicesprivcardanalyzedesc")}
                     extraText={t("servicesprivcardanalyzeextra")}
-                    image="images/ServicesPage/PrivateSection/financeanalyze.png"
+                    image={financeanalyze}
                     className="lg:col-span-2"
                 />
 
@@ -36,33 +43,33 @@ export default function PrivateSection() {
                     description={t("servicesprivcardstructuredesc")}
                     extraText={t("servicesprivcardstructureextra")}
                     className="big:min-h-[511px] large:min-h-[611px]"
-                    image="images/ServicesPage/PrivateSection/structure.png"
+                    image={structure}
                 />
                 <ServiceCard
                     title={t("servicesprivcardinvesttitle")}
                     description={t("servicesprivcardinvestdesc")}
                     extraText={t("servicesprivcardinvestextra")}
                     className="big:min-h-[511px] large:min-h-[611px]"
-                    image="images/ServicesPage/PrivateSection/tools.png"
+                    image={tools}
                 />
                 <ServiceCard
                     title={t("servicesprivcardconsulttitle")}
                     description={t("servicesprivcardconsultdesc")}
-                    image="images/ServicesPage/PrivateSection/consult.png"
+                    image={consult}
                     className="big:min-h-[511px] large:min-h-[611px]"
                     extraText={t("servicesprivcardconsultextra")}
                 />
                 <ServiceCard
                     title={t("servicesprivcardoptimizetitle")}
                     description={t("servicesprivcardoptimizedesc")}
-                    image="images/ServicesPage/PrivateSection/optimisation.png"
+                    image={optimisation}
                     className="big:min-h-[511px] large:min-h-[611px]"
                     extraText={t("servicesprivcardoptimizeextra")}
                 />
                 <ServiceCard
                     title={t("servicesprivcardaccompanytitle")}
                     description={t("servicesprivcardaccompanydesc")}
-                    image="images/ServicesPage/PrivateSection/accompany.png"
+                    image={accompany}
                     className="lg:col-span-2"
                     extraText={t("servicesprivcardaccompanyextra")}
                 />

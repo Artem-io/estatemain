@@ -1,11 +1,24 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
+
+import call from '/icons/NavBar/call.png';
+import language from '/icons/NavBar/language.png';
 
 export default function NavBar() {
   const { t, i18n } = useTranslation();
-
   const [isOpen, setIsOpen] = useState(false);
+
+  const { lng } = useParams();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const changeLang = (lang: string) => {
+    i18n.changeLanguage(lang);
+    const newPath = location.pathname.replace(`/${lng}`, `/${lang}`);
+    navigate(newPath);
+  };
 
   return (
     <nav className="container mx-auto pt-4 pb-4 bigphone:pb-0 phone:py-2 bigphone:mb-[30px] relative">
@@ -18,14 +31,14 @@ export default function NavBar() {
         </div>
         <div className="flex bigphone:gap-x-8 text-xl font-semibold items-center text-darkblue">
           <div className="hidden big:flex gap-2 items-center">
-            <img src="icons/NavBar/call.png" alt="call" />
+            <img src={call} alt="call" />
             <a href="tel:+4915116042108">+49 (1511) 60-42-108</a>
           </div>
           <div className="hidden big:flex gap-2 items-center">
-            <img src="icons/NavBar/language.png" alt="language" />
-            <select 
+            <img src={language} alt="language" />
+            <select value={lng}
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => 
-              i18n.changeLanguage(e.target.value)
+              changeLang(e.target.value)
             }
             className="cursor-pointer" name="" id="">
               <option value="ru">RU</option>
@@ -39,12 +52,12 @@ export default function NavBar() {
       </div>
 
       <ul className="hidden big:flex justify-between text-lg font-semibold text-darkblue">
-        <li><Link to="/home">{t("linkmain")}</Link></li>
-        <li><Link to="/services">{t("linkservices")}</Link></li>
-        <li><Link to="/analyze">{t("linkanalyze")}</Link></li>
-        <li><Link to="/investmarket">{t("linkmarket")}</Link></li>
-        <li><Link to="/placement">{t("linkplace")}</Link></li>
-        <li><Link to="/contacts">{t("linkcontact")}</Link></li>
+        <li><Link to={`/${i18n.language}`}>{t("linkmain")}</Link></li>
+        <li><Link to={`/${i18n.language}/services`}>{t("linkservices")}</Link></li>
+        <li><Link to={`/${i18n.language}/analyze`}>{t("linkanalyze")}</Link></li>
+        <li><Link to={`/${i18n.language}/investmarket`}>{t("linkmarket")}</Link></li>
+        <li><Link to={`/${i18n.language}/placement`}>{t("linkplace")}</Link></li>
+        <li><Link to={`/${i18n.language}/contacts`}>{t("linkcontact")}</Link></li>
       </ul>
 
       <BurgerMenu isOpen={isOpen} onClose={() => setIsOpen(false)} />
@@ -66,13 +79,15 @@ function BurgerButton({ isOpen, onToggle }: { isOpen: boolean; onToggle: () => v
 }
 
 function BurgerMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+  const { t, i18n } = useTranslation();
+
   const links = [
-    {label: "Главное", link: "/home"},
-    {label: "Мои услуги", link: "/services"},
-    {label: "Анализ и создание инвест-портфеля", link: "/analyze"},
-    {label: "Invest-витрина", link: "/investmarket"},
-    {label: "Разместить проект", link: "/placement"},
-    {label: "Контакты", link: "/contacts"},
+    {label: t("linkmain"), link: `/${i18n.language}`},
+    {label: t("linkservices"), link: `/${i18n.language}/services`},
+    {label: t("linkanalyze"), link: `/${i18n.language}/analyze`},
+    {label: t("linkmarket"), link: `/${i18n.language}/investmarket`},
+    {label: t("linkplace"), link: `/${i18n.language}/placement`},
+    {label: t("linkcontact"), link: `/${i18n.language}contacts`},
   ];
   type LinkItem = { label: string; link: string };
 
@@ -85,7 +100,7 @@ function BurgerMenu({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
         <BurgerItem key={index} label={item.label} link={item.link} onClick={onClose} />
       ))}
       <BurgerItem label="+49 (1511) 60-42-108" phone onClick={onClose} />
-      <BurgerLanguageItem onClick={onClose} />
+      <BurgerLanguageItem />
     </div>
   );
 }
@@ -108,15 +123,26 @@ function BurgerItem({ label, phone, onClick, link }: { label: string; phone?: bo
   );
 }
 
-function BurgerLanguageItem({ onClick }: { onClick: () => void }) {
+function BurgerLanguageItem() {
+  const { i18n } = useTranslation();
+  const { lng } = useParams();
+
   return (
     <div
-      onClick={onClick}
       className="w-full h-[50px] flex items-center justify-center text-xl font-bold cursor-pointer
-      hover:text-zinc-200 hover:bg-darkblue/10 transition-colors gap-2"
+    hover:bg-darkblue/10 transition-colors gap-2"
     >
       <img src="icons/NavBar/language.png" alt="language" />
-      <p>RU</p>
+      <select value={lng}
+      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => 
+        i18n.changeLanguage(e.target.value)
+      }
+      className="cursor-pointer" name="" id="">
+        <option value="ru">RU</option>
+        <option value="en">EN</option>
+        <option value="ua">UA</option>
+        <option value="de">DE</option>
+      </select>
     </div>
   );
 }

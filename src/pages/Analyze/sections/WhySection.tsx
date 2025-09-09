@@ -1,6 +1,12 @@
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
+
+import arrow from '/images/AnalyzePage/WhySection/arrow.png'
+import footer from '/images/AnalyzePage/MainSection/footer.png'
 
 export default function WhySection() {
+  const { t } = useTranslation();
+
   return (
     <section className="w-full bg-gray-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-8 flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-12">
@@ -14,20 +20,20 @@ export default function WhySection() {
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <h1 className="font-bold text-2xl sm:text-3xl lg:text-4xl mb-4 lg:mb-6 leading-tight">
-            Почему это важно?
+            {t("analyzewhytitle")}
           </h1>
           <div className="font-semibold text-gray-700 space-y-4">
             <p className="text-lg sm:text-xl">
-              Потому что в мире неопределённости выиграет не тот, у кого самый прибыльный актив, а тот, у кого есть гибкая, стратегическая структура, адаптированная под законы, налоги и рынок.
+              {t("analyzewhyp1")}
             </p>
             <p className="text-lg sm:text-xl">
-              Потому что риски есть всегда — но можно ими управлять. Потому что возможностей больше, чем вам кажется — но их надо понимать, а не бояться.
+              {t("analyzewhyp2")}
             </p>
             <p className="text-lg sm:text-xl">
-              Это не консультация на час.
+              {t("analyzewhyp3")}
             </p>
             <p className="text-lg sm:text-xl">
-              Это — точка входа в новую финансовую осознанность. После которой вы видите карту, а не угадываете направление.
+              {t("analyzewhyp4")}
             </p>
           </div>
         </motion.div>
@@ -41,7 +47,7 @@ export default function WhySection() {
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
         >
           <img
-            src="images/AnalyzePage/WhySection/arrow.png"
+            src={arrow}
             alt="arrow"
             className="w-[250px] sm:w-[300px] h-auto mx-auto lg:mx-0"
           />
@@ -54,14 +60,14 @@ export default function WhySection() {
         gradient-btn
         flex items-center justify-center font-bold
         small:text-lg big:text-lg">
-          Записаться на консультацию
+          {t("analyzebtn")}
         </button>
       </a>
 
       {/* Фоновое изображение */}
       <div
         className="h-[250px] bg-cover bg-bottom"
-        style={{ backgroundImage: `url('images/AnalyzePage/MainSection/footer.png')` }}
+        style={{ backgroundImage: `url('${footer}')` }}
       />
     </section>
   );

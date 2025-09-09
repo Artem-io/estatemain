@@ -1,6 +1,11 @@
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
+
+import tree from '/images/AnalyzePage/PhilosophySection/tree.png'
 
 export default function PhilosophySection() {
+  const { t } = useTranslation();
+
   return (
     <section className="w-full bg-gray-50 py-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col-reverse lg:flex-row items-center gap-8 lg:gap-12">
@@ -14,24 +19,24 @@ export default function PhilosophySection() {
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <h1 className="font-bold text-2xl sm:text-3xl lg:text-4xl mb-6 lg:mb-10 leading-tight">
-            Моя философия: Инвестиционное дерево
+            {t("analyzephylotitle")}
           </h1>
           <div className="font-semibold text-gray-700">
             <p className="text-lg sm:text-xl mb-4">
-              Я не просто структурирую активы — я выращиваю ваше инвестиционное дерево:
+              {t("analyzephylodesc")}
             </p>
             <ul className="text-lg sm:text-xl list-disc pl-5 mb-4 space-y-2">
-              <li>Корни — это ваша подушка безопасности, надёжные, ликвидные инструменты. Здесь важно спокойствие и защита.</li>
-              <li>Ствол — то, на чём держится всё: недвижимость, долгострочные программы. Это базовая опора.</li>
-              <li>Крона и плоды — рисковые, но потенциально доходные инвестиции: бизнес, крипта, стартапы, венчур.</li>
+              <li>{t("analyzephyloli1")}</li>
+              <li>{t("analyzephyloli2")}</li>
+              <li>{t("analyzephyloli3")}</li>
             </ul>
             <div className="text-lg sm:text-xl mb-5 space-y-1">
-              <p>Без корней дерево не выживет.</p>
-              <p>Без ствола — не будет формы.</p>
-              <p>Без плодов — не будет смысла.</p>
+              <p>{t("analyzephylop1")}</p>
+              <p>{t("analyzephylop2")}</p>
+              <p>{t("analyzephylop3")}</p>
             </div>
             <p className="text-lg sm:text-xl">
-              Именно поэтому я не продаю продукты. Я помогаю построить структуру, которая живёт, растёт и адаптируется под реальность.
+              {t("analyzephylounderdesc")}
             </p>
           </div>
         </motion.div>
@@ -45,7 +50,7 @@ export default function PhilosophySection() {
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
         >
           <img 
-            src="images/AnalyzePage/PhilosophySection/tree.png" 
+            src={tree}
             alt="tree" 
             className="w-[250px] sm:w-[400px] h-auto mx-auto lg:mx-0"
           />

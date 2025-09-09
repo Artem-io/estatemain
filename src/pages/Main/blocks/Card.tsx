@@ -2,19 +2,12 @@ import { Link } from "react-router-dom";
 import type {Investment} from "../interfaces/interfaces.tsx";
 import { useTranslation } from "react-i18next";
 
-import locationImg from '/icons/ShowcaseSection/location.png'
-import office from '/icons/ShowcaseSection/office.png'
-import salary from '/icons/ShowcaseSection/salary.png'
-import growth from '/icons/ShowcaseSection/growth.png'
-import termloan from '/icons/ShowcaseSection/term-loan.png'
-import warning from '/icons/ShowcaseSection/warning.png'
-
 export default function Card(
     {id, title, description, location, type, priceEUR, priceUSD, priceGBP, profitMin, profitMax, timeMin, timeMax, risk, imageUrls}: Investment) {
     const { t, i18n } = useTranslation();
 
     return (
-        <div className="min-h-[665px] max-w-[500px] mx-auto bg-white shadow-xl rounded-2xl overflow-hidden pb-3 flex flex-col">
+        <div className="w-[95%] min-h-[665px] phone:w-[90%] max-w-[500px] mx-auto bg-white shadow-xl rounded-2xl overflow-hidden pb-3 flex flex-col">
             {/* Фото */}
             <div
             className="h-[180px] sm:h-[220px] lg:h-[240px] w-full bg-cover bg-center"
@@ -33,19 +26,19 @@ export default function Card(
                 {/* Сетка параметров */}
                 <div className="grid grid-cols-2 gap-3 mb-4 text-sm">
                     <div className="flex items-center gap-2">
-                    <img src={locationImg} alt="location" className="w-4 h-4" />
+                    <img src="icons/ShowcaseSection/location.png" alt="location" className="w-4 h-4" />
                     <span className="text-gray-700 font-medium">{t("detailscardloc")}</span>
                     </div>
                     <div className="text-gray-900 font-semibold">{location}</div>
 
                     <div className="flex items-center gap-2">
-                    <img src={office} alt="office" className="w-4 h-4" />
+                    <img src="icons/ShowcaseSection/office.png" alt="office" className="w-4 h-4" />
                     <span className="text-gray-700 font-medium">{t("detailscardtype")}</span>
                     </div>
                     <div className="text-gray-900 font-semibold">{type}</div>
 
                     <div className="flex items-center gap-2">
-                    <img src={salary} alt="salary" className="w-4 h-4" />
+                    <img src="icons/ShowcaseSection/salary.png" alt="salary" className="w-4 h-4" />
                     <span className="text-gray-700 font-medium">{t("detailscardprice")}</span>
                     </div>
                     <div className="text-gray-900 font-semibold flex items-end phone:block">
@@ -53,7 +46,7 @@ export default function Card(
                     </div>
 
                     <div className="flex items-center gap-2">
-                    <img src={growth} alt="growth" className="w-4 h-4" />
+                    <img src="icons/ShowcaseSection/growth.png" alt="growth" className="w-4 h-4" />
                     <span className="text-gray-700 font-medium">{t("detailscardprofit")}</span>
                     </div>
                     <div className="text-blue-600 font-semibold">
@@ -61,7 +54,7 @@ export default function Card(
                     </div>
 
                     <div className="flex items-center gap-2">
-                    <img src={termloan} alt="term" className="w-4 h-4" />
+                    <img src="icons/ShowcaseSection/term-loan.png" alt="term" className="w-4 h-4" />
                     <span className="text-gray-700 font-medium">{t("detailscardtime")}</span>
                     </div>
                     <div className="text-gray-900 font-semibold">
@@ -69,7 +62,7 @@ export default function Card(
                     </div>
 
                     <div className="flex items-center gap-2">
-                        <img src={warning} alt="risk" className="w-4 h-4" />
+                        <img src="icons/ShowcaseSection/warning.png" alt="risk" className="w-4 h-4" />
                         <span className="text-gray-700 font-medium">{t("detailscardrisks")}</span>
                     </div>
                     <div className="text-yellow-600 font-semibold">{risk}</div>

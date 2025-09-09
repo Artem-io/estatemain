@@ -1,5 +1,8 @@
 import { useTranslation } from "react-i18next";
 
+import instagram from '/icons/Footer/instagram.svg';
+import telegram from '/icons/Footer/telegram.svg';
+
 export default function Footer() {
     const { t } = useTranslation();
 
@@ -16,10 +19,10 @@ export default function Footer() {
                 </div>
                 <div className="hidden bigphone:flex gap-3 items-center">
                     <a href="https://www.instagram.com/stepaniuk_finanzen" target="_blank" rel="noopener noreferrer">
-                        <img src="icons/Footer/instagram.svg" alt="instagram" />
+                        <img src={instagram} alt="instagram" />
                     </a>
                     <a href="https://t.me/step_fin" target="_blank">
-                        <img src="icons/Footer/telegram.svg" alt="telegram" />
+                        <img src={telegram} alt="telegram" />
                     </a>
                 </div>
                 <div className="flex flex-col justify-between bigphone:justify-start items-center phone:items-end

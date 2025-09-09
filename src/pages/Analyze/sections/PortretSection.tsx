@@ -1,6 +1,11 @@
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
+
+import mask from '/images/AnalyzePage/PortretSection/mask.png'
 
 export default function PortretSection() {
+  const { t } = useTranslation();
+
   return (
     <section className="w-full bg-white py-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 flex flex-col-reverse lg:flex-row-reverse items-center gap-8 lg:gap-12">
@@ -14,21 +19,21 @@ export default function PortretSection() {
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <h1 className="font-bold text-2xl sm:text-3xl lg:text-4xl mb-6 lg:mb-10 leading-tight">
-            Портрет инвестора — как основа стратегии
+            {t("analyzeporterttitle")}
           </h1>
           <div className="font-semibold text-gray-700">
             <p className="text-lg sm:text-xl mb-4">
-              Перед тем как говорить о том, «куда вложить», я задаю вам десятки вопросов:
+              {t("analyzeportertdesc")}
             </p>
             <ul className="text-lg sm:text-xl list-disc pl-5 mb-4 space-y-2">
-              <li>Где вы находитесь — физически, юридически, эмоционально?</li>
-              <li>Что для вас важнее — безопасность или рост?</li>
-              <li>Вы готовы к колебаниям? Или важно видеть результат ежемесячно?</li>
-              <li>Есть ли у вас подушка? Что будет, если завтра — минус?</li>
-              <li>Куда вы хотите прийти — через 2, 5, 10 лет?</li>
+              <li>{t("analyzeportretli1")}</li>
+              <li>{t("analyzeportretli2")}</li>
+              <li>{t("analyzeportretli3")}</li>
+              <li>{t("analyzeportretli4")}</li>
+              <li>{t("analyzeportretli5")}</li>
             </ul>
             <p className="text-lg sm:text-xl">
-              Только поняв ваш <span className="font-bold">инвестпортрет</span>, я могу показать вам карту, а не просто бросить вас в лес с компасом.
+              {t("analyzeportretunderdesc1")} <span className="font-bold">{t("analyzeportretunderspan")}</span>{t("analyzeportretunderdesc2")}
             </p>
           </div>
         </motion.div>
@@ -42,7 +47,7 @@ export default function PortretSection() {
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
         >
           <img 
-            src="images/AnalyzePage/PortretSection/mask.png" 
+            src={mask}
             alt="mask" 
             className="w-[250px] sm:w-[300px] h-auto mx-auto lg:mx-0"
           />
