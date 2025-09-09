@@ -33,7 +33,7 @@ function App() {
 
         {/* админка вне языкового префикса */}
         <Route path="/admin" element={<AdminPanel />} />
-        <Route path="/admin/details" element={<EditForm />} /> 
+        <Route path="/admin/details" element={<AdminPanel />} /> 
       </Routes>
     </BrowserRouter>
   );
