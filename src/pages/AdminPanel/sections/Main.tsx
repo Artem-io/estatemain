@@ -1,5 +1,6 @@
 import { useState } from "react";
 import AddForm from "./AddForm";
+import EditForm from "./EditForm";
 
 export default function Main() {
     type BenefitType = "add" | "edit";
@@ -26,7 +27,7 @@ export default function Main() {
                     Редактировать проект
                 </button>
             </div>
-            {benefitType === "add" && <AddForm />}
+            {benefitType === "add" ? <AddForm /> : <EditForm/>}
         </div>
     );
 }

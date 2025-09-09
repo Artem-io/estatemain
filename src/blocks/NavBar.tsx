@@ -51,7 +51,8 @@ export default function NavBar() {
         </div>
       </div>
 
-      <ul className="hidden big:flex justify-between text-lg font-semibold text-darkblue">
+      <ul className={`hidden big:flex justify-between 
+        ${lng === 'de' ? 'text-sm' : 'text-lg'} font-semibold text-darkblue`}>
         <li><Link to={`/${i18n.language}`}>{t("linkmain")}</Link></li>
         <li><Link to={`/${i18n.language}/services`}>{t("linkservices")}</Link></li>
         <li><Link to={`/${i18n.language}/analyze`}>{t("linkanalyze")}</Link></li>
@@ -115,7 +116,7 @@ function BurgerItem({ label, phone, onClick, link }: { label: string; phone?: bo
       {!phone && <Link className="w-full text-center" to={{pathname: link}}>{label}</Link>}
       {phone && (
         <div className="flex gap-2 items-center">
-          <img src="icons/NavBar/call.png" alt="call" />
+          <img src={call} alt="call" />
           <a href="tel:+4915116042108">+49 (1511) 60-42-108</a>
         </div>
       )}
@@ -126,16 +127,24 @@ function BurgerItem({ label, phone, onClick, link }: { label: string; phone?: bo
 function BurgerLanguageItem() {
   const { i18n } = useTranslation();
   const { lng } = useParams();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const changeLang = (lang: string) => {
+    i18n.changeLanguage(lang);
+    const newPath = location.pathname.replace(`/${lng}`, `/${lang}`);
+    navigate(newPath);
+  };
 
   return (
     <div
       className="w-full h-[50px] flex items-center justify-center text-xl font-bold cursor-pointer
     hover:bg-darkblue/10 transition-colors gap-2"
     >
-      <img src="icons/NavBar/language.png" alt="language" />
+      <img src={language} alt="language" />
       <select value={lng}
       onChange={(e: React.ChangeEvent<HTMLSelectElement>) => 
-        i18n.changeLanguage(e.target.value)
+        changeLang(e.target.value)
       }
       className="cursor-pointer" name="" id="">
         <option value="ru">RU</option>

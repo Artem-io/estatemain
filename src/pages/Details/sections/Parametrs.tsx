@@ -1,6 +1,13 @@
 import type { ParametrsProps } from "../interfaces/interfaces.tsx";
 import { useTranslation } from "react-i18next";
 
+import locationImg from '/icons/ShowcaseSection/location.png'
+import office from '/icons/ShowcaseSection/office.png'
+import salary from '/icons/ShowcaseSection/salary.png'
+import growth from '/icons/ShowcaseSection/growth.png'
+import termloan from '/icons/ShowcaseSection/term-loan.png'
+import warning from '/icons/ShowcaseSection/warning.png'
+
 export default function Parametrs({setIsOpen, location, type, priceEUR, priceUSD, priceGBP, profitMin, profitMax, timeMin, timeMax, risk}: ParametrsProps) {
     const { t } = useTranslation();
 
@@ -9,7 +16,7 @@ export default function Parametrs({setIsOpen, location, type, priceEUR, priceUSD
             <div className="grid grid-cols-2 mb-8 small:mb-4 gap-3 phone:gap-0 text-sm bigphone:text-[16px] 
             w-full phone:w-[400px] bigphone:w-[600px] small:w-[750px] mx-auto small:mx-0">
                 <div className="flex items-center gap-2">
-                <img src="icons/ShowcaseSection/location.png" alt="location" className="w-4 h-4" />
+                <img src={locationImg} alt="location" className="w-4 h-4" />
                 <span className="text-gray-700 font-medium">{t("detailscardloc")}</span>
                 </div>
                 <div className="text-gray-900 font-semibold">
@@ -17,13 +24,13 @@ export default function Parametrs({setIsOpen, location, type, priceEUR, priceUSD
                 </div>
 
                 <div className="flex items-center gap-2">
-                <img src="icons/ShowcaseSection/office.png" alt="office" className="w-4 h-4" />
+                <img src={office} alt="office" className="w-4 h-4" />
                 <span className="text-gray-700 font-medium">{t("detailscardtype")}</span>
                 </div>
                 <div className="text-gray-900 font-semibold">{type}</div>
 
                 <div className="flex items-center gap-2">
-                <img src="icons/ShowcaseSection/salary.png" alt="salary" className="w-4 h-4" />
+                <img src={salary} alt="salary" className="w-4 h-4" />
                 <span className="text-gray-700 font-medium">{t("detailscardprice")}</span>
                 </div>
                 <div className="text-gray-900 font-semibold flex items-end phone:block">
@@ -31,7 +38,7 @@ export default function Parametrs({setIsOpen, location, type, priceEUR, priceUSD
                 </div>
 
                 <div className="flex items-center gap-2">
-                <img src="icons/ShowcaseSection/growth.png" alt="growth" className="w-4 h-4" />
+                <img src={growth} alt="growth" className="w-4 h-4" />
                 <span className="text-gray-700 font-medium">{t("detailscardprofit")}</span>
                 </div>
                 <div className="text-blue-600 font-semibold">
@@ -39,7 +46,7 @@ export default function Parametrs({setIsOpen, location, type, priceEUR, priceUSD
                 </div>
 
                 <div className="flex items-center gap-2">
-                <img src="icons/ShowcaseSection/term-loan.png" alt="term" className="w-4 h-4" />
+                <img src={termloan} alt="term" className="w-4 h-4" />
                 <span className="text-gray-700 font-medium">{t("detailscardtime")}</span>
                 </div>
                 <div className="text-gray-900 font-semibold">
@@ -47,7 +54,7 @@ export default function Parametrs({setIsOpen, location, type, priceEUR, priceUSD
                 </div>
 
                 <div className="flex items-center gap-2">
-                    <img src="icons/ShowcaseSection/warning.png" alt="risk" className="w-4 h-4" />
+                    <img src={warning} alt="risk" className="w-4 h-4" />
                     <span className="text-gray-700 font-medium">{t("detailscardrisks")}</span>
                 </div>
                 <div className="text-yellow-600 font-semibold">{risk}</div>

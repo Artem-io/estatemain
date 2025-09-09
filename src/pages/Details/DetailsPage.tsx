@@ -6,17 +6,20 @@ import { useEffect, useState } from "react";
 import type { Property } from "./interfaces/interfaces.tsx";
 import { useLocation } from "react-router-dom";
 import { API_URL } from "../../constants/constants.tsx";
+import { useParams } from "react-router-dom";
 
 export default function DetailsPage() {
     const { search } = useLocation();
     const query = new URLSearchParams(search);
     const id = query.get("id");
 
+    const { lng } = useParams();
+
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [property, setProperty] = useState<Property | null>(null);
     useEffect(() => {
         const fetchData = async () => {
-        const response = await fetch(`${API_URL}/${id}?lan=RU`); 
+        const response = await fetch(`${API_URL}/${id}?lan=${lng?.toUpperCase()}`); 
         const data: Property = await response.json();
         setProperty(data);
         };
