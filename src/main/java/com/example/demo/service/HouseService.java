@@ -198,6 +198,7 @@ public class HouseService
         house.setTimeMin(request.timeMin());
         house.setTimeMax(request.timeMax());
         house.setRisk(request.risk());
+        house.setActual(request.actual());
 
         house.getVideoUrls().clear();
         List<VideoUrl> videoUrls = new ArrayList<>();
