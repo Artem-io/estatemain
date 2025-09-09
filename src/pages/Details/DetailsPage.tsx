@@ -23,7 +23,7 @@ export default function DetailsPage() {
 
         const fetchData = async () => {
             try {
-                const response = await fetch(`${API_URL}/${id}?lan=${lng.toUpperCase()}`);
+                const response = await fetch(`${API_URL}/${id}/${lng.toUpperCase()}`);
                 if (!response.ok) {
                     throw new Error(`Ошибка: ${response.status}`);
                 }

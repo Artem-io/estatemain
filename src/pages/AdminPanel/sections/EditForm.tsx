@@ -272,6 +272,23 @@ const handleSubmit = async (e: FormEvent) => {
   }
 };
 
+async function DelProject() {
+  try {
+    const deleteResponse = await fetch("http://localhost:8080/houses/" + id, {
+      method: "DELETE",
+    });
+
+    if (!deleteResponse.ok) {
+      throw new Error("Ошибка при сохранении проекта");
+    }
+
+    alert("Проект был успешно удалён");
+    navigate("/ru/investmarket");
+  } catch (error) {
+    alert(`Ошибка: ${error}`);
+  }
+}
+
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white shadow rounded">
       <h2 className="text-2xl font-bold mb-4">Редактировать проект</h2>
@@ -494,12 +511,22 @@ const handleSubmit = async (e: FormEvent) => {
         </div>
 
         {/* Кнопка отправки */}
-        <div className="flex justify-center">
+        <div className="flex justify-center gap-x-5">
           <button
             type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 cursor-pointer"
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 
+            cursor-pointer"
           >
             Изменить проект
+          </button>
+
+          <button
+            onClick={() => DelProject()}
+            type="button"
+            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 
+            cursor-pointer"
+          >
+            Удалить проект
           </button>
         </div>
       </form>

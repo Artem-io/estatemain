@@ -219,6 +219,7 @@ export default function AddForm() {
           <div key={lang}>
             <label className="block font-medium mb-1">Название ({lang.toUpperCase()})</label>
             <input
+              required
               type="text"
               value={project.name[lang]}
               onChange={(e) => handleChange(e, "name", lang)}
@@ -232,6 +233,7 @@ export default function AddForm() {
           <div key={lang}>
             <label className="block font-medium mb-1">Короткое описание ({lang.toUpperCase()})</label>
             <textarea
+              required
               value={project.shortDescription[lang]}
               onChange={(e) => handleChange(e, "shortDescription", lang)}
               className="w-full border p-2 rounded h-16 resize-none"
@@ -257,6 +259,7 @@ export default function AddForm() {
           <div key={lang}>
             <label className="block font-medium mb-1">Локация ({lang.toUpperCase()})</label>
             <input
+              required
               type="text"
               value={project.location[lang]}
               onChange={(e) => handleChange(e, "location", lang)}
@@ -287,6 +290,7 @@ export default function AddForm() {
               ))}
             </select>
             <input
+              required
               type="number"
               value={project.investment.amount}
               onChange={(e) =>
@@ -306,6 +310,7 @@ export default function AddForm() {
           <div className="flex-1">
             <label className="block font-medium mb-1">Доходность от (%)</label>
             <input
+              required
               type="number"
               value={project.profitability.from}
               onChange={(e) => handleChange(e, "profitability.from")}
@@ -315,6 +320,7 @@ export default function AddForm() {
           <div className="flex-1">
             <label className="block font-medium mb-1">до (%)</label>
             <input
+              required
               type="number"
               value={project.profitability.to}
               onChange={(e) => handleChange(e, "profitability.to")}
@@ -329,6 +335,7 @@ export default function AddForm() {
             <label className="block font-medium mb-1">Срок от (мес.)</label>
             <input
               type="number"
+              required
               value={project.duration.from}
               onChange={(e) => handleChange(e, "duration.from")}
               className="w-full border border-gray-300 p-2 rounded"
@@ -337,6 +344,7 @@ export default function AddForm() {
           <div className="flex-1">
             <label className="block font-medium mb-1">до (мес.)</label>
             <input
+              required
               type="number"
               value={project.duration.to}
               onChange={(e) => handleChange(e, "duration.to")}
@@ -365,6 +373,7 @@ export default function AddForm() {
               Полное описание ({lang.toUpperCase()})
             </label>
             <textarea
+              required
               value={project.description[lang]}
               onChange={(e) => handleChange(e, "description", lang)}
               className="w-full border border-gray-300 p-2 rounded h-32 resize-none"
