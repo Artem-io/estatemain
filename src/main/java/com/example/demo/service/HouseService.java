@@ -48,7 +48,7 @@ public class HouseService
         return dtos;
     }
 
-    public HouseResponse getHouseById(Long id, Language lan) {
+    public HouseResponse getHouseByIdAndLan(Long id, Language lan) {
         House house = houseRepo.findById(id).orElseThrow();
 
         HouseTranslation translation = house.getTranslations().stream().filter(tr ->
@@ -57,12 +57,16 @@ public class HouseService
         return HouseResponse.map(house, translation);
     }
 
+    public HouseEditResponse getHouseById(Long id) {
+        return HouseEditResponse.map(houseRepo.findById(id).orElseThrow());
+    }
+
     @Transactional
     public Long addHouse(HouseRequest request) {
-        HouseTranslation translationRU = new HouseTranslation(null, request.nameRU(), request.descriptionRU(), request.locationRU(), request.type(), Language.RU, request.fullDescriptionRU());
-        HouseTranslation translationUA = new HouseTranslation(null, request.nameUA(), request.descriptionUA(), request.locationUA(), request.type(), Language.UA, request.fullDescriptionUA());
-        HouseTranslation translationEN = new HouseTranslation(null, request.nameEN(), request.descriptionEN(), request.locationEN(), request.type(), Language.EN, request.fullDescriptionEN());
-        HouseTranslation translationDE = new HouseTranslation(null, request.nameDE(), request.descriptionDE(), request.locationDE(), request.type(), Language.DE, request.fullDescriptionDE());
+        HouseTranslation translationRU = new HouseTranslation(null, request.nameRU(), request.descriptionRU(), request.locationRU(), request.typeRU(), Language.RU, request.fullDescriptionRU());
+        HouseTranslation translationUA = new HouseTranslation(null, request.nameUA(), request.descriptionUA(), request.locationUA(), request.typeUA(), Language.UA, request.fullDescriptionUA());
+        HouseTranslation translationEN = new HouseTranslation(null, request.nameEN(), request.descriptionEN(), request.locationEN(), request.typeEN(), Language.EN, request.fullDescriptionEN());
+        HouseTranslation translationDE = new HouseTranslation(null, request.nameDE(), request.descriptionDE(), request.locationDE(), request.typeDE(), Language.DE, request.fullDescriptionDE());
 
         String symbols = switch (request.baseCurrency()) {
             case Currency.EUR -> "USD,GBP";
@@ -101,7 +105,7 @@ public class HouseService
         List<VideoUrl> videoUrls = new ArrayList<>();
         request.videoUrls().forEach(url -> {videoUrls.add(new VideoUrl(null, url));});
 
-        House house = new House(null, priceEUR, priceUSD, priceGBP, request.risk(),
+        House house = new House(null, priceEUR, priceUSD, priceGBP, request.baseCurrency(), request.risk(),
                 request.profitMin(), request.profitMax(), request.timeMin(), request.timeMax(),
                 List.of(translationRU, translationUA, translationEN, translationDE), videoUrls, request.actual());
 
@@ -126,28 +130,28 @@ public class HouseService
                     tr.setDescription(request.descriptionRU());
                     tr.setLocation(request.locationRU());
                     tr.setFullDescription(request.fullDescriptionRU());
-                    tr.setType(request.type());
+                    tr.setType(request.typeRU());
                 }
                 case UA -> {
                     tr.setTitle(request.nameUA());
                     tr.setDescription(request.descriptionUA());
                     tr.setLocation(request.locationUA());
                     tr.setFullDescription(request.fullDescriptionUA());
-                    tr.setType(request.type());
+                    tr.setType(request.typeUA());
                 }
                 case EN -> {
                     tr.setTitle(request.nameEN());
                     tr.setDescription(request.descriptionEN());
                     tr.setLocation(request.locationEN());
                     tr.setFullDescription(request.fullDescriptionEN());
-                    tr.setType(request.type());
+                    tr.setType(request.typeEN());
                 }
                 case DE -> {
                     tr.setTitle(request.nameDE());
                     tr.setDescription(request.descriptionDE());
                     tr.setLocation(request.locationDE());
                     tr.setFullDescription(request.fullDescriptionDE());
-                    tr.setType(request.type());
+                    tr.setType(request.typeDE());
                 }
             }
         }
@@ -205,5 +209,4 @@ public class HouseService
         houseRepo.save(house);
         return id;
     }
-
 }

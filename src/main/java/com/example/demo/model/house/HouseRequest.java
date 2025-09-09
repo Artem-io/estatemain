@@ -22,7 +22,11 @@ public record HouseRequest
                 String locationEN,
                 String locationDE,
 
-                String type,
+                String typeRU,
+                String typeUA,
+                String typeEN,
+                String typeDE,
+
                 Currency baseCurrency,
                 BigDecimal price,
                 BigDecimal profitMin,

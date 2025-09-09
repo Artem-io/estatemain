@@ -1,4 +1,5 @@
 package com.example.demo.model.house;
+import com.example.demo.model.Currency;
 import com.example.demo.model.Risk;
 import com.example.demo.model.VideoUrl;
 import jakarta.persistence.*;
@@ -23,6 +24,9 @@ public class House
     private BigDecimal priceEUR;
     private BigDecimal priceUSD;
     private BigDecimal priceGBP;
+
+    @Enumerated(EnumType.STRING)
+    private Currency baseCurrency;
 
     @Enumerated(EnumType.STRING)
     private Risk risk;

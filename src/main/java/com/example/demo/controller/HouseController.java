@@ -1,8 +1,6 @@
 package com.example.demo.controller;
 import com.example.demo.model.*;
-import com.example.demo.model.house.HouseFilter;
-import com.example.demo.model.house.HouseRequest;
-import com.example.demo.model.house.HouseResponse;
+import com.example.demo.model.house.*;
 import com.example.demo.service.HouseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -20,16 +18,18 @@ public class HouseController
     private final HouseService houseService;
 
     @GetMapping
-    public ResponseEntity<List<HouseResponse>> getAllHouses(@RequestParam(value = "lan", defaultValue = "EN") Language lan,
-
-                                                            HouseFilter filter) {
-        //houses?lan=RU&page=1&type=Business&region=Germany&currency=EUR&price_min=100000&price_max=200000
+    public ResponseEntity<List<HouseResponse>> getAllHouses(@RequestParam(value = "lan", defaultValue = "EN") Language lan, HouseFilter filter) {
         return ResponseEntity.ok(houseService.getAllHouses(lan, filter));
     }
 
+    @GetMapping("{id}/{lan}")
+    public ResponseEntity<HouseResponse> getHouseByIdAndLan(@PathVariable Long id, @PathVariable Language lan) {
+        return ResponseEntity.ok(houseService.getHouseByIdAndLan(id, lan));
+    }
+
     @GetMapping("{id}")
-    public ResponseEntity<HouseResponse> getHouseById(@PathVariable Long id, @RequestParam(value = "lan") Language lan) {
-        return ResponseEntity.ok(houseService.getHouseById(id, lan));
+    public ResponseEntity<HouseEditResponse> getHouseById(@PathVariable Long id) {
+        return ResponseEntity.ok(houseService.getHouseById(id));
     }
 
     @PostMapping
