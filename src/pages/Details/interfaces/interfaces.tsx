@@ -12,6 +12,7 @@ export interface Property {
   timeMin: number;
   timeMax: number;
   risk: string;
+  actual: boolean;
   fullDescription: string;
   imageUrls: [];
   videoUrls: string[];

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import type { ChangeEvent, FormEvent } from "react";
+import { useSearchParams } from "react-router-dom";
 
 type ProjectName = {
   ru: string;
@@ -38,7 +39,7 @@ const riskLevels = ["LOW", "MEDIUM", "HIGH"];
 const currencies = ["EUR", "USD", "GBP"];
 const languages: (keyof ProjectName)[] = ["ru", "en", "uk", "de"];
 
-export default function AddForm() {
+export default function EditForm() {
   const [project, setProject] = useState<Project>({
     name: { ru: "", en: "", uk: "", de: "" },
     shortDescription: { ru: "", en: "", uk: "", de: "" },
@@ -54,6 +55,9 @@ export default function AddForm() {
     isActual: false,
   });
 
+  const [searchParams] = useSearchParams();
+  const id = searchParams.get("id");
+
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
 
   useEffect(() => {
@@ -63,6 +67,15 @@ export default function AddForm() {
       newPreviews.forEach(url => URL.revokeObjectURL(url));
     };
   }, [project.images]);
+
+  const fetchHouse = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/houses/"+id, {method: "GET"});
+      setProducts(response.data.content);
+    } 
+    catch (err) {console.log(err)}
+  };
+  useEffect(() => {fetchHouse()}, []);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
@@ -149,7 +162,7 @@ export default function AddForm() {
 
       // 2. Отправляем первый POST-запрос
       const createResponse = await fetch("http://localhost:8080/houses", {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },

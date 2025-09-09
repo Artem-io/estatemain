@@ -8,6 +8,7 @@ import DetailsPage from './pages/Details/DetailsPage.tsx'
 import AdminPanel from './pages/AdminPanel/AdminPanel.tsx'
 import Layout from './Layout.tsx';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import EditForm from './pages/AdminPanel/sections/EditForm.tsx'
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
 
         {/* админка вне языкового префикса */}
         <Route path="/admin" element={<AdminPanel />} />
+        <Route path="/admin/details" element={<EditForm />} /> 
       </Routes>
     </BrowserRouter>
   );

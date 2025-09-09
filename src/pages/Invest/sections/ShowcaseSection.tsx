@@ -31,7 +31,7 @@ export default function ShowcaseSection({request}: ShowcaseProps) {
     };
 
     fetchInvestments();
-  }, [request]);
+  }, [request, lng]); //lng added
 
   const [currentPage, setCurrectPage] = useState<number>(0);
   const startCardIdx = (currentPage * maxCardsOnPage) - 1;
