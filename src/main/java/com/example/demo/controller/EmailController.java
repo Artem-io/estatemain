@@ -13,6 +13,6 @@ public class EmailController
     @PostMapping
     public void sendEmail(@RequestBody String email) {
         System.out.println(email);
-        emailService.sendEmail("hgrodar@gmail.com", "Клиент хочет узнать больше о недвижимости", email);
+        emailService.sendEmail("osfinanzen@gmail.com", "Клиент заинтересован в недвижимости", email);
     }
 }
