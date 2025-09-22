@@ -1,5 +1,5 @@
 # Real Estate App
-A [website](https://osfinanzen.com/en) for clients that consider investing in property (homes, apartments, construction projects)
+A [website](https://osfinanzen.com/en) for clients that consider investing in property (homes, apartments, construction projects). I was responsible for backend part: adding properties to database, storing images, sending e-mails and handling currencies.
 
 ## Features
 - Users can filter properties by location, price range and property type.
